@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+ <!-- ******************************************************************** -->
+ <!-- parent module -->
+
+ <parent>
+  <groupId>org.jems</groupId>
+  <artifactId>jems-example-client</artifactId>
+  <version>${jems.version}</version>
+ </parent>
+
+ <!-- ******************************************************************** -->
+ <!-- module -->
+
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>org.jems</groupId>
+ <artifactId>jems-example-client-flex</artifactId>
+ <packaging>swf</packaging>
+ <version>${jems.version}</version>
+ <name>${project.artifactId}</name>
+ 
+ <!-- ******************************************************************** -->
+ <!-- build -->
+
+ <build>
+  <finalName>${project.artifactId}</finalName>
+  <sourceDirectory>${basedir}/src/main/flex</sourceDirectory>
+ 
+  <plugins>
+
+    <!-- ******************************************************************** -->
+    <!-- flexmojo plugin -->
+
+    <plugin>
+     <groupId>org.sonatype.flexmojos</groupId>
+     <artifactId>flexmojos-maven-plugin</artifactId>
+     <dependencies>
+      <dependency>
+       <groupId>com.adobe.flex</groupId>
+       <artifactId>compiler</artifactId>
+       <version>${flex.version}</version>
+       <type>pom</type>
+      </dependency>
+     </dependencies>
+     <version>${flexmojos.version}</version>
+     <extensions>true</extensions>
+     <executions>
+      <execution>
+       <id>compile-swf</id>
+       <goals> 
+        <goal>compile-swf</goal>
+       </goals>
+       <configuration> 
+        <sourceFile>Example.mxml</sourceFile>
+        <keepGeneratedActionscript>false</keepGeneratedActionscript>
+        <contextRoot>/</contextRoot>
+        <locales>
+         <locale>en_US</locale>
+        </locales>     
+       </configuration>
+      </execution>
+     </executions>
+    </plugin>
+
+  </plugins>
+
+ </build>
+
+ <!-- ******************************************************************** -->
+ <!-- dependencies -->
+
+ <dependencies>
+
+  <dependency>
+   <groupId>com.adobe.flex.framework</groupId>
+   <artifactId>flex-framework</artifactId>
+   <version>${flex.version}</version>
+   <type>pom</type>
+  </dependency>
+  <dependency>
+   <groupId>org.jems</groupId>
+   <artifactId>jems</artifactId>
+   <type>pom</type>
+   <version>${jems.version}</version>
+  </dependency>
+  <dependency>
+   <groupId>org.jems</groupId>
+   <artifactId>jems-client</artifactId>
+   <version>${jems.version}</version>
+   <type>pom</type>
+   </dependency>
+   <dependency>
+    <groupId>org.jems</groupId>
+    <artifactId>jems-client-flex</artifactId>
+    <version>${jems.version}</version>
+    <type>swc</type>
+   </dependency>
+   <dependency>
+    <groupId>org.jems</groupId>
+    <artifactId>jems-example-model</artifactId>
+    <version>${jems.version}</version>
+    <type>pom</type>
+   </dependency>
+   <dependency>
+    <groupId>org.jems</groupId>
+    <artifactId>jems-example-model-client</artifactId>
+    <version>${jems.version}</version>
+    <type>pom</type>
+   </dependency>
+   <dependency>
+    <groupId>org.jems</groupId>
+    <artifactId>jems-example-model-client-flex</artifactId>
+    <version>${jems.version}</version>
+    <type>swc</type>
+   </dependency>
+   <dependency>
+    <groupId>xerces</groupId>
+    <artifactId>xercesImpl</artifactId>
+    <version>${xerces.version}</version>
+    <scope>compile</scope>
+   </dependency>
+
+ </dependencies>
+
+ <!-- ******************************************************************** -->
+
+</project>

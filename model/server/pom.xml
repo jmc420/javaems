@@ -1,0 +1,126 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+ <!-- ******************************************************************** -->
+ <!-- parent module -->
+
+ <parent>
+  <groupId>org.jems</groupId>
+  <artifactId>jems-model</artifactId>
+  <version>${jems.version}</version>
+ </parent>
+
+ <!-- ******************************************************************** -->
+ <!-- module -->
+
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>org.jems</groupId>
+ <artifactId>jems-model-server</artifactId>
+ <packaging>jar</packaging>
+ <version>${jems.version}</version>
+ <name>${project.artifactId}</name>
+
+ <!-- ******************************************************************** -->
+ <!-- build -->
+
+  <build>
+   <finalName>${project.artifactId}</finalName>
+   <plugins>
+
+    <!-- ******************************************************************** -->
+    <!-- castor plugin -->
+
+    <plugin>
+     <groupId>org.codehaus.mojo</groupId>
+     <artifactId>castor-maven-plugin</artifactId>
+     <version>${castor-maven-plugin.version}</version>
+     <executions> 
+      <execution>
+       <id>generate-dao</id>
+       <goals>
+        <goal>generate</goal>
+       </goals>
+       <configuration> 
+        <schema>${basedir}/src/main/xsd/dao.xsd</schema>
+        <packaging>org.jems.dao.types</packaging>
+        <types>arraylist</types>
+        <descriptors>false</descriptors>
+        <marshal>false</marshal>
+        <verbose>true</verbose>
+       </configuration>
+      </execution>
+      <execution>
+       <id>generate-service</id>
+       <goals>
+        <goal>generate</goal>
+       </goals>
+       <configuration> 
+        <schema>${basedir}/src/main/xsd/service.xsd</schema>
+        <packaging>org.jems.service.model</packaging>
+        <types>arraylist</types>
+        <descriptors>false</descriptors>
+        <marshal>false</marshal>
+        <verbose>true</verbose>
+       </configuration>
+      </execution>
+     </executions>
+    </plugin>
+    
+    <!-- ******************************************************************** -->
+    <!--  jibx maven plugin -->   
+    <!--  does not support any types -->
+    <!-- 
+    <plugin>
+     <groupId>org.jibx</groupId>
+     <artifactId>maven-jibx-plugin</artifactId>
+     <version>${jibx.version}</version>
+     <executions>
+      <execution>
+       <id>model-codegen</id>
+       <goals>
+         <goal>schema-codegen</goal>
+        </goals>
+        <configuration>
+         <customizations>
+          <path>${basedir}/src/main/xsd/jibx-codegen.xml</path>
+         </customizations> 
+         <directory>${basedir}/src/main/xsd</directory>
+         <includes>
+          <include>dao.xsd</include>
+         </includes>
+         <verbose>true</verbose>
+        </configuration>
+       </execution>
+      </executions>
+     </plugin>-->
+
+   </plugins>
+
+  </build>
+
+  <!-- ******************************************************************** -->
+
+  <dependencies>
+
+  <dependency>
+    <groupId>org.codehaus.castor</groupId>
+    <artifactId>castor-codegen</artifactId>
+    <version>${castor-codegen.version}</version>
+    <scope>compile</scope>
+   </dependency>
+   <dependency>
+    <groupId>org.jibx</groupId>
+    <artifactId>jibx-run</artifactId>
+    <version>${jibx.version}</version>
+   </dependency>
+   <dependency>
+    <groupId>org.jibx</groupId>
+    <artifactId>jibx-extras</artifactId>
+    <version>${jibx.version}</version>
+   </dependency>
+   
+  </dependencies>
+
+  <!-- ******************************************************************** -->
+
+</project>

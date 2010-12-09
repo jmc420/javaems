@@ -1,0 +1,164 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+ <!-- ******************************************************************** -->
+ <!-- parent module -->
+
+ <parent>
+  <groupId>org.jems</groupId>
+  <artifactId>jems</artifactId>
+  <version>${jems.version}</version>
+ </parent>
+
+ <!-- ******************************************************************** -->
+ <!-- module -->
+
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>org.jems</groupId>
+ <artifactId>jems-compiler</artifactId>
+ <packaging>jar</packaging>
+ <version>${jems.version}</version>
+ <name>${project.artifactId}</name>
+
+ <!-- ******************************************************************** -->
+ <!-- build -->
+
+ <build>
+  <finalName>${project.artifactId}</finalName>
+
+  <!-- ******************************************************************** -->
+  
+  <plugins>
+  
+    <!-- ******************************************************************** -->
+    <!-- builder helper plugin -->
+    
+    <plugin>
+     <groupId>org.codehaus.mojo</groupId>
+     <artifactId>build-helper-maven-plugin</artifactId>
+     <executions>
+      <execution>
+       <id>add-source</id>
+       <phase>generate-sources</phase>
+       <goals>
+        <goal>add-source</goal>
+       </goals>
+       <configuration>
+         <sources>
+           <source>${basedir}/target/generated-sources</source>
+          </sources>
+       </configuration>
+      </execution>
+     </executions>
+    </plugin>   
+  
+    <!-- ******************************************************************** -->
+    <!--  jibx maven plugin -->   
+  
+    <plugin>
+     <groupId>org.jibx</groupId>
+     <artifactId>maven-jibx-plugin</artifactId>
+     <version>${jibx.version}</version>
+     <executions>
+      <execution>
+       <id>one</id>
+       <goals>
+         <goal>schema-codegen</goal>
+        </goals>
+        <configuration>
+         <customizations>
+          <path>${basedir}/src/main/xsd/jibx-codegen.xml</path>
+         </customizations> 
+         <directory>${basedir}/src/main/xsd</directory>
+         <includes>
+          <include>compiler.xsd</include>
+         </includes>
+         <!-- 
+         <options>
+          <p>org.jems.compiler.model</p>
+         </options>
+         -->
+         <verbose>true</verbose>
+        </configuration>
+       </execution>
+      <execution>
+       <id>two</id>
+       <goals>
+         <goal>bind</goal>
+        </goals>
+        <configuration>
+         <directory>target/generated-sources</directory>
+         <includes>
+          <include>binding.xml</include>
+         </includes>
+         <verbose>true</verbose>
+        </configuration>
+       </execution>
+       
+      </executions>
+     </plugin>
+
+    <!-- ******************************************************************** -->
+    <!-- antrun plugin -->
+ 
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-antrun-plugin</artifactId>
+      <executions>
+       <execution>
+        <id>one</id>
+        <phase>generate-sources</phase>
+        <configuration>
+         <tasks>
+          <java classname="org.jems.template.TemplateTranslator" failonerror="true"
+                classpathref="maven.compile.classpath">
+           <arg value="${basedir}/src/main/templates/"/>
+           <arg value="${basedir}/target/generated-sources/org/jems/compiler/"/>
+          </java>
+        </tasks>
+        </configuration>
+        <goals>
+         <goal>run</goal>
+        </goals>
+       </execution>
+     </executions>
+    </plugin>
+
+  </plugins>
+
+  <!-- ******************************************************************** -->
+
+ </build>
+
+ <!-- ******************************************************************** -->
+ <!-- dependencies -->
+
+ <dependencies>
+ 
+  <dependency>
+   <groupId>org.jems</groupId>
+   <artifactId>jems-generator</artifactId>
+   <version>${jems.version}</version>
+  </dependency>
+  <dependency>
+   <groupId>org.jems</groupId>
+   <artifactId>jems-template</artifactId>
+   <version>${jems.version}</version>
+  </dependency>
+  <dependency>
+   <groupId>org.jibx</groupId>
+   <artifactId>jibx-run</artifactId>
+   <version>${jibx.version}</version>
+  </dependency>
+  <dependency>
+   <groupId>org.jibx</groupId>
+   <artifactId>jibx-extras</artifactId>
+   <version>${jibx.version}</version>
+  </dependency>
+ 
+ </dependencies>
+
+ <!-- ******************************************************************** -->
+
+</project>
+

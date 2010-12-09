@@ -1,0 +1,184 @@
+/************************************************************/
+/*
+	File: AS3ClassGenerator.java
+
+	AS3ClassGenerator generates as AS3 class file from a java class.
+
+	Author: James Cowan
+*/
+/************************************************************/
+
+package org.jems.compiler;
+
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.jems.compiler.ClassGenerator;
+import org.jems.compiler.model.JavaClass;
+import org.jems.compiler.model.TypeDescriptorList;
+import org.jems.generator.GeneratorException;
+
+/************************************************************/
+
+public class AS3ClassGenerator extends ClassGenerator
+{	
+	public AS3ClassGenerator(JavaClass javaClass, Class<?> cl, TypeDescriptorList typeDescriptorList)
+	throws GeneratorException
+	{
+		super(javaClass, cl, typeDescriptorList);
+	}
+
+	/************************************************************/
+	/* public methods */
+	/************************************************************/
+	/** generate */
+
+	public void generate(PrintStream out) throws IOException, GeneratorException
+	{
+	<template>/*******************************************************************/
+/*
+	File: <%out.print(m_class.getSimpleName());%>.as
+*/
+/*******************************************************************/
+
+package <%out.print(m_class.getPackage().getName());%>
+{
+<%
+List<PropertyDescriptor> propertyDescriptorList = getPropertyDescriptorList();
+HashMap<String, String> importTable = new HashMap<String, String>();
+ArrayList<String> importList = new ArrayList<String>();
+String extension = "";
+String packageName = m_class.getPackage().getName();
+
+	for (int count=0; count<propertyDescriptorList.size(); count++)
+	{
+	PropertyDescriptor propertyDescriptor = propertyDescriptorList.get(count);
+	Class<?> importClass = propertyDescriptor.getPropertyType();
+	String propertyImport = getPropertyImport(propertyDescriptor);
+	
+		if (propertyImport.equals("") || importTable.get(propertyImport) != null)
+		{
+			continue;
+		}
+		
+		if (packageName.equals(importClass.getPackage().getName()))
+		{
+			continue;
+		}
+		
+		importTable.put(propertyImport, propertyImport);
+		importList.add(propertyImport);
+	}
+	
+	if (hasSuperClass())
+	{
+	Class<?> superClass = m_class.getSuperclass();
+	String superClassImport = "import "+superClass.getName();
+	
+		extension = " extends "+superClass.getSimpleName();
+		
+		if (importTable.get(superClassImport) != null && 
+		    !packageName.equals(superClass.getPackage().getName()))
+		{
+			importList.add(superClassImport);
+		}
+	}
+	
+	for (int count=0; count<importList.size(); count++)
+	{
+		out.println("\t"+importList.get(count)+";");
+	}
+%>	
+	[Bindable]
+    [RemoteClass(alias=\"<%out.print(m_class.getName());%>\")]
+    
+	public class <%out.print(m_class.getSimpleName()+extension);%>
+	{
+<%
+	for (int count=0; count<propertyDescriptorList.size(); count++)
+	{
+	PropertyDescriptor propertyDescriptor = propertyDescriptorList.get(count);
+	String name = propertyDescriptor.getName();
+	String typeName = getPropertyTypeName(propertyDescriptor);
+	
+		out.println("\t\tprotected var\t\tm_"+name+":"+typeName+";");
+	}
+%>	
+		public function <%out.print(m_class.getSimpleName());%>():void
+		{
+		}
+<%
+	for (int count=0; count<propertyDescriptorList.size(); count++)
+	{
+	PropertyDescriptor propertyDescriptor = propertyDescriptorList.get(count);
+	String name = propertyDescriptor.getName();
+	String functionName = "get "+name;
+	String typeName = getPropertyTypeName(propertyDescriptor);%>
+		/*******************************************************************/
+<%	
+	
+		out.println("\t\t/** "+functionName+" */");
+		out.println("");
+		out.println("\t\tpublic function "+functionName+"():"+typeName);
+		out.println("\t\t{");
+		out.println("\t\t\treturn m_"+name+";");
+		out.println("");
+		out.println("\t\t} // "+functionName);
+	}
+	
+		for (int count=0; count<propertyDescriptorList.size(); count++)
+	{
+	PropertyDescriptor propertyDescriptor = propertyDescriptorList.get(count);
+	String name = propertyDescriptor.getName();
+	String functionName = "set "+name;
+	String typeName = getPropertyTypeName(propertyDescriptor);%>
+		/*******************************************************************/
+<%	
+	
+		out.println("\t\t/** "+functionName+" */");
+		out.println("");
+		out.println("\t\tpublic function "+functionName+"("+name+":"+typeName+"):void");
+		out.println("\t\t{");
+		out.println("\t\t\tm_"+name+" = "+name+";");
+		out.println("");
+		out.println("\t\t} // "+functionName);
+	}
+%>	
+	} // <%out.print(m_class.getSimpleName());%>
+
+} // end of package
+
+/*******************************************************************/
+// End of file
+/*******************************************************************/ 
+</template>
+
+	} // generate
+	
+	/************************************************************/
+	/* protected methods */
+	/************************************************************/
+	/** getPropertyTypeName */
+	
+	protected String getPropertyTypeName(PropertyDescriptor propertyDescriptor)
+	{
+	Class<?> cl = propertyDescriptor.getPropertyType();
+	
+		if (cl.isArray())
+		{
+			return getPropertyTypeName("Array");
+		}
+		
+		return super.getPropertyTypeName(propertyDescriptor);
+		
+	} // getPropertyTypeName
+
+} // AS3ClassGenerator
+
+/************************************************************/
+
+

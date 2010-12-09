@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+                 version="1.0">
+                 
+ <!-- **************************************************************** -->
+ <!--  persistent unit meta data -->
+ 
+ <persistence-unit-metadata>
+  <xml-mapping-metadata-complete/>
+  <persistence-unit-defaults>
+   <schema>jems</schema>
+   <access>PROPERTY</access>
+  </persistence-unit-defaults>
+ </persistence-unit-metadata>
+ 
+ <!-- **************************************************************** -->
+ <!-- org.jems.example.model.Identifier -->
+
+ <mapped-superclass class="org.jems.example.model.Identifier">
+  <attributes>
+   <id name="id">
+    <generated-value strategy="IDENTITY"/>
+   </id>
+  </attributes>
+ </mapped-superclass>
+
+ <!-- **************************************************************** -->
+ <!-- org.jems.example.model.Artist -->
+
+ <entity class="org.jems.example.model.Artist">
+  <table name="Artist"/>
+  <attributes>
+   <basic name="name">
+    <column nullable="false"/>
+   </basic>
+  </attributes>
+ </entity>
+
+ <!-- **************************************************************** -->
+ <!-- org.jems.example.model.Album -->
+
+ <entity class="org.jems.example.model.Album">
+  <table name="Album"/>
+  <attributes>
+   <basic name="name">
+    <column nullable="false"/>
+   </basic>
+   <many-to-one name="artist" fetch="EAGER">
+    <join-column name="artistId" nullable="false"/>
+   </many-to-one>
+  </attributes>
+ </entity>
+
+ <!-- **************************************************************** -->
+ <!-- org.jems.example.model.Track -->
+
+ <entity class="org.jems.example.model.Track">
+  <table name="Track"/>
+  <attributes>
+   <basic name="length">
+    <column nullable="false"/>
+   </basic>
+   <basic name="name">
+    <column nullable="false"/>
+   </basic>
+   <many-to-one name="album" fetch="EAGER">
+    <join-column name="albumId" nullable="false"/>
+   </many-to-one>
+  </attributes>
+ </entity>
+
+ </entity-mappings>

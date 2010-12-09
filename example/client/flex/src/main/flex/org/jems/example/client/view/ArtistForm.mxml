@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="org.jems.example.client.view.*" height="175" width="420" layout="absolute" title="Artist Form">
+   <mx:Label left="20" top="20" text="Id"/>
+   <mx:TextInput id="m_id" left="140" top="20" text="" editable="false"/>
+   <mx:Label left="20" top="55" text="Name"/>
+   <mx:TextInput id="m_name" left="140" top="55" text=""/>
+   <mx:Button id="m_okButton" bottom="20" left="80" label="OK"/>
+   <mx:Button id="m_cancelButton" bottom="20" right="80" label="Cancel"/>
+  </mx:TitleWindow>

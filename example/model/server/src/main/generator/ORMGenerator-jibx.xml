@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<!-- *************************************** -->
+<!-- orm -->
+
+<orm database="jems">
+
+ <!-- *************************************** --> 
+ <!-- Identifier class -->
+
+ <ormEntity className="org.jems.example.model.Identifier" superClass="true">
+   <ormId name="id" generator="IDENTITY"/>
+
+ </ormEntity>
+
+ <!-- *************************************** -->
+ <!-- Address class -->
+
+ <ormEntity className="org.jems.example.model.Artist" tableName="Artist" >
+  
+ </ormEntity>
+ 
+ <!-- *************************************** -->
+ <!-- Album class -->
+
+ <ormEntity className="org.jems.example.model.Album" tableName="Album">
+
+  <ormManyToOneProperty name="artist" cascade="">
+   <ormJoin>
+     <joinColumn name="artistId"/>
+   </ormJoin>
+  </ormManyToOneProperty>
+  
+ </ormEntity>
+ 
+ <!-- *************************************** -->
+ <!-- Track class -->
+
+ <ormEntity className="org.jems.example.model.Track" tableName="Track">
+
+  <ormManyToOneProperty name="album" cascade="">
+   <ormJoin>
+     <joinColumn name="albumId"/>
+   </ormJoin>
+  </ormManyToOneProperty>
+  
+ </ormEntity>
+ 
+<!-- *************************************** -->
+  
+</orm>
+
+<!-- *************************************** -->
+

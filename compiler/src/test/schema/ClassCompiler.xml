@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!-- *************************************** -->
+<!-- JavaClassList -->
+<!-- *************************************** -->
+ 
+<javagen-compiler:JavaClassList xmlns:javagen-compiler="http://org.jems.compiler.model">
+
+ <javaClass className="org.jems.compiler.test.model.Parent"/>
+ <javaClass className="org.jems.compiler.test.model.Child"/>
+ 
+</javagen-compiler:JavaClassList>
+ 
+<!-- *************************************** -->
+<!-- End of file -->
+<!-- *************************************** -->

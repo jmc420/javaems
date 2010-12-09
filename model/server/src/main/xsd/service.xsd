@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	    xmlns="http://org.jems/dao"
+        xmlns:jems-dao="http://org.jems/dao"
+        xmlns:jems-service="http://org.jems/service"
+	    targetNamespace="http://org.jems/service">
+
+ <!-- *************************************** -->
+ <!-- Import doa schema -->
+ 
+ <xsd:import schemaLocation="dao.xsd" namespace="http://org.jems/dao"/>
+ 
+ <!-- *************************************** -->
+ <!-- Create Request -->
+
+ <xsd:complexType name="CreateRequest">
+  <xsd:sequence>
+   <xsd:element name="entity" type="xsd:anyType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Create Response -->
+
+ <xsd:complexType name="CreateResponse">
+  <xsd:sequence>
+   <xsd:element name="entity" type="xsd:anyType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- GetEntityMetaData Request -->
+
+ <xsd:complexType name="GetEntityMetaDataRequest">
+  <xsd:sequence>
+   <xsd:element name="filter" minOccurs="0" maxOccurs="unbounded" type="jems-dao:DaoFilter"/>
+  </xsd:sequence>
+  <xsd:attribute name="entityName" type="xsd:string" default=""/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- GetEntityMetaData Response -->
+
+ <xsd:complexType name="GetEntityMetaDataResponse">
+  <xsd:sequence>
+   <xsd:element name="entityMetaData" minOccurs="0" maxOccurs="unbounded" type="jems-dao:EntityMetaData"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Get Request -->
+
+ <xsd:complexType name="GetRequest">
+  <xsd:sequence>
+   <xsd:element name="filter" minOccurs="0" maxOccurs="unbounded" type="jems-dao:DaoFilter"/>
+  </xsd:sequence>
+  <xsd:attribute name="entityName" type="xsd:string" default=""/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Get Response -->
+
+ <xsd:complexType name="GetResponse">
+  <xsd:sequence>
+   <xsd:element name="entity" type="xsd:anyType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- GetList Request -->
+
+ <xsd:complexType name="GetListRequest">
+  <xsd:sequence>
+   <xsd:element name="filter" minOccurs="0" maxOccurs="unbounded" type="jems-dao:DaoFilter"/>
+   <xsd:element name="sort" minOccurs="0" maxOccurs="unbounded" type="jems-dao:DaoSort"/>
+  </xsd:sequence>
+  <xsd:attribute name="entityName" type="xsd:string" default=""/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- GetList Response -->
+
+ <xsd:complexType name="GetListResponse">
+  <xsd:sequence>
+   <xsd:element name="entity" minOccurs="0" maxOccurs="unbounded" type="xsd:anyType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- GetPagedList Request -->
+
+ <xsd:complexType name="GetPagedListRequest">
+  <xsd:sequence>
+   <xsd:element name="filter" minOccurs="0" maxOccurs="unbounded" type="jems-dao:DaoFilter"/>
+   <xsd:element name="sort" minOccurs="0" maxOccurs="unbounded" type="jems-dao:DaoSort"/>
+  </xsd:sequence>
+  <xsd:attribute name="entityName" type="xsd:string" default=""/>
+  <xsd:attribute name="pageSize" type="xsd:int" default="0"/>
+  <xsd:attribute name="startRow" type="xsd:int" default="0"/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- GetPagedList Response -->
+
+ <xsd:complexType name="GetPagedListResponse">
+  <xsd:sequence>
+   <xsd:element name="entity" minOccurs="0" maxOccurs="unbounded" type="xsd:anyType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- GetListCount Request -->
+
+ <xsd:complexType name="GetListCountRequest">
+  <xsd:sequence>
+   <xsd:element name="filter" minOccurs="0" maxOccurs="unbounded" type="jems-dao:DaoFilter"/>
+  </xsd:sequence>
+  <xsd:attribute name="entityName" type="xsd:string" default=""/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- GetListCount Response -->
+
+ <xsd:complexType name="GetListCountResponse">
+  <xsd:sequence>
+   <xsd:element name="total" type="xsd:long"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Remove Request -->
+
+ <xsd:complexType name="RemoveRequest">
+  <xsd:sequence>
+   <xsd:element name="entity" type="xsd:anyType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Remove Response -->
+
+ <xsd:complexType name="RemoveResponse">
+  <xsd:sequence/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Update Request -->
+
+ <xsd:complexType name="UpdateRequest">
+  <xsd:sequence>
+   <xsd:element name="entity" type="xsd:anyType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Update Response -->
+
+ <xsd:complexType name="UpdateResponse">
+  <xsd:sequence>
+   <xsd:element name="entity" type="xsd:anyType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- end of schema -->
+ 
+</xsd:schema>

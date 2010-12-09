@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	    xmlns:jems:orm="http://org.jems/orm"
+	    targetNamespace="http://org.jems/orm">
+
+ <!-- *************************************** -->
+ <!-- orm -->
+
+ <xsd:element name="Orm">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="ormEntity" type="OrmEntity" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="database" type="xsd:string" default=""/>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <!-- *************************************** -->
+ <!-- Association property -->
+
+ <xsd:complexType name="OrmAssociationProperty">
+  <xsd:complexContent>
+   <xsd:extension base="OrmBasicProperty">
+    <xsd:sequence>
+     <xsd:element name="ormJoin" type="OrmJoin"/>
+    </xsd:sequence>
+    <xsd:attribute name="cascade" type="xsd:string" default="cascade-all"/>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Basic property -->
+
+ <xsd:complexType name="OrmBasicProperty">
+  <xsd:complexContent>
+   <xsd:extension base="OrmProperty">
+    <xsd:sequence>
+    </xsd:sequence>
+    <xsd:attribute name="lazy" type="xsd:boolean" default="false"/>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Embedded property -->
+
+ <xsd:complexType name="OrmEmbeddedProperty">
+  <xsd:complexContent>
+   <xsd:extension base="OrmAssociationProperty">
+    <xsd:sequence>
+    </xsd:sequence>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+
+ <!-- *************************************** -->
+ <!-- entity -->
+
+ <xsd:complexType name="OrmEntity">
+  <xsd:sequence>
+   <xsd:element name="ormId" type="OrmId" minOccurs="0"/>
+   <xsd:element name="ormBasicProperty" type="OrmBasicProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormVersionProperty" type="OrmVersionProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormManyToOneProperty" type="OrmManyToOneProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormOneToManyProperty" type="OrmOneToManyProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormOneToOneProperty" type="OrmOneToOneProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormManyToManyProperty" type="OrmManyToManyProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormEmbeddedProperty" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormTransientProperty" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+  </xsd:sequence>
+  <xsd:attribute name="className" type="xsd:string" default=""/>
+  <xsd:attribute name="embedded" type="xsd:boolean" default="false"/>
+  <xsd:attribute name="parentClassName" type="xsd:string" default=""/>
+  <xsd:attribute name="superClass" type="xsd:boolean" default="false"/>
+  <xsd:attribute name="tableName" type="xsd:string" default=""/>
+ </xsd:complexType>
+
+ <!-- *************************************** -->
+ <!-- Id -->
+
+ <xsd:complexType name="OrmId">
+  <xsd:sequence>
+  </xsd:sequence>
+  <xsd:attribute name="name" type="xsd:string" default=""/>
+  <xsd:attribute name="generator" type="xsd:string" default=""/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Join Column -->
+
+ <xsd:complexType name="OrmJoin">
+  <xsd:sequence>
+   <xsd:element name="joinColumn" type="OrmProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="inverseJoinColumn" type="OrmProperty" minOccurs="0" maxOccurs="unbounded"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- ManyToMany property -->
+
+ <xsd:complexType name="OrmManyToManyProperty">
+  <xsd:complexContent>
+   <xsd:extension base="OrmAssociationProperty">
+    <xsd:sequence>
+    </xsd:sequence>
+    <xsd:attribute name="joinTableName" type="xsd:string" default=""/>
+    <xsd:attribute name="mappedBy" type="xsd:string" default=""/>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- ManyToOne property -->
+
+ <xsd:complexType name="OrmManyToOneProperty">
+  <xsd:complexContent>
+   <xsd:extension base="OrmAssociationProperty">
+    <xsd:sequence>
+    </xsd:sequence>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- OneToMany property -->
+
+ <xsd:complexType name="OrmOneToManyProperty">
+  <xsd:complexContent>
+   <xsd:extension base="OrmAssociationProperty">
+    <xsd:sequence>
+    </xsd:sequence>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- OneToOne property -->
+
+ <xsd:complexType name="OrmOneToOneProperty">
+  <xsd:complexContent>
+   <xsd:extension base="OrmAssociationProperty">
+    <xsd:sequence>
+    </xsd:sequence>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- property -->
+
+ <xsd:complexType name="OrmProperty">
+  <xsd:sequence>
+   <xsd:element name="mapping" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+  </xsd:sequence>
+  <xsd:attribute name="columnName" type="xsd:string" default=""/>
+  <xsd:attribute name="name" type="xsd:string" default=""/>
+  <xsd:attribute name="nullable" type="xsd:boolean" default="false"/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Version property -->
+
+ <xsd:complexType name="OrmVersionProperty">
+  <xsd:complexContent>
+   <xsd:extension base="OrmProperty">
+    <xsd:sequence>
+    </xsd:sequence>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+
+ <!-- *************************************** -->
+ <!-- end of schema -->
+ <!-- *************************************** -->
+
+</xsd:schema>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<!-- *************************************** -->
+<!-- TypeDescriptorList -->
+<!-- *************************************** -->
+ 
+<jems-compiler:TypeDescriptorList xmlns:jems-compiler="http://org.jems.compiler.model">
+
+ <typeDescriptor import="" name="Boolean" targetName="Boolean"/>
+ <typeDescriptor import="" name="boolean" targetName="Boolean"/>
+ <typeDescriptor import="" name="BigInteger" targetName="Number"/>
+ <typeDescriptor import="" name="Date" targetName="Date"/>
+ <typeDescriptor import="" name="Double" targetName="Number"/>
+ <typeDescriptor import="" name="Float" targetName="Number"/>
+ <typeDescriptor import="" name="Integer" targetName="int"/>
+ <typeDescriptor import="import mx.collections.ArrayCollection" name="List" targetName="ArrayCollection"/>
+ <typeDescriptor import="" name="Long" targetName="Number"/>
+ <typeDescriptor import="" name="long" targetName="Number"/>
+ <typeDescriptor import="" name="Object" targetName="Object"/>
+ <typeDescriptor import="" name="String" targetName="String"/>
+ 
+</jems-compiler:TypeDescriptorList>
+ 
+<!-- *************************************** -->
+<!-- End of file -->
+<!-- *************************************** -->

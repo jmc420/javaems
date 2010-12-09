@@ -1,0 +1,299 @@
+/************************************************************/
+/*
+	File: JPAClassMapping.java
+
+	Template for JPA Class mapping.
+
+	Author: James Cowan
+*/
+/************************************************************/
+
+package org.jems.orm;
+
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.io.PrintStream;
+
+import org.jems.generator.ClassMetaData;
+import org.jems.generator.GeneratorException;
+
+import org.jems.orm.model.Orm;
+import org.jems.orm.model.OrmBasicProperty;
+import org.jems.orm.model.OrmEntity;
+import org.jems.orm.model.OrmId;
+import org.jems.orm.model.OrmJoin;
+import org.jems.orm.model.OrmAssociationProperty;
+import org.jems.orm.model.OrmManyToManyProperty;
+import org.jems.orm.model.OrmProperty;
+import org.jems.orm.model.OrmVersionProperty;
+
+/************************************************************/
+
+public class JPAClassMapping extends ClassMappingGenerator
+{
+	public JPAClassMapping(ClassMetaData metaData, Orm orm, OrmEntity ormEntity)
+	{
+		super(metaData, orm, ormEntity);
+	}
+
+	/************************************************************/
+	/* public methods */
+	/************************************************************/
+	/** generate */
+
+	public void generate(PrintStream out) throws IOException, GeneratorException
+	{
+	String mapping = "entity";
+	String className = m_ormEntity.getClassName();
+	OrmId ormId = m_ormEntity.getOrmId();
+	String tableName = m_ormEntity.getTableName();
+	int indent = 1;
+	
+		if (m_ormEntity.getSuperClass())
+		{
+			mapping = "mapped-superclass";
+		}
+		
+		if (m_ormEntity.getEmbedded())
+		{
+			mapping = "embeddable";
+		}
+		
+		writeSeparator(out, indent);
+		writeText(out, indent, "<!-- "+className+" -->");
+		writeText(out, 0, "");
+		writeText(out, indent, "<"+mapping+" class=\""+className+"\">");
+
+		if (!tableName.equals(""))
+		{
+			writeText(out, indent+1, "<table name=\""+tableName+"\"/>");
+		}
+
+		writeText(out, indent+1, "<attributes>");
+
+		if (ormId != null)
+		{
+			writeText(out, indent+2, "<id name=\""+ormId.getName()+"\">");
+			if (!ormId.getGenerator().equals(""))
+			{
+				writeText(out, indent+3, "<generated-value strategy=\""+ormId.getGenerator()+"\"/>");
+			}
+			writeText(out, indent+2, "</id>");
+		}
+		
+		generateOrmBasicProperties(out, indent+2);
+		generateOrmVersionProperties(out, indent+2);
+		generateOrmAssocationProperties(out, indent+2, m_ormEntity.getOrmManyToOneProperty(), "many-to-one");
+		generateOrmAssocationProperties(out, indent+2, m_ormEntity.getOrmOneToManyProperty(), "one-to-many");
+		generateOrmAssocationProperties(out, indent+2, m_ormEntity.getOrmOneToOneProperty(), "one-to-one");
+		generateOrmManyToManyProperties(out, indent+2);
+		generateOrmEmbeddedProperties(out, indent+2);
+		generateOrmTransientProperties(out, indent+2);
+
+		writeText(out, indent+1, "</attributes>");
+		writeText(out, indent, "</"+mapping+">");
+		writeText(out, 0, "");  
+
+	} // generate
+	
+	/************************************************************/
+	/* protected methods */
+	/************************************************************/
+	/** generateOrmAssocationProperties */
+
+	public void generateOrmAssocationProperties(PrintStream out, int indent, OrmAssociationProperty properties[], String mapping)
+	throws IOException, GeneratorException
+	{
+		for (int count=0; count<properties.length; count++)
+		{
+		OrmAssociationProperty ormProperty = properties[count];
+		String name = ormProperty.getName();
+		String fetch = "LAZY";
+	
+			checkProperty(name);
+			
+			if (!ormProperty.getLazy())
+			{
+				fetch = "EAGER";
+			}
+			
+			OrmJoin ormJoin = ormProperty.getOrmJoin();
+			String cascade = ormProperty.getCascade();
+			
+			writeText(out, indent, "<"+mapping+" name=\""+ormProperty.getName()+"\" fetch=\""+fetch+"\">");
+			generateOrmJoin(out, indent+1, ormJoin);
+			
+			if (!cascade.equals(""))
+			{
+				writeText(out, indent+1,"<cascade><"+cascade+"/></cascade>");
+			}
+			writeText(out, indent, "</"+mapping+">");
+		}
+		
+	} // generateOrmAssocationProperties
+	
+	/************************************************************/
+	/** generateOrmBasicProperties */
+
+	public void generateOrmBasicProperties(PrintStream out, int indent) throws IOException, GeneratorException
+	{
+	PropertyDescriptor properties[] = m_metaData.getPropertyDescriptors();
+
+		for (int count=0; count<properties.length; count++)
+		{
+		PropertyDescriptor property = properties[count];
+		String name = property.getName();
+		
+			if (isOrmTransientProperty(name)|| isOrmIdProperty(name) || 
+			    isOrmEmbeddedProperty(name) ||!isOrmBasicProperty(name))
+			{
+					continue;
+			}
+			
+			checkProperty(name);
+			
+			OrmBasicProperty ormProperty = getOrmBasicProperty(name);
+			
+			writeText(out, indent, "<basic name=\""+ormProperty.getName()+"\">");
+			writeText(out, indent+1, "<column nullable=\""+ormProperty.getNullable()+"\"/>");
+			writeText(out, indent, "</basic>");
+		}
+		
+	} // generateOrmBasicProperties
+	
+	/************************************************************/
+	/** generateOrmEmbeddedProperties */
+
+	public void generateOrmEmbeddedProperties(PrintStream out, int indent) throws IOException, GeneratorException
+	{
+	String ormEmbeddedProperties[] = m_ormEntity.getOrmEmbeddedProperty();
+	
+		for (int count=0; count<ormEmbeddedProperties.length; count++)
+		{
+		String name = ormEmbeddedProperties[count];
+		
+			checkProperty(name);
+			
+			writeText(out, indent, "<embedded name=\""+name+"\"/>");
+		}
+		
+	} // generateOrmEmbeddedProperties
+	
+	/************************************************************/
+	/** generateOrmJoin */
+
+	public void generateOrmJoin(PrintStream out, int indent, OrmJoin ormJoin)
+	throws IOException, GeneratorException
+	{
+		generateOrmJoin(out, indent, ormJoin.getJoinColumn(), "join-column");
+		generateOrmJoin(out, indent, ormJoin.getInverseJoinColumn(), "inverse-join-column");
+	
+	} // generateOrmJoin
+	
+	/************************************************************/
+	/** generateOrmJoin */
+
+	public void generateOrmJoin(PrintStream out, int indent, OrmProperty joinColumns[], String mapping)
+	throws IOException, GeneratorException
+	{
+		for (int count=0; count<joinColumns.length; count++)
+		{
+		OrmProperty joinColumn = joinColumns[count];
+		
+			writeText(out, indent, "<"+mapping+" name=\""+joinColumn.getName()+
+									 "\" nullable=\""+joinColumn.getNullable()+"\"/>");	
+		}	
+	
+	} // generateOrmJoin
+	
+	/************************************************************/
+	/** generateOrmManyToManyProperties */
+
+	public void generateOrmManyToManyProperties(PrintStream out, int indent) throws IOException, GeneratorException
+	{
+	OrmManyToManyProperty properties[] = m_ormEntity.getOrmManyToManyProperty();
+
+		for (int count=0; count<properties.length; count++)
+		{
+		OrmManyToManyProperty ormProperty = properties[count];
+		String name = ormProperty.getName();
+		String fetch = "LAZY";
+			
+			checkProperty(name);
+						
+			if (!ormProperty.getLazy())
+			{
+				fetch = "EAGER";
+			}
+			
+			OrmJoin ormJoin = ormProperty.getOrmJoin();
+			String joinTableName = ormProperty.getJoinTableName();
+			
+			if (!joinTableName.equals(""))
+			{
+				writeText(out, indent, "<many-to-many name=\""+name+"\" fetch=\""+fetch+"\">");
+				writeText(out, indent+1, "<join-table name=\""+joinTableName+"\">");
+				generateOrmJoin(out, indent+2, ormJoin);
+				writeText(out, indent+1, "</join-table>");
+			}
+			else
+			{
+			String mappedBy = ormProperty.getMappedBy();
+			
+				if (mappedBy.equals(""))
+				{
+				String msg = name + " must have joinTableName or mappedBy attribute";
+				
+					throw new GeneratorException(msg);
+				}
+				
+				writeText(out, indent, "<many-to-many name=\""+name+"\" mapped-by=\""+mappedBy+"\">");
+			}
+			writeText(out, indent+1,"<cascade><"+ormProperty.getCascade()+"/></cascade>");
+			writeText(out, indent, "</many-to-many>");
+		}
+		
+	} // generateOrmManyToManyProperties
+	
+	/************************************************************/
+	/** generateOrmTransientProperties */
+
+	public void generateOrmTransientProperties(PrintStream out, int indent) throws IOException, GeneratorException
+	{
+	String ormTransientProperties[] = m_ormEntity.getOrmTransientProperty();
+	
+		for (int count=0; count<ormTransientProperties.length; count++)
+		{
+		String name = ormTransientProperties[count];
+		
+			checkProperty(name);
+			
+			writeText(out, indent, "<transient name=\""+name+"\"/>");
+		}
+		
+	} // generateOrmTransientProperties
+	
+	/************************************************************/
+	/** generateOrmVersionProperties */
+
+	public void generateOrmVersionProperties(PrintStream out, int indent) throws IOException, GeneratorException
+	{
+	OrmVersionProperty ormVersionProperties[] = m_ormEntity.getOrmVersionProperty();
+	
+		for (int count=0; count<ormVersionProperties.length; count++)
+		{
+		OrmVersionProperty ormVersionProperty = ormVersionProperties[count];
+		String name = ormVersionProperty.getName();
+		
+			checkProperty(name);
+			
+			writeText(out, indent, "<version name=\""+name+"\"/>");	
+		}
+		
+	} // generateOrmVersionProperties
+	
+} // JPAClassMapping
+
+/************************************************************/
+
+

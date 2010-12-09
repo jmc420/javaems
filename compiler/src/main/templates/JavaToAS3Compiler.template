@@ -1,0 +1,113 @@
+/************************************************************/
+/*
+	File: JavaToAS3Compiler.java
+
+	JavaToAS3Compiler compiles Java beans to AS3 beans.
+
+	Author: James Cowan
+*/
+/************************************************************/
+
+package org.jems.compiler;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.List;
+
+import org.jibx.runtime.BindingDirectory;
+import org.jibx.runtime.IBindingFactory;
+import org.jibx.runtime.IUnmarshallingContext;
+
+import org.jems.compiler.JavaCompiler;
+import org.jems.compiler.model.JavaClass;
+import org.jems.compiler.model.TypeDescriptorList;
+import org.jems.generator.Generator;
+import org.jems.generator.GeneratorException;
+
+/************************************************************/
+
+public class JavaToAS3Compiler extends JavaCompiler
+{
+	protected TypeDescriptorList	m_typeDescriptorList;
+	
+	public JavaToAS3Compiler(File schemaDirectory, File schemaFile, File output)
+	throws GeneratorException
+	{
+		super(schemaDirectory, schemaFile, output);
+		
+		m_typeDescriptorList = getTypeDescriptorList();
+	}
+
+	/************************************************************/
+	/* public methods */
+	/************************************************************/
+
+	
+	/************************************************************/
+	/* protected methods */
+	/************************************************************/
+	/** compileClassList */
+	
+	protected void compileClassList() throws IOException, GeneratorException
+	{
+	List<JavaClass> javaClasses = m_javaClassList.getJavaClasses();
+	long schemaFileDate = m_schemaFile.lastModified();
+	
+		for (int count=0; count<javaClasses.size(); count++)
+		{
+		JavaClass javaClass = javaClasses.get(count);
+		Class<?> cl = getJavaClass(javaClass);
+		File dir = Generator.createPackageDir(m_output, cl.getPackage().getName());
+		File file = new File(dir, cl.getSimpleName()+".as");
+		long fileDate = file.lastModified();
+		
+			if (false && file.exists() && fileDate >= schemaFileDate)
+			{
+				m_log.info(file.getAbsolutePath()+" is up to date");
+				continue;
+			}
+			
+			FileOutputStream fos = new FileOutputStream(file);
+			PrintStream ps = new PrintStream(fos);
+			AS3ClassGenerator as3ClassGenerator = new AS3ClassGenerator(javaClass, cl, m_typeDescriptorList);
+		
+			m_log.info("Create as3 class: "+file.getAbsolutePath());
+		
+			as3ClassGenerator.generate(ps);
+			ps.close();
+		}
+		
+	} // compileClassList
+	
+	/************************************************************/
+	/** getTypeDescriptorList */
+	
+	protected TypeDescriptorList getTypeDescriptorList()throws GeneratorException
+	{	
+	String fileName = "/as3types.xml";
+	
+        try
+        {
+        InputStream in = getClass().getResourceAsStream(fileName);
+      	IBindingFactory bfact = BindingDirectory.getFactory(TypeDescriptorList.class);
+        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+
+        	return (TypeDescriptorList) uctx.unmarshalDocument(in, null);
+        }
+        catch (Throwable e)
+        {
+        String msg = "Cannot read "+fileName+": "+e.getMessage();
+        	
+        	throw new GeneratorException(msg);
+        }
+        	
+	} // getTypeDescriptorList
+	
+} // JavaToAS3Compiler
+
+/************************************************************/
+
+

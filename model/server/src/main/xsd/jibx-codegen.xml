@@ -1,0 +1,7 @@
+<schema-set>
+
+ <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator"/>
+ 
+ <schema name="dao.xsd" package="org.jems.dao" show-schema="false"/>
+ 
+</schema-set>

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	    xmlns="http://org.jems/dao"
+            xmlns:jems-dao="http://org.jems/dao"
+	    targetNamespace="http://org.jems/dao">
+
+ <!-- *************************************** -->
+ <!-- DaoFilter -->
+
+ <xsd:complexType name="DaoFilter">
+  <xsd:complexContent>
+   <xsd:extension base="DaoParameter">
+    <xsd:sequence/>
+    <xsd:attribute name="booleanOperation" type="xsd:string" default="AND"/>
+    <xsd:attribute name="endExpression" type="xsd:boolean" default="false"/>
+    <xsd:attribute name="operation" type="xsd:string" default="="/>
+    <xsd:attribute name="startExpression" type="xsd:boolean" default="false"/>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- DaoFilterType -->
+ <!--
+ <xsd:simpleType name="DaoFilterType">
+  <xsd:restriction base="xsd:string">
+   <xsd:enumeration value="AND"/>
+   <xsd:enumeration value="OR"/>
+  </xsd:restriction>
+ </xsd:simpleType>
+ -->
+ 
+ <!-- *************************************** -->
+ <!-- DaoParameter -->
+
+ <xsd:complexType name="DaoParameter">
+  <xsd:sequence>
+   <xsd:element name="value" type="xsd:anyType"/>
+  </xsd:sequence>
+  <xsd:attribute name="column" type="xsd:string" default=""/>
+  <xsd:attribute name="className" type="xsd:string" default=""/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- DaoSort -->
+
+ <xsd:complexType name="DaoSort">
+  <xsd:sequence/>
+  <xsd:attribute name="column" type="xsd:string" default=""/>
+  <xsd:attribute name="ascending" type="xsd:boolean" default="true"/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- EntityMetaData -->
+
+ <xsd:complexType name="EntityMetaData">
+  <xsd:sequence>
+   <xsd:element name="entityPropertyMetaData" type="EntityPropertyMetaData" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="entityAssociationMetaData" type="EntityAssociationMetaData" minOccurs="0" maxOccurs="unbounded"/>
+  </xsd:sequence>
+  <xsd:attribute name="className" type="xsd:string" default=""/>
+  <xsd:attribute name="name" type="xsd:string" default=""/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- EntityPropertyMetaData -->
+
+ <xsd:complexType name="EntityPropertyMetaData">
+  <xsd:sequence>
+  </xsd:sequence>
+  <xsd:attribute name="name" type="xsd:string" default=""/>
+  <xsd:attribute name="primaryKey" type="xsd:boolean" default="false"/>
+  <xsd:attribute name="typeName" type="xsd:string" default=""/>
+ </xsd:complexType>
+  
+ <!-- *************************************** -->
+ <!-- EntityAssociationMetaData -->
+
+ <xsd:complexType name="EntityAssociationMetaData">
+  <xsd:sequence>
+  </xsd:sequence>
+  <xsd:attribute name="className" type="xsd:string" default=""/>
+  <xsd:attribute name="entityName" type="xsd:string" default=""/>
+  <xsd:attribute name="isCollection" type="xsd:boolean" default="true"/>
+  <xsd:attribute name="name" type="xsd:string" default=""/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- end of schema -->
+ 
+</xsd:schema>

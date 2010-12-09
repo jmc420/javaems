@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+ <!-- ******************************************************************** -->
+ <!-- parent module -->
+
+ <parent>
+  <groupId>org.jems</groupId>
+  <artifactId>jems</artifactId>
+  <version>${jems.version}</version>
+ </parent>
+
+ <!-- ******************************************************************** -->
+ <!-- module -->
+
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>org.jems</groupId>
+ <artifactId>jems-template</artifactId>
+ <packaging>jar</packaging>
+ <version>${jems.version}</version>
+ <name>${project.artifactId}</name>
+
+ <!-- ******************************************************************** -->
+ <!-- build -->
+
+ <build>
+  <finalName>${project.artifactId}</finalName>
+
+  <plugins>
+
+    <plugin> 
+     <groupId>org.apache.maven.plugins</groupId> 
+     <artifactId>maven-surefire-plugin</artifactId> 
+     <configuration> 
+      <systemProperties>
+       <property>
+        <name>BASEDIR</name>
+        <value>${basedir}</value>
+       </property>
+      </systemProperties>
+     </configuration> 
+    </plugin> 
+
+  </plugins>
+
+ </build>
+
+ <!-- ******************************************************************** -->
+ <!-- dependencies -->
+
+ <dependencies>
+
+  <dependency>
+   <groupId>commons-io</groupId>
+   <artifactId>commons-io</artifactId>
+   <version>${commons.io.version}</version>
+  </dependency>
+
+ </dependencies>
+
+ 
+ <!-- ******************************************************************** -->
+
+</project>
+

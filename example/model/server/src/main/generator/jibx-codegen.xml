@@ -1,0 +1,7 @@
+<schema-set>
+
+ <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator"/>
+ 
+ <schema name="model.xsd" package="org.jems.example.model" show-schema="false"/>
+
+</schema-set>

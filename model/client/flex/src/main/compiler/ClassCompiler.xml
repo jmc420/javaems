@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!-- *************************************** -->
+<!-- JavaClassList -->
+<!-- *************************************** -->
+ 
+<jems-compiler:JavaClassList xmlns:jems-compiler="http://org.jems.compiler.model">
+
+ <!-- *************************************** -->
+ <!-- DaoSort -->
+
+ <javaClass className="org.jems.dao.types.DaoFilter"/>
+ <javaClass className="org.jems.dao.types.DaoParameter"/>
+ <javaClass className="org.jems.dao.types.DaoSort"/>
+ <javaClass className="org.jems.dao.types.EntityAssociationMetaData"/>
+ <javaClass className="org.jems.dao.types.EntityMetaData"/>
+ <javaClass className="org.jems.dao.types.EntityPropertyMetaData"/>
+ 
+</jems-compiler:JavaClassList>
+ 
+<!-- *************************************** -->
+<!-- End of file -->
+<!-- *************************************** -->

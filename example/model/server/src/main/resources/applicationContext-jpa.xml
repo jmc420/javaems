@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-2.5.xsd ">
+ 
+  <!-- **************************************************************** -->
+  <!-- property file  -->
+   
+  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location" value="file:///${JEMS_HOME}/etc/jems.properties"/>
+  </bean>
+ 
+  <!-- **************************************************************** -->
+  <!-- data source object configured with properties defined by the propertyConfigurer -->
+  
+ <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+  <property name="driverClass" value="${jdbc.connection.driver_class}" />
+  <property name="jdbcUrl" value="${jdbc.connection.url}" />
+  <property name="user" value="${jdbc.connection.username}" />
+  <property name="password" value="${jdbc.connection.password}" />
+  <property name="minPoolSize" value="${c3p0.minPoolSize}"/>
+  <property name="maxPoolSize" value="${c3p0.maxPoolSize}"/>
+  <property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}"/>
+  <property name="maxStatements" value="${c3p0.maxStatements}"/>
+  <property name="numHelperThreads" value="${c3p0.numHelperThreads}"/>
+ </bean>
+ 
+ <!-- **************************************************************** -->
+ <!--  entity manager -->
+
+ <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+  <property name="dataSource" ref="dataSource"/>
+  <property name="jpaDialect">
+   <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+  </property>
+  <property name="jpaVendorAdapter">
+   <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+    <property name="database" value="MYSQL"/>
+    <property name="showSql" value="${hibernate.show_sql}"/>
+    <property name="generateDdl" value="true"/>
+   </bean>
+  </property>
+  <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
+ </bean>
+ 
+ <!-- **************************************************************** -->
+ <!--  transaction manager -->
+ 
+ <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+   <property name="entityManagerFactory" ref="entityManagerFactory" />
+ </bean>
+ 
+ <!-- **************************************************************** -->
+ <!--  jpa dao  -->
+ 
+ <bean id="JemsJpaDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+   <property name="transactionManager"><ref bean="transactionManager"/></property>
+   <property name="target"><ref bean="JemsJpaDaoTarget"/></property>
+   <property name="transactionAttributes">
+    <props>
+     <prop key="create*">PROPAGATION_REQUIRED</prop>
+     <prop key="get*">PROPAGATION_SUPPORTS</prop>
+     <prop key="remove*">PROPAGATION_REQUIRED</prop>
+     <prop key="update*">PROPAGATION_REQUIRED</prop>
+    </props>
+   </property>
+  </bean>
+  
+ <bean id="JemsJpaDaoTarget" class="org.jems.dao.JpaDao">
+  <constructor-arg value="${JEMS_HOME}/etc/queries/jql"/>
+  <property name="entityManagerFactory" ref="entityManagerFactory" />
+ </bean>
+
+ <!-- **************************************************************** -->
+ 
+</beans>

@@ -1,0 +1,14 @@
+
+import java.util.Date;
+
+public class Hello
+{
+<template><%
+		Date now = new Date();
+%>Hello world 
+<%
+		out.print(now);
+%>
+</template>
+
+} // Hello

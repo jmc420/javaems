@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!-- *************************************** -->
+<!-- JavaClassList -->
+<!-- *************************************** -->
+ 
+<jems-compiler:JavaClassList xmlns:jems-compiler="http://org.jems.compiler.model">
+
+ <!-- *************************************** -->
+ <!-- DaoSort -->
+
+ <javaClass className="org.jems.example.model.Artist"/>
+ <javaClass className="org.jems.example.model.Album"/>
+ <javaClass className="org.jems.example.model.Identifier"/>
+ <javaClass className="org.jems.example.model.Track"/>
+ 
+</jems-compiler:JavaClassList>
+ 
+<!-- *************************************** -->
+<!-- End of file -->
+<!-- *************************************** -->

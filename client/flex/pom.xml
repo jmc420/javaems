@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+ <!-- ******************************************************************** -->
+ <!-- parent module -->
+
+ <parent>
+  <groupId>org.jems</groupId>
+  <artifactId>jems-client</artifactId>
+  <version>${jems.version}</version>
+ </parent>
+
+ <!-- ******************************************************************** -->
+ <!-- module -->
+
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>org.jems</groupId>
+ <artifactId>jems-client-flex</artifactId>
+ <packaging>swc</packaging>
+ <version>${jems.version}</version>
+ <name>${project.artifactId}</name>
+
+ <!-- ******************************************************************** -->
+ <!-- build -->
+
+ <build>
+  <finalName>${project.artifactId}</finalName>
+  <sourceDirectory>${basedir}/src/main/flex</sourceDirectory>
+  
+  <plugins>
+
+    <!-- ******************************************************************** -->
+    <!-- flexmojo plugin -->
+
+    <plugin>
+     <groupId>org.sonatype.flexmojos</groupId>
+     <artifactId>flexmojos-maven-plugin</artifactId>
+     <dependencies>
+      <dependency>
+       <groupId>com.adobe.flex</groupId>
+       <artifactId>compiler</artifactId>
+       <version>${flex.version}</version>
+       <type>pom</type>
+      </dependency>
+     </dependencies>
+     <version>${flexmojos.version}</version>
+     <extensions>true</extensions>
+     <configuration> 
+      <targetPlayer>10.0.0</targetPlayer>
+     </configuration> 
+    </plugin>
+
+   <!-- ******************************************************************** -->
+
+   </plugins>
+
+  </build>
+
+  <!-- ******************************************************************** -->
+  <!-- dependencies -->
+
+  <dependencies>
+
+   <dependency>
+    <groupId>com.adobe.flex.framework</groupId>
+    <artifactId>flex-framework</artifactId>
+    <version>${flex.version}</version>
+    <type>pom</type>
+    <exclusions>
+     <exclusion>
+     <groupId>com.adobe.flex.framework</groupId>
+     <artifactId>playerglobal</artifactId>
+      </exclusion>
+     </exclusions>
+    </dependency>
+    <dependency>
+     <groupId>com.adobe.flex.framework</groupId>
+     <artifactId>playerglobal</artifactId>
+     <version>${flex.version}</version>
+     <classifier>${flashplayer.version}</classifier>
+     <type>swc</type>
+    </dependency>
+    <dependency>
+     <groupId>org.jems</groupId>
+     <artifactId>jems-model</artifactId>
+     <type>pom</type>
+     <version>${jems.version}</version>
+    </dependency>
+    <dependency>
+     <groupId>org.jems</groupId>
+     <artifactId>jems-model-client</artifactId>
+     <type>pom</type>
+     <version>${jems.version}</version>
+    </dependency>
+    <dependency>
+     <groupId>org.jems</groupId>
+     <artifactId>jems-model-client-flex</artifactId>
+     <type>swc</type>
+     <version>${jems.version}</version>
+    </dependency>
+    
+  </dependencies>
+  
+</project>

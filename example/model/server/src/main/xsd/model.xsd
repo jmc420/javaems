@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://org.jems.example.model"
+            xmlns:jems-example-model="http://org.jems.example.model"
+            targetNamespace="http://org.jems.example.model">
+            
+ <!-- *************************************** -->
+ <!-- Artist -->
+
+ <xsd:complexType name="Artist">
+  <xsd:complexContent>
+   <xsd:extension base="jems-example-model:Identifier">
+    <xsd:sequence>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" default=""/>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Album -->
+
+ <xsd:complexType name="Album">
+  <xsd:complexContent>
+   <xsd:extension base="jems-example-model:Identifier">
+    <xsd:sequence>
+     <xsd:element name="artist" type="jems-example-model:Artist"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" default=""/>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+
+ <!-- *************************************** --> 
+ <!-- Identifier -->
+
+ <xsd:complexType name="Identifier">
+  <xsd:sequence/>
+  <xsd:attribute name="id" type="xsd:long"/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Track -->
+
+ <xsd:complexType name="Track">
+  <xsd:complexContent>
+   <xsd:extension base="jems-example-model:Identifier">
+    <xsd:sequence>
+     <xsd:element name="album" type="jems-example-model:Album"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" default=""/>
+    <xsd:attribute name="length" type="xsd:int" default=""/>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- end of schema -->
+ 
+</xsd:schema>

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	    xmlns:jems-compiler="http://org.jems.compiler.model"
+	    targetNamespace="http://org.jems.compiler.model">
+
+ <!-- *************************************** -->
+ <!-- JavaClassList -->
+ <!-- *************************************** -->
+ <!-- Class List -->
+
+ <xsd:element name="JavaClassList">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="javaClass" type="JavaClass" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <!-- *************************************** -->
+ <!-- JavaClass -->
+
+ <xsd:complexType name="JavaClass">
+  <xsd:sequence>
+   <xsd:element name="excludedProperty" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+  </xsd:sequence>
+  <xsd:attribute name="className" type="xsd:string" default=""/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- Type Descriptor List -->
+
+ <xsd:element name="TypeDescriptorList">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="typeDescriptor" type="TypeDescriptor" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <!-- *************************************** -->
+ <!-- JavaClass -->
+
+ <xsd:complexType name="TypeDescriptor">
+  <xsd:sequence/>
+  <xsd:attribute name="import" type="xsd:string" default=""/>
+  <xsd:attribute name="name" type="xsd:string" default=""/>
+  <xsd:attribute name="targetName" type="xsd:string" default=""/>
+ </xsd:complexType>
+ 
+ <!-- *************************************** -->
+ <!-- end of schema -->
+ <!-- *************************************** -->
+
+</xsd:schema>

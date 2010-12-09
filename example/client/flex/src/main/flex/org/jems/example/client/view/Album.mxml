@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:controller="org.jems.example.client.controller.*" xmlns:view="org.jems.example.client.view.*" creationComplete="m_entityController.handleCreationComplete();" height="100%" width="100%">
+   <controller:EntityController id="m_entityController" m_view ="{this}" m_entityName="Album"/>
+   <mx:ControlBar width="100%">
+    <mx:Button id="m_addButton" label="Add Album"/>
+    <mx:Button id="m_deleteButton" label="Delete Album"/>
+    <mx:Button id="m_editButton" label="Edit Album"/>
+    <mx:Button id="m_refreshButton" label="Refresh"/>
+    <mx:Label text="Filters"/>
+    <mx:ComboBox id="m_filterList"/>
+    <mx:Button id="m_removeFilterButton" label="Remove Filter" enabled="false"/>
+   </mx:ControlBar>
+   <mx:DataGrid id="m_table" height="100%" width="100%">
+   <mx:columns>
+    <mx:DataGridColumn dataField="id" headerText="Id"/>
+    <mx:DataGridColumn dataField="name" headerText="Name"/>
+    <mx:DataGridColumn dataField="artist.name" headerText="Artist"/>
+   </mx:columns>
+   </mx:DataGrid>
+  </mx:VBox>
