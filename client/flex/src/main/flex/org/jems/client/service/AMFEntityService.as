@@ -69,6 +69,7 @@ package org.jems.client.service
 		
 		public function update(entity:Object):void
 		{
+			m_service.getRemoteObject().update(entity);
 			
 		} // update
 		
