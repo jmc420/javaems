@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <mx:TabNavigator xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="org.jems.example.client.view.*" height="100%" width="100%">
+   <mx:VBox label="Artist">
+    <view:Artist/>
+   </mx:VBox>
+   <mx:VBox label="Album">
+    <view:Album/>
+   </mx:VBox>
+   <mx:VBox label="Track">
+    <view:Track/>
+   </mx:VBox>
+  </mx:TabNavigator>

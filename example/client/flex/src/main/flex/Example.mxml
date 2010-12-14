@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
  <mx:Application layout="vertical" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="org.jems.example.client.view.*" xmlns:controller="org.jems.example.client.controller.*" applicationComplete="m_applicationController.handleCreationComplete();">
  <controller:ApplicationController id="m_applicationController" m_view ="{this}"/>
-  <mx:TabNavigator height="100%" width="100%">
-   <mx:VBox label="Artist">
-    <view:Artist/>
-   </mx:VBox>
-   <mx:VBox label="Album">
-    <view:Album/>
-   </mx:VBox>
-   <mx:VBox label="Track">
-    <view:Track/>
-   </mx:VBox>
-  </mx:TabNavigator>
+ <view:Navigation/>
                  
  </mx:Application>

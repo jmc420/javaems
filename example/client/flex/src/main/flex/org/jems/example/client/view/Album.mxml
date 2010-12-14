@@ -9,6 +9,7 @@
     <mx:Label text="Filters"/>
     <mx:ComboBox id="m_filterList"/>
     <mx:Button id="m_removeFilterButton" label="Remove Filter" enabled="false"/>
+    <mx:Button id="m_resetSortButton" label="Reset Sort"/>
    </mx:ControlBar>
    <mx:DataGrid id="m_table" height="100%" width="100%">
    <mx:columns>
