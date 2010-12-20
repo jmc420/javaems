@@ -36,6 +36,7 @@ package org.jems.client.controller
 
 		public function EntityMetaDataController(entityServiceFactory:IEntityServiceFactory, entityFactory:IEntityFactory, callBack:Function = null):void
 		{
+			m_entityServiceFactory = entityServiceFactory;
 			m_entityFactory = entityFactory;
 			m_callBack = callBack;
 			m_entityMetaDataTable = new Array();
