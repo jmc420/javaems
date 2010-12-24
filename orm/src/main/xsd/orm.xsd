@@ -37,6 +37,7 @@
    <xsd:extension base="OrmProperty">
     <xsd:sequence>
     </xsd:sequence>
+    <xsd:attribute name="enumerated" type="xsd:string" default=""/>
     <xsd:attribute name="lazy" type="xsd:boolean" default="false"/>
    </xsd:extension>
   </xsd:complexContent>

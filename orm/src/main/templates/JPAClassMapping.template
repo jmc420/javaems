@@ -153,9 +153,21 @@ public class JPAClassMapping extends ClassMappingGenerator
 			checkProperty(name);
 			
 			OrmBasicProperty ormProperty = getOrmBasicProperty(name);
+			String enumerated = ormProperty.getEnumerated();
+			String columnName = "";
+
+			if (!ormProperty.getColumnName().equals(""))
+			{
+				columnName = "name=\""+ormProperty.getColumnName()+"\" ";
+			}
 			
 			writeText(out, indent, "<basic name=\""+ormProperty.getName()+"\">");
-			writeText(out, indent+1, "<column nullable=\""+ormProperty.getNullable()+"\"/>");
+			writeText(out, indent+1, "<column "+columnName+"nullable=\""+ormProperty.getNullable()+"\"/>");
+
+			if (!enumerated.equals(""))
+			{
+				writeText(out, indent+1, "<enumerated>"+enumerated+"</enumerated>");
+			}
 			writeText(out, indent, "</basic>");
 		}
 		
