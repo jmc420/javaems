@@ -26,31 +26,31 @@ public interface IDao
 	/*******************************************************************/
 	/** create */
 	
-	public <T> T create(T entity) throws DaoException;
+	public <T> T create(T entity);
 
 	/*******************************************************************/
 	/** get */
 	
 	public <T>T get(Class<T> cl, DaoFilter filter[])
-	throws DaoException, DaoNotFoundException;
+	throws DaoNotFoundException;
 	
 	/*******************************************************************/
 	/** get */
 	
 	public <T>T get(Class<T> cl, DaoFilter filter[], boolean allowNull)
-	throws DaoException, DaoNotFoundException;
+	throws DaoNotFoundException;
 	
 	/*******************************************************************/
 	/** get */
 	
 	public <T>T get(String queryName, DaoParameter param[], DaoFilter filter[])
-	throws DaoException, DaoNotFoundException;
+	throws DaoNotFoundException;
 	
 	/*******************************************************************/
 	/** get */
 	
 	public <T>T get(SQLQuery query, DaoParameter param[], DaoFilter filter[])
-	throws DaoException, DaoNotFoundException;
+	throws DaoNotFoundException;
 	
 	/*******************************************************************/
 	/** getEntityMetaData */
@@ -60,63 +60,57 @@ public interface IDao
 	/*******************************************************************/
 	/** getList */
 	
-	public <T>List<T> getList(Class<T> cl, DaoFilter filter[], DaoSort sort[])
-	throws DaoException;
+	public <T>List<T> getList(Class<T> cl, DaoFilter filter[], DaoSort sort[]);
 	
 	/*******************************************************************/
 	/** getList */
 	
-	public <T>List<T> getList(Class<T> cl, DaoFilter filter[], DaoSort sort[], int startRow, int maxRows)
-	throws DaoException;
+	public <T>List<T> getList(Class<T> cl, DaoFilter filter[], DaoSort sort[], int startRow, int maxRows);
 	
 	/*******************************************************************/
 	/** getList */
 	
-	public <T>List<T> getList(String queryName)throws DaoException;
+	public <T>List<T> getList(String queryName);
 	
 	/*******************************************************************/
 	/** getList */
 	
-	public <T>List<T> getList(String queryName, DaoParameter param[], DaoFilter filter[], DaoSort sort[])
-	throws DaoException;
+	public <T>List<T> getList(String queryName, DaoParameter param[], DaoFilter filter[], DaoSort sort[]);
 	
 	/*******************************************************************/
 	/** getList */
 	
-	public <T>List<T> getList(String queryName, DaoParameter param[], DaoFilter filter[], DaoSort sort[], int startRow, int maxRows)
-	throws DaoException;
+	public <T>List<T> getList(String queryName, DaoParameter param[], DaoFilter filter[], DaoSort sort[], int startRow, int maxRows);
 	
 	/*******************************************************************/
 	/** getList */
 	
-	public <T>List<T> getList(SQLQuery query)throws DaoException;
+	public <T>List<T> getList(SQLQuery query);
 	
 	/*******************************************************************/
 	/** getList */
 	
-	public <T>List<T> getList(SQLQuery query, DaoParameter param[], DaoFilter filter[], DaoSort sort[])
-	throws DaoException;
+	public <T>List<T> getList(SQLQuery query, DaoParameter param[], DaoFilter filter[], DaoSort sort[]);
 	
 	/*******************************************************************/
 	/** getList */
 	
-	public <T>List<T> getList(SQLQuery query, DaoParameter param[], DaoFilter filter[], DaoSort sort[], int startRow, int maxRows)
-	throws DaoException;
+	public <T>List<T> getList(SQLQuery query, DaoParameter param[], DaoFilter filter[], DaoSort sort[], int startRow, int maxRows);
 	
 	/*******************************************************************/
 	/** getListCount */
 	
-	public <T>int getListCount(Class<T> cl, DaoFilter filter[]) throws DaoException;
+	public <T>int getListCount(Class<T> cl, DaoFilter filter[]);
 	
 	/*******************************************************************/
 	/** remove */
 	
-	public <T> void remove(T entity) throws DaoException;
+	public <T> void remove(T entity);
 
 	/*******************************************************************/
 	/** update */
 	
-	public <T> T update(T entity) throws DaoException;
+	public <T> T update(T entity);
 
 } // IDao
 

@@ -65,27 +65,18 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/*******************************************************************/
 	/** create */
 	
-	public <T> T create(T entity) throws DaoException
+	public <T> T create(T entity)
 	{
-		try
-		{
-		JpaTemplate template = getJpaTemplate();
+	JpaTemplate template = getJpaTemplate();
 		
-			return template.merge(entity);
-		}
-		catch (Throwable e)
-		{
-		String msg = "Jpa error: "+e.getMessage();
-
-			throw new DaoException(msg);
-		}
+		return template.merge(entity);
 
 	} // create
 	
 	/*******************************************************************/
 	/** get */
 	
-	public <T>T get(Class<T> cl, DaoFilter filters[]) throws DaoException, DaoNotFoundException
+	public <T>T get(Class<T> cl, DaoFilter filters[]) throws DaoNotFoundException
 	{
 		return get(cl, filters, false);
 		
@@ -95,7 +86,7 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** get */
 	
 	public <T>T get(Class<T> cl, DaoFilter filters[], boolean allowNull)
-	throws DaoException, DaoNotFoundException
+	throws DaoNotFoundException
 	{
 	T result = getEntity(cl, filters);
 		
@@ -112,7 +103,7 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** get */
 	
 	public <T>T get(String queryName, DaoParameter params[], DaoFilter filters[])
-	throws DaoException, DaoNotFoundException
+	throws DaoNotFoundException
 	{
 	JpaTemplate template = getJpaTemplate();
 	String queryString = m_queryTable.get(queryName);
@@ -139,7 +130,7 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** get */
 	
 	public <T>T get(SQLQuery query, DaoParameter params[], DaoFilter filters[])
-	throws DaoException, DaoNotFoundException
+	throws DaoNotFoundException
 	{
 	JpaTemplate template = getJpaTemplate();
 	DaoSort sorts[] = new DaoSort[0];
@@ -171,7 +162,6 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** getList */
 	
 	public <T>List<T> getList(Class<T> cl, DaoFilter filters[], DaoSort sorts[])
-	throws DaoException
 	{
 		return getList(cl, filters, sorts, 0 , 0);
         
@@ -181,7 +171,6 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** getList */
 	
 	public <T>List<T> getList(Class<T> cl, DaoFilter filters[], DaoSort sorts[], int startRow, int maxRows)
-	throws DaoException
 	{
 	DaoQueryCallback<T> cb = new DaoQueryCallback<T>(cl, filters, sorts, startRow, maxRows);
 	JpaTemplate template = getJpaTemplate();
@@ -193,7 +182,7 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/*******************************************************************/
 	/** getList */
 	
-	public <T>List<T> getList(String queryName)	throws DaoException
+	public <T>List<T> getList(String queryName)
 	{		
 		return getList(queryName, new DaoParameter[0], new DaoFilter[0], new DaoSort[0]);
 		
@@ -203,7 +192,6 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** getList */
 	
 	public <T>List<T> getList(String queryName, DaoParameter params[], DaoFilter filters[], DaoSort sorts[])
-	throws DaoException
 	{
 		return getList(queryName, params, filters, sorts, 0, 0);
 		
@@ -213,7 +201,6 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** getList */
 	
 	public <T>List<T> getList(String queryName, DaoParameter params[], DaoFilter filters[], DaoSort sorts[], int startRow, int maxRows)
-	throws DaoException
 	{
 	JpaTemplate template = getJpaTemplate();
 	String queryString = m_queryTable.get(queryName);
@@ -236,7 +223,7 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/*******************************************************************/
 	/** getList */
 	
-	public <T>List<T> getList(SQLQuery query)	throws DaoException
+	public <T>List<T> getList(SQLQuery query)
 	{		
 		return getList(query, new DaoParameter[0], new DaoFilter[0], new DaoSort[0]);
 		
@@ -246,7 +233,6 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** getList */
 	
 	public <T>List<T> getList(SQLQuery query, DaoParameter params[], DaoFilter filters[], DaoSort sorts[])
-	throws DaoException
 	{
 		return getList(query, params, filters, sorts, 0, 0);
 		
@@ -256,7 +242,6 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** getList */
 	
 	public <T>List<T> getList(SQLQuery query, DaoParameter params[], DaoFilter filters[], DaoSort sorts[], int startRow, int maxRows)
-	throws DaoException
 	{
 	JpaTemplate template = getJpaTemplate();
 	String queryString = query.getQuery();
@@ -270,26 +255,15 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** getListCount */
 	
 	public <T>int getListCount(Class<T> cl, DaoFilter filters[])
-	throws DaoException
 	{
 	String query = "SELECT COUNT(*) FROM "+cl.getName();
 	DaoParameter params[] = new DaoParameter[0];
 	DaoSort sorts[] = new DaoSort[0];
 	DaoQueryCallback<T> cb = new DaoQueryCallback(query, params, filters, sorts, 0, 0);
 	JpaTemplate template = getJpaTemplate();
+	List<Long> list = template.executeFind(cb);
 	
-		try
-		{
-		List<Long> list = template.executeFind(cb);
-	
-			return list.get(0).intValue();
-		}
-		catch (Throwable e)
-		{
-		String msg = "Jpa error: "+e.getMessage();
-
-			throw new DaoException(msg);	
-		}
+		return list.get(0).intValue();
 		
 	} // getListCount
 	
@@ -305,40 +279,22 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/*******************************************************************/
 	/** remove */
 	
-	public <T> void remove(T entity) throws DaoException
+	public <T> void remove(T entity)
 	{
-		try
-		{
-		JpaTemplate template = getJpaTemplate();
+	JpaTemplate template = getJpaTemplate();
 		
-			template.remove(update(entity));
-		}
-		catch (Throwable e)
-		{
-		String msg = "Jpa error: "+e.getMessage();
-
-			throw new DaoException(msg);
-		}
+		template.remove(update(entity));
 
 	} // remove
 	
 	/*******************************************************************/
 	/** update */
 	
-	public <T> T update(T entity) throws DaoException
+	public <T> T update(T entity)
 	{
-		try
-		{
-		JpaTemplate template = getJpaTemplate();
+	JpaTemplate template = getJpaTemplate();
 		
-			return template.merge(entity);
-		}
-		catch (Throwable e)
-		{
-		String msg = "Jpa error: "+e.getMessage();
-
-			throw new DaoException(msg);
-		}
+		return template.merge(entity);
 		
 	} // update
 
@@ -387,7 +343,7 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** get */
 	
 	protected <T>T get(List<T> list, String queryName) 
-	throws DaoException, DaoNotFoundException
+	throws DaoNotFoundException
 	{		
 		switch (list.size())
 		{
@@ -398,7 +354,7 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 			return list.get(0);
 					
 		default:
-			throw new DaoException(queryName+" does not return a unique object");
+			throw new DaoNotFoundException(queryName+" does not return a unique object");
 		}
 
 	} // get
@@ -407,27 +363,13 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/** getEntity */
 	
 	protected <T>T getEntity(Class<T> cl, DaoFilter filters[])
-	throws DaoException
+	throws DaoNotFoundException
 	{
 	DaoQueryCallback<T> cb = new DaoQueryCallback<T>(cl, filters);
 	JpaTemplate template = getJpaTemplate();
+	List<T> list = template.executeFind(cb);
 	
-		try
-		{
-		List<T> list = template.executeFind(cb);
-	
-			return get(list, cb.getQueryString());
-		}
-		catch (DaoNotFoundException nfe)
-		{
-			return null;
-		}
-		catch (Throwable e)
-		{
-		String msg = "Jpa error: "+e.getMessage();
-
-			throw new DaoException(msg);	
-		}
+		return get(list, cb.getQueryString());
 		
 	} // getEntity
 	
