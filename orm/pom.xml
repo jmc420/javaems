@@ -42,7 +42,8 @@
        </goals>
        <configuration>
          <sources>
-           <source>${basedir}/target/generated-sources</source>
+           <source>${basedir}/target/generated</source>
+           <source>${basedir}/target/generated-sources/castor</source>
           </sources>
        </configuration>
       </execution>
@@ -103,7 +104,7 @@
           <java classname="org.jems.template.TemplateTranslator" failonerror="true"
                 classpathref="maven.compile.classpath">
            <arg value="${basedir}/src/main/templates"/>
-           <arg value="${basedir}/target/generated-sources/org/jems/orm/"/>
+           <arg value="${basedir}/target/generated/org/jems/orm/"/>
           </java>
         </tasks>
         </configuration>
