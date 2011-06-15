@@ -192,6 +192,7 @@
    <groupId>org.jems</groupId>
    <artifactId>jems-orm</artifactId>
    <version>${jems.version}</version>
+   <scope>compile</scope>
   </dependency>
   <dependency>
    <groupId>org.jems</groupId>
