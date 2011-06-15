@@ -42,11 +42,57 @@
      <target>1.6</target>
     </configuration>
    </plugin>
-
+   
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-javadoc-plugin</artifactId>
+    <version>${maven-javadoc-plugin.version}</version>
+    <configuration>
+     <finalName>${project.build.finalName}-${jems.version}</finalName>
+     <outputDirectory>${basedir}/javadocs</outputDirectory>
+     <show>public</show>
+    </configuration>
+    <executions>
+     <execution>
+      <id>aggregate-jar</id>
+      <goals>
+       <goal>aggregate-jar</goal>
+      </goals>
+      <phase>install</phase>
+     </execution>
+    </executions>
+   </plugin>
+   
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-source-plugin</artifactId>
+    <version>${maven-source-plugin.version}</version>
+    <executions>
+     <execution>
+      <id>attach-sources</id>
+      <phase>verify</phase>
+      <goals>
+       <goal>jar-no-fork</goal>
+      </goals>
+     </execution>
+     <execution>
+      <id>aggregate</id>
+      <phase>verify</phase>
+      <goals>
+       <goal>aggregate</goal>
+      </goals>
+      <configuration>
+       <finalName>${project.build.finalName}-${jems.version}</finalName>
+       <includePom>true</includePom>
+      </configuration>
+     </execution>
+    </executions>
+   </plugin>
+   
   </plugins>
 
  </build>
-
+ 
  <!-- ******************************************************************** -->
  <!-- properties -->
 
@@ -79,7 +125,9 @@
   <jstl.version>1.1.2</jstl.version>
   <junit.version>3.8.1</junit.version>
   <log4j.version>1.2.14</log4j.version>
+  <maven-javadoc-plugin.version>2.8</maven-javadoc-plugin.version>
   <maven-jetty-plugin.version>6.1.10</maven-jetty-plugin.version>
+  <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
   <mysql-connector-java.version>5.1.6</mysql-connector-java.version>
   <persistence.version>1.0</persistence.version>
   <servlet-api.version>5.5.23</servlet-api.version>
