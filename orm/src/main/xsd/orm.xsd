@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	    xmlns:jems:orm="http://org.jems/orm"
+	    xmlns:jems-orm="http://org.jems/orm"
 	    targetNamespace="http://org.jems/orm">
 
  <!-- *************************************** -->
@@ -9,7 +9,7 @@
  <xsd:element name="Orm">
   <xsd:complexType>
    <xsd:sequence>
-    <xsd:element name="ormEntity" type="OrmEntity" maxOccurs="unbounded"/>
+    <xsd:element name="ormEntity" type="jems-orm:OrmEntity" maxOccurs="unbounded"/>
    </xsd:sequence>
    <xsd:attribute name="database" type="xsd:string" default=""/>
   </xsd:complexType>
@@ -20,9 +20,9 @@
 
  <xsd:complexType name="OrmAssociationProperty">
   <xsd:complexContent>
-   <xsd:extension base="OrmBasicProperty">
+   <xsd:extension base="jems-orm:OrmBasicProperty">
     <xsd:sequence>
-     <xsd:element name="ormJoin" type="OrmJoin"/>
+     <xsd:element name="ormJoin" type="jems-orm:OrmJoin"/>
     </xsd:sequence>
     <xsd:attribute name="cascade" type="xsd:string" default="cascade-all"/>
    </xsd:extension>
@@ -34,7 +34,7 @@
 
  <xsd:complexType name="OrmBasicProperty">
   <xsd:complexContent>
-   <xsd:extension base="OrmProperty">
+   <xsd:extension base="jems-orm:OrmProperty">
     <xsd:sequence>
     </xsd:sequence>
     <xsd:attribute name="enumerated" type="xsd:string" default=""/>
@@ -48,7 +48,7 @@
 
  <xsd:complexType name="OrmEmbeddedProperty">
   <xsd:complexContent>
-   <xsd:extension base="OrmAssociationProperty">
+   <xsd:extension base="jems-orm:OrmAssociationProperty">
     <xsd:sequence>
     </xsd:sequence>
    </xsd:extension>
@@ -60,13 +60,13 @@
 
  <xsd:complexType name="OrmEntity">
   <xsd:sequence>
-   <xsd:element name="ormId" type="OrmId" minOccurs="0"/>
-   <xsd:element name="ormBasicProperty" type="OrmBasicProperty" minOccurs="0" maxOccurs="unbounded"/>
-   <xsd:element name="ormVersionProperty" type="OrmVersionProperty" minOccurs="0" maxOccurs="unbounded"/>
-   <xsd:element name="ormManyToOneProperty" type="OrmManyToOneProperty" minOccurs="0" maxOccurs="unbounded"/>
-   <xsd:element name="ormOneToManyProperty" type="OrmOneToManyProperty" minOccurs="0" maxOccurs="unbounded"/>
-   <xsd:element name="ormOneToOneProperty" type="OrmOneToOneProperty" minOccurs="0" maxOccurs="unbounded"/>
-   <xsd:element name="ormManyToManyProperty" type="OrmManyToManyProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormId" type="jems-orm:OrmId" minOccurs="0"/>
+   <xsd:element name="ormBasicProperty" type="jems-orm:OrmBasicProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormVersionProperty" type="jems-orm:OrmVersionProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormManyToOneProperty" type="jems-orm:OrmManyToOneProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormOneToManyProperty" type="jems-orm:OrmOneToManyProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormOneToOneProperty" type="jems-orm:OrmOneToOneProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="ormManyToManyProperty" type="jems-orm:OrmManyToManyProperty" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element name="ormEmbeddedProperty" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element name="ormTransientProperty" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
   </xsd:sequence>
@@ -92,8 +92,8 @@
 
  <xsd:complexType name="OrmJoin">
   <xsd:sequence>
-   <xsd:element name="joinColumn" type="OrmProperty" minOccurs="0" maxOccurs="unbounded"/>
-   <xsd:element name="inverseJoinColumn" type="OrmProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="joinColumn" type="jems-orm:OrmProperty" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element name="inverseJoinColumn" type="jems-orm:OrmProperty" minOccurs="0" maxOccurs="unbounded"/>
   </xsd:sequence>
  </xsd:complexType>
  
@@ -102,7 +102,7 @@
 
  <xsd:complexType name="OrmManyToManyProperty">
   <xsd:complexContent>
-   <xsd:extension base="OrmAssociationProperty">
+   <xsd:extension base="jems-orm:OrmAssociationProperty">
     <xsd:sequence>
     </xsd:sequence>
     <xsd:attribute name="joinTableName" type="xsd:string" default=""/>
@@ -116,7 +116,7 @@
 
  <xsd:complexType name="OrmManyToOneProperty">
   <xsd:complexContent>
-   <xsd:extension base="OrmAssociationProperty">
+   <xsd:extension base="jems-orm:OrmAssociationProperty">
     <xsd:sequence>
     </xsd:sequence>
    </xsd:extension>
@@ -128,7 +128,7 @@
 
  <xsd:complexType name="OrmOneToManyProperty">
   <xsd:complexContent>
-   <xsd:extension base="OrmAssociationProperty">
+   <xsd:extension base="jems-orm:OrmAssociationProperty">
     <xsd:sequence>
     </xsd:sequence>
    </xsd:extension>
@@ -140,7 +140,7 @@
 
  <xsd:complexType name="OrmOneToOneProperty">
   <xsd:complexContent>
-   <xsd:extension base="OrmAssociationProperty">
+   <xsd:extension base="jems-orm:OrmAssociationProperty">
     <xsd:sequence>
     </xsd:sequence>
    </xsd:extension>
@@ -164,7 +164,7 @@
 
  <xsd:complexType name="OrmVersionProperty">
   <xsd:complexContent>
-   <xsd:extension base="OrmProperty">
+   <xsd:extension base="jems-orm:OrmProperty">
     <xsd:sequence>
     </xsd:sequence>
    </xsd:extension>
