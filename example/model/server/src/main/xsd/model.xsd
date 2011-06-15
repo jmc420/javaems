@@ -49,7 +49,7 @@
      <xsd:element name="album" type="jems-example-model:Album"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string" default=""/>
-    <xsd:attribute name="length" type="xsd:int" default=""/>
+    <xsd:attribute name="length" type="xsd:int" default="0"/>
    </xsd:extension>
   </xsd:complexContent>
  </xsd:complexType>
