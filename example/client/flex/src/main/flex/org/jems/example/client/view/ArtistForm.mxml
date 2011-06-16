@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-  <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="org.jems.example.client.view.*" height="175" width="420" layout="absolute" title="Artist Form">
+  <mx:TitleWindow
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:view="org.jems.example.client.view.*" height="175" width="420" layout="absolute" title="Artist Form">
    <mx:Label left="20" top="20" text="Id"/>
    <mx:TextInput id="m_id" left="140" top="20" text="" editable="false"/>
    <mx:Label left="20" top="55" text="Name"/>

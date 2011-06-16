@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-  <mx:TabNavigator xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="org.jems.example.client.view.*" height="100%" width="100%">
+  <mx:TabNavigator
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:view="org.jems.example.client.view.*" height="100%" width="100%">
    <mx:VBox label="Artist">
     <view:Artist/>
    </mx:VBox>

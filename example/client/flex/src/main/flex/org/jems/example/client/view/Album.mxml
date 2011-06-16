@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-  <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:controller="org.jems.example.client.controller.*" xmlns:view="org.jems.example.client.view.*" creationComplete="m_entityController.handleCreationComplete();" height="100%" width="100%">
-   <controller:EntityController id="m_entityController" m_view ="{this}" m_entityName="Album"/>
+  <mx:VBox
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:controller="org.jems.example.client.controller.*"
+	xmlns:view="org.jems.example.client.view.*"
+	creationComplete="m_entityController.handleCreationComplete();" height="100%" width="100%">
+
+   <fx:Declarations>
+    <controller:EntityController id="m_entityController" m_view ="{this}" m_entityName="Album"/>
+   </fx:Declarations>
+
    <mx:ControlBar width="100%">
     <mx:Button id="m_addButton" label="Add Album"/>
     <mx:Button id="m_deleteButton" label="Delete Album"/>
