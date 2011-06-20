@@ -12,21 +12,21 @@
    </fx:Declarations>
 
    <mx:ControlBar width="100%">
-    <mx:Button id="m_addButton" label="Add Track"/>
-    <mx:Button id="m_deleteButton" label="Delete Track"/>
-    <mx:Button id="m_editButton" label="Edit Track"/>
-    <mx:Button id="m_refreshButton" label="Refresh"/>
+    <mx:Button id="Track_AddButton" label="Add Track"/>
+    <mx:Button id="Track_DeleteButton" label="Delete Track"/>
+    <mx:Button id="Track_EditButton" label="Edit Track"/>
+    <mx:Button id="Track_RefreshButton" label="Refresh"/>
     <mx:Label text="Filters"/>
-    <mx:ComboBox id="m_filterList"/>
-    <mx:Button id="m_removeFilterButton" label="Remove Filter" enabled="false"/>
-    <mx:Button id="m_resetSortButton" label="Reset Sort"/>
+    <mx:ComboBox id="Track_FilterList"/>
+    <mx:Button id="Track_RemoveFilterButton" label="Remove Filter" enabled="false"/>
+    <mx:Button id="Track_ResetSortButton" label="Reset Sort"/>
    </mx:ControlBar>
-   <mx:DataGrid id="m_table" height="100%" width="100%">
+   <mx:DataGrid id="Track_Table" height="100%" width="100%">
    <mx:columns>
-    <mx:DataGridColumn dataField="id" headerText="Id"/>
-    <mx:DataGridColumn dataField="name" headerText="Name"/>
-    <mx:DataGridColumn dataField="length" headerText="Length"/>
-    <mx:DataGridColumn dataField="album.name" headerText="Album"/>
+    <mx:DataGridColumn id="Track_id" dataField="id" headerText="Id"/>
+    <mx:DataGridColumn id="Track_name" dataField="name" headerText="Name"/>
+    <mx:DataGridColumn id="Track_length" dataField="length" headerText="Length"/>
+    <mx:DataGridColumn id="Track_album" dataField="album.name" headerText="Album"/>
    </mx:columns>
    </mx:DataGrid>
   </mx:VBox>

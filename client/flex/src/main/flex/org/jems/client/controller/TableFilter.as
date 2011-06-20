@@ -35,9 +35,9 @@ package org.jems.client.controller
 		protected var	m_rowIndex:int;
 		protected var	m_view:UIComponent;
 
-		public static const	FILTERLIST:String = "m_filterList";		
+		public static const	FILTERLIST:String = "FilterList";		
 		public static const	OPERATIONS:Array = ["=", "!=", "<", "<=", ">", ">="];
-		public static const	REMOVEFILTERBUTTON:String = "m_removeFilterButton";
+		public static const	REMOVEFILTERBUTTON:String = "RemoveFilterButton";
 				
 		public function TableFilter(entityServiceFactory:IEntityServiceFactory, view:UIComponent, entityController:IEntityController):void
 		{
@@ -52,7 +52,7 @@ package org.jems.client.controller
 		
 			dataGrid.addEventListener(ListEvent.ITEM_ROLL_OVER, handleItemRollOver);   				
    			dataGrid.contextMenu = createContextMenu();
-   			setButtonHandler(m_view, REMOVEFILTERBUTTON, handleRemoveFilterButton, false);
+   			setButtonHandler(m_view, getEntityNamePrefix()+REMOVEFILTERBUTTON, handleRemoveFilterButton, false);
 		}
 		
 		/*******************************************************************/
@@ -204,6 +204,15 @@ package org.jems.client.controller
 		} // createContextMenu
 		
 		/*******************************************************************/
+		/** getEntityNamePrefix */
+		
+		protected function getEntityNamePrefix():String
+		{
+			return m_entityController.getEntityName()+"_";
+			
+		} // getEntityNamePrefix
+		
+		/*******************************************************************/
 		/** getFilterMenu */
 		
 		protected function getFilterMenu(daoFilter:DaoFilter):String
@@ -283,8 +292,8 @@ package org.jems.client.controller
 			
 				if (caption == getFilterMenu(filter))
 				{
-				var removeFilterButton:Button = m_view[REMOVEFILTERBUTTON];
-				var filterList:ComboBox = m_view[FILTERLIST];
+				var removeFilterButton:Button = m_view[getEntityNamePrefix()+REMOVEFILTERBUTTON];
+				var filterList:ComboBox = m_view[getEntityNamePrefix()+FILTERLIST];
 				var filterString:String = getFilterMenu(filter);
 				
 					removeFilterButton.enabled = true;
@@ -323,7 +332,7 @@ package org.jems.client.controller
 		
 		protected function handleRemoveFilterButton(e:MouseEvent):void
 		{
-		var filterList:ComboBox = m_view[FILTERLIST];
+		var filterList:ComboBox = m_view[getEntityNamePrefix()+FILTERLIST];
 		var selectedItem:String = filterList.selectedItem as String;
 		var filters:Array = [];
 		var filterStringList:Array = [];
@@ -350,7 +359,7 @@ package org.jems.client.controller
 			}
 			else
 			{
-			var removeFilterButton:Button = m_view[REMOVEFILTERBUTTON];
+			var removeFilterButton:Button = m_view[getEntityNamePrefix()+REMOVEFILTERBUTTON];
 			
 				removeFilterButton.enabled = false;
 			}

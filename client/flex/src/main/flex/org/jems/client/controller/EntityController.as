@@ -67,7 +67,7 @@ package org.jems.client.controller
 		
 		public function getDataGrid():DataGrid
 		{
-			return m_view.getChildByName(TABLE) as DataGrid;
+			return m_view.getChildByName(getTableName()) as DataGrid;
 			
 		} // getDataGrid
 		
@@ -104,6 +104,7 @@ package org.jems.client.controller
 		public function handleCreationComplete():void
 		{
 		var dataGrid:DataGrid = getDataGrid();
+		var entityNamePrefix:String = getEntityNamePrefix();
 			
 			m_tableFilter = new TableFilter(m_entityServiceFactory, m_view, this);
 			m_tableSort = new TableSort(this);
@@ -114,12 +115,12 @@ package org.jems.client.controller
   			m_tableService =  m_entityServiceFactory.getEntityService(handleTableResult);
   			m_tableRowCountService = m_entityServiceFactory.getEntityService(handleTableRowCountResult);
   			
-   			setButtonHandler(m_view, ADDBUTTON, handleAddEvent, false);
-   			setButtonHandler(m_view, DELETEBUTTON, handleDeleteEvent, false);
-   			setButtonHandler(m_view, EDITBUTTON, handleEditEvent, false);
-   			setButtonHandler(m_view, REFRESHBUTTON, handleRefreshEvent, false);
+   			setButtonHandler(m_view, entityNamePrefix+ADDBUTTON, handleAddEvent, false);
+   			setButtonHandler(m_view, entityNamePrefix+DELETEBUTTON, handleDeleteEvent, false);
+   			setButtonHandler(m_view, entityNamePrefix+EDITBUTTON, handleEditEvent, false);
+   			setButtonHandler(m_view, entityNamePrefix+REFRESHBUTTON, handleRefreshEvent, false);
     			   				
-   			if (m_view.hasOwnProperty(TablePager.NEXTBUTTON))
+   			if (m_view.hasOwnProperty(entityNamePrefix+TablePager.NEXTBUTTON))
    			{
    				m_tablePager = new TablePager(m_view, this);
    				readTableRowCount();
@@ -207,6 +208,15 @@ package org.jems.client.controller
 		} // displaySelectRowError
 		
 		/*******************************************************************/
+		/** getEntityNamePrefix */
+		
+		protected function getEntityNamePrefix():String
+		{
+			return getEntityName()+"_";
+			
+		} // getEntityNamePrefix
+		
+		/*******************************************************************/
 		/** getForm */
 		
 		protected function getForm():TitleWindow
@@ -214,6 +224,15 @@ package org.jems.client.controller
 			return m_formFactory.getForm(m_entityName);
 			
 		} // getForm
+		
+		/*******************************************************************/
+		/** getTableName */
+		
+		public function getTableName():String
+		{
+			return getEntityNamePrefix()+TABLE;
+			
+		} // getTableName
 		
 		/*******************************************************************/
 		/** handleAddEvent */
@@ -275,7 +294,7 @@ package org.jems.client.controller
 		
 		protected function handleDeleteEvent(e:MouseEvent):void
 		{
-		var dataGrid:DataGrid = m_view.getChildByName(TABLE) as DataGrid;
+		var dataGrid:DataGrid = m_view.getChildByName(getTableName()) as DataGrid;
 		
 			if (dataGrid == null)
 			{
@@ -304,7 +323,7 @@ package org.jems.client.controller
 				return;
 			}
 			
-			var dataGrid:DataGrid = m_view.getChildByName(TABLE) as DataGrid;
+			var dataGrid:DataGrid = m_view.getChildByName(getTableName()) as DataGrid;
 		
 			if (dataGrid == null)
 			{
@@ -329,7 +348,7 @@ package org.jems.client.controller
 		
 		protected function handleEditEvent(e:MouseEvent):void
 		{
-		var dataGrid:DataGrid = m_view.getChildByName(TABLE) as DataGrid;
+		var dataGrid:DataGrid = m_view.getChildByName(getTableName()) as DataGrid;
 		
 			if (dataGrid == null)
 			{
@@ -445,11 +464,12 @@ package org.jems.client.controller
 		protected function showPopupForm(saveHandler:Function):TitleWindow
 		{
 		var wdw:TitleWindow = getForm();
+		var entityNamePrefix:String = getEntityNamePrefix();
 		
 			PopUpManager.addPopUp(wdw, m_view, true);
 			PopUpManager.centerPopUp(wdw);
-			setButtonHandler(wdw, OKBUTTON, saveHandler, true);
-			setButtonHandler(wdw, CANCELBUTTON, handleCancelFormEvent, true);
+			setButtonHandler(wdw, entityNamePrefix+OKBUTTON, saveHandler, true);
+			setButtonHandler(wdw, entityNamePrefix+CANCELBUTTON, handleCancelFormEvent, true);
 			return wdw;
 			
 		} // showPopupForm

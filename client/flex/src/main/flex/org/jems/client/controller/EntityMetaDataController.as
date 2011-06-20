@@ -50,9 +50,9 @@ package org.jems.client.controller
 		/*******************************************************************/
 		/** bindFormToObject */
 				
-		public function bindFormToObject(name:String, data:Object, form:Container):Object
+		public function bindFormToObject(entityName:String, data:Object, form:Container):Object
 		{
- 		var entityMetaData:EntityMetaData = getEntityMetaData(name);
+ 		var entityMetaData:EntityMetaData = getEntityMetaData(entityName);
  		var properties:Array = entityMetaData.entityPropertyMetaData;
  		var associations:Array = entityMetaData.entityAssociationMetaData;
  		var name:String;
@@ -60,7 +60,7 @@ package org.jems.client.controller
  			
  			if (data == null)
  			{
- 				throw new Error(name+" not bound");
+ 				throw new Error(entityName+" not bound");
  			}
  		 		
  			for (var count:int=0; count<properties.length; count++)
@@ -68,7 +68,7 @@ package org.jems.client.controller
  			var entityPropertyMetaData:EntityPropertyMetaData = properties[count] as EntityPropertyMetaData;
  			
  				name = entityPropertyMetaData.name;
- 				formField = form["m_"+name];
+ 				formField = form[entityName+"_"+name];
  			
  				if (!isValidColumn(name, data, formField))
  				{
@@ -125,7 +125,7 @@ package org.jems.client.controller
  			var entityAssociationMetaData:EntityAssociationMetaData = associations[associationCount] as EntityAssociationMetaData;
  				 			
  				name = entityAssociationMetaData.name;
- 				formField = form["m_"+name];
+ 				formField = form[entityName+"_"+name];
  				
  				if (formField is ComboBox)
  				{
@@ -147,9 +147,9 @@ package org.jems.client.controller
 		/*******************************************************************/
 		/** bindObjectToForm */
 				
-		public function bindObjectToForm(name:String, data:Object, form:Container):void
+		public function bindObjectToForm(entityName:String, data:Object, form:Container):void
 		{
- 		var entityMetaData:EntityMetaData = getEntityMetaData(name);
+ 		var entityMetaData:EntityMetaData = getEntityMetaData(entityName);
  		var properties:Array = entityMetaData.entityPropertyMetaData;
  		var associations:Array = entityMetaData.entityAssociationMetaData;
  		var name:String;
@@ -161,7 +161,7 @@ package org.jems.client.controller
  			var entityPropertyMetaData:EntityPropertyMetaData = properties[propertyCount] as EntityPropertyMetaData;
  			
 	 			name = entityPropertyMetaData.name;
- 				formField = form["m_"+name];
+ 				formField = form[entityName+"_"+name];
  				value = data[name];
  			
  				if (!isValidColumn(name, data, formField))
@@ -208,7 +208,7 @@ package org.jems.client.controller
  			var entityAssociationMetaData:EntityAssociationMetaData = associations[associationCount] as EntityAssociationMetaData;
  				 			
  				name = entityAssociationMetaData.name;
- 				formField = form["m_"+name];
+ 				formField = form[entityName+"_"+name];
  				value = data[name];
  				
  				if (!isValidColumn(name, data, formField))

@@ -12,20 +12,20 @@
    </fx:Declarations>
 
    <mx:ControlBar width="100%">
-    <mx:Button id="m_addButton" label="Add Album"/>
-    <mx:Button id="m_deleteButton" label="Delete Album"/>
-    <mx:Button id="m_editButton" label="Edit Album"/>
-    <mx:Button id="m_refreshButton" label="Refresh"/>
+    <mx:Button id="Album_AddButton" label="Add Album"/>
+    <mx:Button id="Album_DeleteButton" label="Delete Album"/>
+    <mx:Button id="Album_EditButton" label="Edit Album"/>
+    <mx:Button id="Album_RefreshButton" label="Refresh"/>
     <mx:Label text="Filters"/>
-    <mx:ComboBox id="m_filterList"/>
-    <mx:Button id="m_removeFilterButton" label="Remove Filter" enabled="false"/>
-    <mx:Button id="m_resetSortButton" label="Reset Sort"/>
+    <mx:ComboBox id="Album_FilterList"/>
+    <mx:Button id="Album_RemoveFilterButton" label="Remove Filter" enabled="false"/>
+    <mx:Button id="Album_ResetSortButton" label="Reset Sort"/>
    </mx:ControlBar>
-   <mx:DataGrid id="m_table" height="100%" width="100%">
+   <mx:DataGrid id="Album_Table" height="100%" width="100%">
    <mx:columns>
-    <mx:DataGridColumn dataField="id" headerText="Id"/>
-    <mx:DataGridColumn dataField="name" headerText="Name"/>
-    <mx:DataGridColumn dataField="artist.name" headerText="Artist"/>
+    <mx:DataGridColumn id="Album_id" dataField="id" headerText="Id"/>
+    <mx:DataGridColumn id="Album_name" dataField="name" headerText="Name"/>
+    <mx:DataGridColumn id="Album_artist" dataField="artist.name" headerText="Artist"/>
    </mx:columns>
    </mx:DataGrid>
   </mx:VBox>

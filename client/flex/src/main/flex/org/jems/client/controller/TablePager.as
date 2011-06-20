@@ -22,13 +22,13 @@ package org.jems.client.controller
 		protected var	m_entityController:IEntityController;
 		protected var	m_pageSize:int;
 		
-		public static const	FIRSTBUTTON:String			= "m_firstButton";
-		public static const	LASTBUTTON:String			= "m_lastButton";
-		public static const	NEXTBUTTON:String			= "m_nextButton";
-		public static const	PAGECOUNTLABEL:String		= "m_pageCountLabel";
-		public static const	PAGESIZE:String				= "m_pageSize";
-		public static const	PAGESIZEBUTTON:String		= "m_pageSizeButton";
-		public static const	PREVIOUSBUTTON:String		= "m_previousButton";
+		public static const	FIRSTBUTTON:String			= "FirstButton";
+		public static const	LASTBUTTON:String			= "LastButton";
+		public static const	NEXTBUTTON:String			= "NextButton";
+		public static const	PAGECOUNTLABEL:String		= "PageCountLabel";
+		public static const	PAGESIZE:String				= "PageSize";
+		public static const	PAGESIZEBUTTON:String		= "PageSizeButton";
+		public static const	PREVIOUSBUTTON:String		= "PreviousButton";
 		
 		public function TablePager(view:UIComponent, entityController:IEntityController, pageSize:int = 500):void
 		{
@@ -36,13 +36,14 @@ package org.jems.client.controller
 			m_entityController = entityController;
 			m_pageSize = pageSize;
 		
-			var dataGrid:DataGrid = m_entityController.getDataGrid(); 
+			var dataGrid:DataGrid = m_entityController.getDataGrid();
+			var entityNamePrefix:String = getEntityNamePrefix();
 		
-			setButtonHandler(m_view, FIRSTBUTTON, handleFirstPageEvent, false);
-   			setButtonHandler(m_view, LASTBUTTON, handleLastPageEvent, false);
-   			setButtonHandler(m_view, NEXTBUTTON, handleNextPageEvent, false);
-   			setButtonHandler(m_view, PREVIOUSBUTTON, handlePreviousPageEvent, false);
-   			setButtonHandler(m_view, PAGESIZEBUTTON, handlePageSizeEvent, false);
+			setButtonHandler(m_view, entityNamePrefix+FIRSTBUTTON, handleFirstPageEvent, false);
+   			setButtonHandler(m_view, entityNamePrefix+LASTBUTTON, handleLastPageEvent, false);
+   			setButtonHandler(m_view, entityNamePrefix+NEXTBUTTON, handleNextPageEvent, false);
+   			setButtonHandler(m_view, entityNamePrefix+PREVIOUSBUTTON, handlePreviousPageEvent, false);
+   			setButtonHandler(m_view, entityNamePrefix+PAGESIZEBUTTON, handlePageSizeEvent, false);
    			
    			m_currentPage = 0;
    			setPageSize();
@@ -106,13 +107,22 @@ package org.jems.client.controller
 		/** updatePageLabel */
 		
 		public function updatePageLabel():void
-		{
-			m_view[PAGECOUNTLABEL].text = "Page "+(getCurrentPage()+1) + " of "+(getPageCount()+1);
+		{			
+			m_view[getEntityNamePrefix()+PAGECOUNTLABEL].text = "Page "+(getCurrentPage()+1) + " of "+(getPageCount()+1);
 			
 		} // updatePageLabel
 		
 		/*******************************************************************/
 		// protected methods
+		/*******************************************************************/
+		/** getEntityNamePrefix */
+		
+		protected function getEntityNamePrefix():String
+		{
+			return m_entityController.getEntityName()+"_";
+			
+		} // getEntityNamePrefix
+		
 		/*******************************************************************/
 		/** handleFirstPageEvent */
 		
@@ -151,7 +161,7 @@ package org.jems.client.controller
 		
 		protected function handlePageSizeEvent(e:MouseEvent = null):void
 		{
-		var pageSize:int = parseInt(m_view[PAGESIZE].text);
+		var pageSize:int = parseInt(m_view[getEntityNamePrefix()+PAGESIZE].text);
 			
 			if (isNaN(pageSize) || pageSize <= 0)
 			{
@@ -182,8 +192,8 @@ package org.jems.client.controller
 		/** setPageSize */
 		
 		protected function setPageSize():void
-		{
-			m_view[PAGESIZE].text = m_pageSize.toString();
+		{			
+			m_view[getEntityNamePrefix()+PAGESIZE].text = m_pageSize.toString();
 		
 		} // setPageSize
 		
