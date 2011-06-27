@@ -28,7 +28,11 @@
    </mx:columns>
    </mx:DataGrid>
    <mx:ControlBar width="100%">
-    <mx:Label id="Artist_PageCountLabel" width="40%" text=""/>
+    <mx:Label text="Page"/>
+    <mx:TextInput id="Artist_PageCount" width="5%" text="" editable="false"/>
+    <mx:Label text="Of"/>
+    <mx:TextInput id="Artist_PageTotal" width="5%" text="" editable="false"/>
+    <mx:Label width="40%" text=""/>
     <mx:Button id="Artist_FirstButton" label="&lt;&lt;"/>
     <mx:Button id="Artist_PreviousButton" label="&lt;"/>
     <mx:Button id="Artist_NextButton" label="&gt;"/>

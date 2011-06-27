@@ -4,13 +4,13 @@
 	xmlns:s="library://ns.adobe.com/flex/spark"
 	xmlns:mx="library://ns.adobe.com/flex/mx"
 	xmlns:view="org.jems.example.client.view.*" height="100%" width="100%">
-   <mx:VBox label="Artist">
+   <mx:VBox id="ArtistTab" label="Artist">
     <view:Artist/>
    </mx:VBox>
-   <mx:VBox label="Album">
+   <mx:VBox id="AlbumTab" label="Album">
     <view:Album/>
    </mx:VBox>
-   <mx:VBox label="Track">
+   <mx:VBox id="TrackTab" label="Track">
     <view:Track/>
    </mx:VBox>
   </mx:TabNavigator>

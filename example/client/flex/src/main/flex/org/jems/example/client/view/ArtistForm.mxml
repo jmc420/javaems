@@ -4,10 +4,10 @@
 	xmlns:s="library://ns.adobe.com/flex/spark"
 	xmlns:mx="library://ns.adobe.com/flex/mx"
 	xmlns:view="org.jems.example.client.view.*" height="175" width="420" layout="absolute" title="Artist Form">
-   <mx:Label left="20" top="20" text="Id"/>
-   <mx:TextInput id="Artist_id" left="140" top="20" text="" editable="false"/>
-   <mx:Label left="20" top="55" text="Name"/>
-   <mx:TextInput id="Artist_name" left="140" top="55" text=""/>
-   <mx:Button id="Artist_OkButton" bottom="20" left="80" label="OK"/>
-   <mx:Button id="Artist_CancelButton" bottom="20" right="80" label="Cancel"/>
+    <mx:Label left="20" top="20" text="Id"/>
+    <mx:TextInput id="Artist_id" left="140" top="20" text="" editable="false"/>
+    <mx:Label left="20" top="55" text="Name"/>
+    <mx:TextInput id="Artist_name" left="140" top="55" text=""/>
+    <mx:Button id="Artist_OkButton" bottom="20" left="80" label="OK"/>
+    <mx:Button id="Artist_CancelButton" bottom="20" right="80" label="Cancel"/>
   </mx:TitleWindow>
