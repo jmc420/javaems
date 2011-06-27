@@ -25,9 +25,10 @@ package org.jems.client.controller
 		public static const	FIRSTBUTTON:String			= "FirstButton";
 		public static const	LASTBUTTON:String			= "LastButton";
 		public static const	NEXTBUTTON:String			= "NextButton";
-		public static const	PAGECOUNTLABEL:String		= "PageCountLabel";
+		public static const	PAGECOUNT:String			= "PageCount";
 		public static const	PAGESIZE:String				= "PageSize";
 		public static const	PAGESIZEBUTTON:String		= "PageSizeButton";
+		public static const	PAGETOTAL:String			= "PageTotal";
 		public static const	PREVIOUSBUTTON:String		= "PreviousButton";
 		
 		public function TablePager(view:UIComponent, entityController:IEntityController, pageSize:int = 500):void
@@ -108,7 +109,8 @@ package org.jems.client.controller
 		
 		public function updatePageLabel():void
 		{			
-			m_view[getEntityNamePrefix()+PAGECOUNTLABEL].text = "Page "+(getCurrentPage()+1) + " of "+(getPageCount()+1);
+			m_view[getEntityNamePrefix()+PAGECOUNT].text = getCurrentPage()+1;
+			m_view[getEntityNamePrefix()+PAGETOTAL].text = getPageCount()+1;
 			
 		} // updatePageLabel
 		
