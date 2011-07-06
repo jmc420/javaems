@@ -24,6 +24,7 @@
     <xsd:sequence>
      <xsd:element name="ormJoin" type="jems-orm:OrmJoin"/>
     </xsd:sequence>
+    <xsd:attribute name="mappedBy" type="xsd:string" default=""/>
     <xsd:attribute name="cascade" type="xsd:string" default="cascade-all"/>
    </xsd:extension>
   </xsd:complexContent>
@@ -106,7 +107,6 @@
     <xsd:sequence>
     </xsd:sequence>
     <xsd:attribute name="joinTableName" type="xsd:string" default=""/>
-    <xsd:attribute name="mappedBy" type="xsd:string" default=""/>
    </xsd:extension>
   </xsd:complexContent>
  </xsd:complexType>

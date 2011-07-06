@@ -119,8 +119,14 @@ public class JPAClassMapping extends ClassMappingGenerator
 			
 			OrmJoin ormJoin = ormProperty.getOrmJoin();
 			String cascade = ormProperty.getCascade();
+			String mappedBy = ormProperty.getMappedBy();
 			
-			writeText(out, indent, "<"+mapping+" name=\""+ormProperty.getName()+"\" fetch=\""+fetch+"\">");
+			if (!mappedBy.equals(""))
+			{
+				mappedBy = " mapped-by=\""+mappedBy+"\"";
+			}
+				
+			writeText(out, indent, "<"+mapping+" name=\""+ormProperty.getName()+"\" fetch=\""+fetch+"\""+mappedBy+">");
 			generateOrmJoin(out, indent+1, ormJoin);
 			
 			if (!cascade.equals(""))
