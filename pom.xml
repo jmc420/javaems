@@ -189,7 +189,12 @@
    <name>Codehaus Maven repository</name>
    <url>http://repository.codehaus.org/</url>
   </pluginRepository>
-
+  <pluginRepository>
+   <id>sonatype</id>
+   <name>Sonatype Repository</name>
+   <url>http://repository.sonatype.org/content/groups/flexgroup/</url>
+  </pluginRepository>  
+  
  </pluginRepositories>
  
  <!-- ******************************************************************** -->
