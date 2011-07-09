@@ -50,7 +50,7 @@
      <target>1.6</target>
     </configuration>
    </plugin>
-   
+
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-javadoc-plugin</artifactId>
@@ -63,14 +63,14 @@
     <executions>
      <execution>
       <id>aggregate-jar</id>
+      <phase>deploy</phase>
       <goals>
        <goal>aggregate-jar</goal>
       </goals>
-      <phase>deploy</phase>
      </execution>
     </executions>
    </plugin>
-   
+
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-source-plugin</artifactId>
@@ -78,20 +78,21 @@
     <executions>
      <execution>
       <id>attach-sources</id>
-      <phase>verify</phase>
+      <phase>package</phase>
       <goals>
        <goal>jar-no-fork</goal>
       </goals>
      </execution>
      <execution>
       <id>aggregate</id>
-      <phase>verify</phase>
+      <phase>deploy</phase>
       <goals>
        <goal>aggregate</goal>
       </goals>
       <configuration>
        <finalName>${project.build.finalName}-${jems.version}</finalName>
        <includePom>true</includePom>
+       <aggregate>true</aggregate>
       </configuration>
      </execution>
     </executions>
@@ -123,10 +124,11 @@
   <commons.io.version>1.4</commons.io.version>
   <flashplayer.version>10.2</flashplayer.version>
   <flex.version>4.5.1.21328</flex.version>
-  <flexmojos.version>3.9</flexmojos.version>
   <!--<flashplayer.version>10</flashplayer.version>
-  <flex.version>3.5.0.12683</flex.version>
-  <flexmojos.version>3.9</flexmojos.version>-->
+  <flex.version>3.5.0.12683</flex.version>-->
+  <flashplayer.version>10.0</flashplayer.version>
+  <flex.version>4.1.0.16076</flex.version>
+  <flexmojos.version>3.9</flexmojos.version>
   <hibernate.entitymanager.version>3.4.0.GA</hibernate.entitymanager.version>
   <hibernate.core.version>3.3.1.GA</hibernate.core.version>
   <hibernate.maven.version>2.2</hibernate.maven.version>
@@ -200,13 +202,13 @@
  <!-- ******************************************************************** -->
  <!-- distribution management -->
  
-  <distributionManagement>
-   <repository>
-    <uniqueVersion>false</uniqueVersion>
-    <id>googlecode</id>
-    <url>svn:https://javaems.googlecode.com/svn/repo</url>
-   </repository>
-  </distributionManagement>
+ <distributionManagement>
+  <repository>
+   <uniqueVersion>false</uniqueVersion>
+   <id>googlecode</id>
+   <url>svn:https://javaems.googlecode.com/svn/repo</url>
+  </repository>
+ </distributionManagement>
 
  <!-- ******************************************************************** -->
  <!-- global dependencies -->
