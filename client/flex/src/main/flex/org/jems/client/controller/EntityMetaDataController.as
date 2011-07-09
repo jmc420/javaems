@@ -283,7 +283,10 @@ package org.jems.client.controller
 		
   			while ((index=propertyName.indexOf(".")) >= 0)
   			{
-  				entityName = propertyName.substr(0, index);
+			var name:String = propertyName.substr(0, index); 
+  			var eamd:EntityAssociationMetaData = getEntityAssociationMetaData(entityName, name);
+
+				entityName = eamd.entityName;
   				propertyName = propertyName.substr(index+1);
   			}
   			
@@ -321,6 +324,28 @@ package org.jems.client.controller
  			throw new Error("Invalid entity: "+name);
  			
 		} // getEntityMetaData
+		
+		/*******************************************************************/
+		/** getEntityAssociationMetaData */
+		
+		protected function getEntityAssociationMetaData(entityName:String, associationName:String):EntityAssociationMetaData
+		{
+		var entityMetaData:EntityMetaData = getEntityMetaData(entityName);
+		var associations:Array = entityMetaData.entityAssociationMetaData;
+			
+			for (var associationCount:int=0; associationCount<associations.length; associationCount++)
+			{
+			var entityAssociationMetaData:EntityAssociationMetaData = associations[associationCount] as EntityAssociationMetaData;
+			
+				if (entityAssociationMetaData.name == associationName)
+				{
+					return entityAssociationMetaData;
+				}
+			}
+			
+			throw new Error(entityName+" does not have association: "+associationName);
+			
+		} // getEntityAssociationMetaData
 		
 		/*******************************************************************/
 		/** handleResult */
