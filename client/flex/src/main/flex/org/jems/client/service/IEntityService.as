@@ -15,6 +15,11 @@ package org.jems.client.service
 		/** create */
 		
 		function create(entity:Object):void;
+		
+		/*******************************************************************/
+		/** get */
+		
+		function get(entityName:String, filter:Array):void
 				
 		/*******************************************************************/
 		/** getList */

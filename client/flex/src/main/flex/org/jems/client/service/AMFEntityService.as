@@ -29,6 +29,15 @@ package org.jems.client.service
 		} // create
 
 		/*******************************************************************/
+		/** get */
+		
+		public function get(entityName:String, filter:Array):void
+		{
+			m_service.getRemoteObject().get(entityName, filter);
+			
+		} // get
+		
+		/*******************************************************************/
 		/** getList */
 		
 		public function getList(entityName:String, filter:Array, sort:Array):void
