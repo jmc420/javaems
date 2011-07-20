@@ -96,21 +96,10 @@ package org.jems.client.controller
 	
 		public function getFilter(column:String, value:Object, operation:String="=", className:String=""):DaoFilter
 		{
-		var filter:DaoFilter = new DaoFilter();
+		var entityName:String = m_entityController.getEntityName();
 		
-			if (className == "")
-			{
-			var entityName:String = m_entityController.getEntityName();
-			var md:EntityPropertyMetaData = m_entityMetaDataController.getPropertyMetaData(entityName, column);
-			
-				className = md.typeName;
-			}
-			filter.className = className;
-			filter.column = column;
-			filter.operation = operation;
-			filter.value = value;
-			return filter;
-			
+			return m_entityMetaDataController.getFilter(entityName, column, value, operation, className);
+
 		} // getFilter
 		
 		/*******************************************************************/

@@ -19,11 +19,12 @@ package org.jems.client.controller
 	
 	import org.jems.client.service.IEntityMetaDataService;
 	import org.jems.client.service.IEntityServiceFactory;
+	import org.jems.dao.types.DaoFilter;
 	import org.jems.dao.types.EntityAssociationMetaData;
 	import org.jems.dao.types.EntityMetaData;
 	import org.jems.dao.types.EntityPropertyMetaData;
 	
-	public class EntityMetaDataController extends Controller
+	public class EntityMetaDataController extends Controller implements IEntityMetaDataController
 	{
 		protected var		m_callBack:Function;
 		protected var		m_bindingTable:Array;
@@ -224,16 +225,16 @@ package org.jems.client.controller
 		/*******************************************************************/
 		/** createEntity */
 				
-		public function createEntity(name:String):Object
+		public function createEntity(entityName:String):Object
 		{
-  		var entity:Object = m_entityFactory.createEntity(name);
-  		var entityMetaData:EntityMetaData = getEntityMetaData(name);
+  		var entity:Object = m_entityFactory.createEntity(entityName);
+  		var entityMetaData:EntityMetaData = getEntityMetaData(entityName);
  		var properties:Array = entityMetaData.entityPropertyMetaData;
  		
  			for (var count:int=0; count<properties.length; count++)
  			{
  			var md:EntityPropertyMetaData = properties[count] as EntityPropertyMetaData;
- 			var name:String = md.name;
+ 			var propertyName:String = md.name;
  			var typeName:String = md.typeName;
  			
  				if (md.primaryKey)
@@ -244,28 +245,28 @@ package org.jems.client.controller
  				switch (typeName)
  				{
  				default:
- 					throw new Error(name+" has unknown type "+md.typeName);
+ 					throw new Error(entityName+" has unknown type "+md.typeName);
  					
  				case "Boolean":
- 					entity[name] = true;
+ 					entity[propertyName] = true;
  					break;
  					
  				case "Date":
- 					entity[name] = new Date();
+ 					entity[propertyName] = new Date();
  					break;
  					
  				case "String":
- 					entity[name] = "";
+ 					entity[propertyName] = "";
  					break;
  					
  				case "Double":
  				case "Float":
- 					entity[name] = 0.0;
+ 					entity[propertyName] = 0.0;
  					break;
  					
  				case "Integer":					
  				case "Long":
- 					entity[name] = 0;
+ 					entity[propertyName] = 0;
  					break;
  				}
  			}
@@ -273,6 +274,27 @@ package org.jems.client.controller
  			return entity;
  			
 		} // createEntity
+		
+		/*******************************************************************/
+		/** getFilter */
+		
+		public function getFilter(entityName:String, column:String, value:Object, operation:String="=", className:String=""):DaoFilter
+		{
+		var filter:DaoFilter = new DaoFilter();
+			
+			if (className == "")
+			{
+			var md:EntityPropertyMetaData = getPropertyMetaData(entityName, column);
+				
+				className = md.typeName;
+			}
+			filter.className = className;
+			filter.column = column;
+			filter.operation = operation;
+			filter.value = value;
+			return filter;
+			
+		} // getFilter
 		
 		/*******************************************************************/
 		/** getPropertyMetaData */
@@ -312,16 +334,16 @@ package org.jems.client.controller
 		/*******************************************************************/
 		/** getEntityMetaData */
 				
-		protected function getEntityMetaData(name:String):EntityMetaData
+		protected function getEntityMetaData(entityName:String):EntityMetaData
 		{
- 		var entityMetaData:EntityMetaData = m_entityMetaDataTable[name.toLowerCase()];
+ 		var entityMetaData:EntityMetaData = m_entityMetaDataTable[entityName.toLowerCase()];
  		
  			if (entityMetaData != null)
  			{
  				return entityMetaData;
  			}
  			
- 			throw new Error("Invalid entity: "+name);
+ 			throw new Error("Invalid entity: "+entityName);
  			
 		} // getEntityMetaData
 		

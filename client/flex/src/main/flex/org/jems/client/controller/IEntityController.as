@@ -13,6 +13,11 @@ package org.jems.client.controller
 	
 	public interface IEntityController
 	{
+		/*******************************************************************/	
+		/** createEntity */
+		
+		function createEntity(entity:Object):void;
+			
 		/*******************************************************************/
 		/** getData */
 		
@@ -22,6 +27,11 @@ package org.jems.client.controller
 		/** getDataGrid */
 		
 		function getDataGrid():DataGrid;
+		
+		/*******************************************************************/
+		/** getEntity */
+		
+		function getEntity(filters:Array):void;
 		
 		/*******************************************************************/
 		/** getEntityFactory */
@@ -47,6 +57,11 @@ package org.jems.client.controller
 		/** loadTable */
 		
 		function loadTable(reset:Boolean):void;
+		
+		/*******************************************************************/	
+		/** updateEntity */
+		
+		function updateEntity(entity:Object):void
 		
 	} // IEntityController
 

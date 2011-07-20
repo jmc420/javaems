@@ -34,6 +34,7 @@ package org.jems.client.controller
 		protected var 	m_entityServiceFactory:IEntityServiceFactory;
 		protected var	m_formFactory:IFormFactory;
 		protected var	m_entityMetaDataController:EntityMetaDataController;
+		protected var	m_entityReadService:IEntityService;
 		protected var	m_entityService:IEntityService;
 		protected var	m_totalRows:int;
 		protected var	m_tableService:IEntityService;
@@ -53,6 +54,33 @@ package org.jems.client.controller
 		
 		/*******************************************************************/
 		// public methods
+		/*******************************************************************/	
+		/** createEntity */
+		
+		public function createEntity(entity:Object):void
+		{
+			m_entityService.create(entity);
+			
+		} // createEntity
+		
+		/*******************************************************************/
+		/** getEntity */
+		
+		public function getEntity(filters:Array):void
+		{
+			m_entityReadService.get(m_entityName, filters);
+			
+		} // getEntity
+		
+		/*******************************************************************/	
+		/** deleteEntity */
+		
+		protected function deleteEntity(entity:Object):void
+		{
+			m_entityService.remove(entity);
+			
+		} // deleteEntity
+		
 		/*******************************************************************/
 		/** getData */
 		
@@ -111,6 +139,7 @@ package org.jems.client.controller
 			dataGrid.doubleClickEnabled = true;
 			dataGrid.addEventListener(MouseEvent.DOUBLE_CLICK, handleEditEvent);
 
+			m_entityReadService = m_entityServiceFactory.getEntityService(handleReadResult);
   			m_entityService = m_entityServiceFactory.getEntityService(handleUpdateResult);
   			m_tableService =  m_entityServiceFactory.getEntityService(handleTableResult);
   			m_tableRowCountService = m_entityServiceFactory.getEntityService(handleTableRowCountResult);
@@ -165,7 +194,16 @@ package org.jems.client.controller
 				readTable();
 			}
 			
-		} // loadTable		
+		} // loadTable
+		
+		/*******************************************************************/	
+		/** updateEntity */
+		
+		public function updateEntity(entity:Object):void
+		{
+			m_entityService.update(entity);
+			
+		} // updateEntity
 		
 		/*******************************************************************/
 		// protected methods
@@ -179,24 +217,6 @@ package org.jems.client.controller
 			PopUpManager.removePopUp(wdw);
 			
 		} // closePopupForm
-		
-		/*******************************************************************/	
-		/** createEntity */
-		
-		protected function createEntity(entity:Object):void
-		{
-			m_entityService.create(entity);
-			
-		} // createEntity
-		
-		/*******************************************************************/	
-		/** deleteEntity */
-		
-		protected function deleteEntity(entity:Object):void
-		{
-			m_entityService.remove(entity);
-			
-		} // deleteEntity
 		
 		/*******************************************************************/
 		/** displaySelectRowError */
@@ -372,6 +392,14 @@ package org.jems.client.controller
 		} // handleEditEvent
 		
 		/*******************************************************************/
+		/** handleReadResult */
+		
+		protected function handleReadResult(e:ResultEvent):void
+		{
+			
+		} // handleReadResult
+		
+		/*******************************************************************/
 		/** handleRefreshEvent */
 		
 		protected function handleRefreshEvent(e:MouseEvent):void
@@ -473,15 +501,6 @@ package org.jems.client.controller
 			return wdw;
 			
 		} // showPopupForm
-		
-		/*******************************************************************/	
-		/** updateEntity */
-		
-		protected function updateEntity(entity:Object):void
-		{
-			m_entityService.update(entity);
-			
-		} // updateEntity
 		
 	} // EntityController
 	
