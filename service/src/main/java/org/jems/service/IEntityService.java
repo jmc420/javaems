@@ -56,7 +56,7 @@ public interface IEntityService
 	/************************************************************/
 	/** update */
 
-	public <T> void update(T entity)throws DaoException;
+	public <T> T update(T entity)throws DaoException;
 
 } // IEntityService
 

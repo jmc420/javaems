@@ -105,10 +105,10 @@ public class EntityService implements IEntityService
 	/************************************************************/
 	/** update */
 
-	public <T> void update(T entity)
+	public <T> T update(T entity)
 	throws DaoException
 	{
-		m_dao.update(entity);
+		return m_dao.update(entity);
 
 	} // update
 
