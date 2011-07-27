@@ -40,6 +40,7 @@
     </xsd:sequence>
     <xsd:attribute name="enumerated" type="xsd:string" default=""/>
     <xsd:attribute name="lazy" type="xsd:boolean" default="false"/>
+    <xsd:attribute name="unique" type="xsd:boolean" default="false"/>
    </xsd:extension>
   </xsd:complexContent>
  </xsd:complexType>

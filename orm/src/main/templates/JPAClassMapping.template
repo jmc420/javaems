@@ -161,6 +161,12 @@ public class JPAClassMapping extends ClassMappingGenerator
 			OrmBasicProperty ormProperty = getOrmBasicProperty(name);
 			String enumerated = ormProperty.getEnumerated();
 			String columnName = "";
+			String unique = "";
+			
+			if (ormProperty.isUnique())
+			{
+				unique = " unique=\"true\"";
+			}
 
 			if (!ormProperty.getColumnName().equals(""))
 			{
@@ -168,7 +174,7 @@ public class JPAClassMapping extends ClassMappingGenerator
 			}
 			
 			writeText(out, indent, "<basic name=\""+ormProperty.getName()+"\">");
-			writeText(out, indent+1, "<column "+columnName+"nullable=\""+ormProperty.getNullable()+"\"/>");
+			writeText(out, indent+1, "<column "+columnName+"nullable=\""+ormProperty.getNullable()+"\""+unique+"/>");
 
 			if (!enumerated.equals(""))
 			{
