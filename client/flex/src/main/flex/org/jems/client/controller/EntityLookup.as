@@ -73,6 +73,7 @@ package org.jems.client.controller
  					if (value[joinName] == joinValue)
  					{
  						m_comboBox.selectedIndex = count;
+						m_comboBox.selectedItem = value;
  						break;
  					}
  				}
