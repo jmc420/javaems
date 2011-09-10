@@ -155,12 +155,7 @@
     <artifactId>spring-webmvc</artifactId>
     <version>${spring.version}</version>
    </dependency>
-   <dependency> 
-    <groupId>xalan</groupId> 
-    <artifactId>xalan</artifactId> 
-    <version>${xalan.version}</version> 
-   </dependency> 
-   
+ 
   </dependencies>
 
   <!-- ******************************************************************** -->
