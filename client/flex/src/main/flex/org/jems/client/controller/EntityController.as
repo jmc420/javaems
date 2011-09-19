@@ -8,12 +8,14 @@
 
 package org.jems.client.controller
 {
+	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
 	
 	import mx.collections.ArrayCollection;
 	import mx.containers.TitleWindow;
 	import mx.controls.Alert;
 	import mx.controls.DataGrid;
+	import mx.core.FlexGlobals;
 	import mx.core.UIComponent;
 	import mx.events.CloseEvent;
 	import mx.managers.PopUpManager;
@@ -494,7 +496,7 @@ package org.jems.client.controller
 		var wdw:TitleWindow = getForm();
 		var entityNamePrefix:String = getEntityNamePrefix();
 		
-			PopUpManager.addPopUp(wdw, m_view, true);
+			PopUpManager.addPopUp(wdw, FlexGlobals.topLevelApplication as DisplayObject, true);
 			PopUpManager.centerPopUp(wdw);
 			setButtonHandler(wdw, entityNamePrefix+OKBUTTON, saveHandler, true);
 			setButtonHandler(wdw, entityNamePrefix+CANCELBUTTON, handleCancelFormEvent, true);
