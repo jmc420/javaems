@@ -63,6 +63,15 @@ package org.jems.client.service
 		} // addResultEventListener
 		
 		/*******************************************************************/
+		/** close */
+		
+		public function close():void
+		{
+			m_remoteObject.channelSet.disconnectAll();
+			
+		} // close
+		
+		/*******************************************************************/
 		/** getRemoteObject */
 		
 		public function getRemoteObject():RemoteObject

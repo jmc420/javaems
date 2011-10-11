@@ -40,6 +40,16 @@ package org.jems.client.service
 		/*******************************************************************/
 		// public methods
 		/*******************************************************************/
+		/** close */
+		
+		public function close():void
+		{
+			m_consumer.channelSet.disconnectAll();
+			m_producer.channelSet.disconnectAll();
+			
+		} // close
+		
+		/*******************************************************************/
 		/** getConsumer */
 		
 		public function getConsumer():Consumer
