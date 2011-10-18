@@ -24,14 +24,24 @@ package org.jems.client.service
 	public class MessageService
 	{
 		protected var	m_consumer:Consumer;
+		protected var	m_displaySendFaultMessage:Boolean;
+		protected var	m_longPollingChannel:String;
+		protected var	m_longPollingUrl:String;
 		protected var	m_producer:Producer;
 		protected var	m_destination:String;
-		protected var	m_url:String;
-		protected var	m_displaySendFaultMessage:Boolean;
+		protected var	m_pollingChannel:String;
+		protected var	m_pollingUrl:String;
+		
+		public static const	POLLING_CHANNEL:String = "my-polling-amf";
+		public static const	LONG_POLLING_CHANNEL:String = "my-longpolling-amf";
 
-		public function MessageService(url:String, destination:String):void
+		public function MessageService(pollingChannel:String, longPollingChannel:String, pollingUrl:String, 
+									   longPollingUrl:String, destination:String):void
 		{
-			m_url = url;
+			m_pollingChannel = pollingChannel;
+			m_longPollingChannel = longPollingChannel;
+			m_pollingUrl = pollingUrl;
+			m_longPollingUrl =  longPollingUrl;
 			m_destination = destination;
 			m_displaySendFaultMessage = false;
 			initialise();
@@ -97,8 +107,8 @@ package org.jems.client.service
 		
 		protected function initialise():void
 		{
-		var amfPolling:AMFChannel = new AMFChannel("amflongpolling", m_url+"/messagebroker/amflongpolling");
-		var amfLongPolling:AMFChannel = new AMFChannel("amfpolling", m_url+"/messagebroker/amfpolling");
+		var amfPolling:AMFChannel = new AMFChannel(m_pollingChannel, m_pollingUrl);
+		var amfLongPolling:AMFChannel =  new AMFChannel(m_longPollingChannel, m_longPollingUrl);
 		var channelSet:ChannelSet = new ChannelSet();
 
 			channelSet.addChannel(amfLongPolling);				
@@ -129,7 +139,7 @@ package org.jems.client.service
 		protected function receiveFaultHandler(event:MessageFaultEvent):void
 		{
 			Alert.show("Error receiving from Message Service destination: "+m_destination+
-			           " error: "+event.faultDetail);
+			           " error: "+event.faultCode);
 			
 		} // receiveFaultHandler	
 				
@@ -160,7 +170,7 @@ package org.jems.client.service
 			{
 				m_displaySendFaultMessage = true;
 				Alert.show("Error sending to Message Service destination: "+m_destination+
-			    	       " error: "+event.faultDetail,"",Alert.OK,null,sendFaultCloseHandler);
+			    	       " error: "+event.faultCode,"",Alert.OK,null,sendFaultCloseHandler);
 			}
 			
 		} // sendFaultHandler
