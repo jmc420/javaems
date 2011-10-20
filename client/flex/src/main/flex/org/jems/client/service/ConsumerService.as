@@ -25,11 +25,11 @@ package org.jems.client.service
 	{
 		protected var	m_consumer:Consumer;
 		protected var	m_destination:String;
-		protected var	m_url:Vector.<String>;
+		protected var	m_channelSet:ChannelSet;
 				
-		public function ConsumerService(url:Vector.<String>, destination:String):void
+		public function ConsumerService(channelSet:ChannelSet, destination:String):void
 		{
-			m_url = url;
+			m_channelSet = channelSet;
 			m_destination = destination;
 			initialise();
 		}
@@ -83,10 +83,8 @@ package org.jems.client.service
 		
 		protected function initialise():void
 		{
-		var consumerChannelSet:ChannelSet = getChannelSet(m_url);
-			
 			m_consumer = new Consumer();
-			initialiseMessageAgent(m_consumer, consumerChannelSet, m_destination, faultHandler, resubscriberHandler);
+			initialiseMessageAgent(m_consumer, m_channelSet, m_destination, faultHandler, resubscriberHandler);
 			
 		} // initialise	
 		

@@ -55,36 +55,6 @@ package org.jems.client.service
 		} // displayError
 		
 		/*******************************************************************/
-		/** getChannelSet */
-		
-		protected function getChannelSet(urls:Vector.<String>):ChannelSet
-		{
-		var channelSet:ChannelSet = new ChannelSet();
-		var now:Date = new Date();
-		var id:String = now.getTime().toString();
-		
-			for (var count:int=0; count<urls.length; count++)
-			{
-			var url:String = urls[count];
-			var channel:AMFChannel;
-			
-				if (url.indexOf(STREAMING_CHANNEL) >= 0)
-				{
-					channel = new StreamingAMFChannel(id, url);
-				}
-				else
-				{
-					channel = new AMFChannel(id, url);
-				}
-		
-				channelSet.addChannel(channel);
-			}
-			
-			return channelSet;
-			
-		} // getChannelSet
-		
-		/*******************************************************************/
 		/** handleDisplayErrorClose */
 		
 		protected function handleDisplayErrorClose(e:CloseEvent):void
@@ -106,6 +76,38 @@ package org.jems.client.service
 			messageAgent.addEventListener(ChannelEvent.DISCONNECT, reconnectHandler);
 			
 		} // initialiseMessageAgent
+		
+		/*******************************************************************/
+		// static public metnods
+		/*******************************************************************/
+		/** getChannelSet */
+		
+		static public function getChannelSet(urls:Vector.<String>):ChannelSet
+		{
+			var channelSet:ChannelSet = new ChannelSet();
+			var now:Date = new Date();
+			var id:String = now.getTime().toString();
+			
+			for (var count:int=0; count<urls.length; count++)
+			{
+				var url:String = urls[count];
+				var channel:AMFChannel;
+				
+				if (url.indexOf(STREAMING_CHANNEL) >= 0)
+				{
+					channel = new StreamingAMFChannel(id, url);
+				}
+				else
+				{
+					channel = new AMFChannel(id, url);
+				}
+				
+				channelSet.addChannel(channel);
+			}
+			
+			return channelSet;
+			
+		} // getChannelSet	
 		
 	} // MessageService
 	

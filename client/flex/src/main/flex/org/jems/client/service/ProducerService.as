@@ -25,11 +25,11 @@ package org.jems.client.service
 	{
 		protected var	m_producer:Producer;
 		protected var	m_destination:String;
-		protected var	m_url:Vector.<String>;
+		protected var	m_channelSet:ChannelSet;
 				
-		public function ProducerService(url:Vector.<String>, destination:String):void
+		public function ProducerService(channelSet:ChannelSet, destination:String):void
 		{
-			m_url = url;
+			m_channelSet = channelSet;
 			m_destination = destination;
 			initialise();
 		}
@@ -86,10 +86,8 @@ package org.jems.client.service
 		
 		protected function initialise():void
 		{
-		var producerChannelSet:ChannelSet = getChannelSet(m_url);
-
 			m_producer = new Producer();
-			initialiseMessageAgent(m_producer, producerChannelSet, m_destination, faultHandler, reconnectHandler);
+			initialiseMessageAgent(m_producer, m_channelSet, m_destination, faultHandler, reconnectHandler);
 			m_producer.connect();
 			
 		} // initialise	
