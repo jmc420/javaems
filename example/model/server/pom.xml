@@ -131,11 +131,6 @@
  <dependencies>
 
   <dependency>
-   <groupId>javax.persistence</groupId>
-   <artifactId>persistence-api</artifactId>
-   <version>${persistence.version}</version>
-  </dependency>
-  <dependency>
    <groupId>mysql</groupId>
    <artifactId>mysql-connector-java</artifactId>
    <version>${mysql-connector-java.version}</version>
@@ -154,6 +149,11 @@
    <groupId>org.hibernate</groupId>
    <artifactId>hibernate-c3p0</artifactId>
    <version>${hibernate.core.version}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.hibernate.java-persistence</groupId>
+    <artifactId>jpa-api</artifactId>
+    <version>${hibernate.persistence.version}</version>
   </dependency>
   <dependency>
    <groupId>org.hibernate</groupId>
