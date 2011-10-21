@@ -24,6 +24,7 @@
     <xsd:sequence>
      <xsd:element name="ormJoin" type="jems-orm:OrmJoin"/>
     </xsd:sequence>
+    <xsd:attribute name="orderColumn" type="xsd:string" default=""/>
     <xsd:attribute name="mappedBy" type="xsd:string" default=""/>
     <xsd:attribute name="cascade" type="xsd:string" default="cascade-all"/>
    </xsd:extension>

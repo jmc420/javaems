@@ -99,6 +99,21 @@ public class JPAClassMapping extends ClassMappingGenerator
 	/************************************************************/
 	/* protected methods */
 	/************************************************************/
+	/** generateOrderColumn */
+
+	public void generateOrderColumn(PrintStream out, int indent, OrmAssociationProperty ormAssociationProperty)
+	throws IOException, GeneratorException
+	{
+	String indexColumn = ormAssociationProperty.getOrderColumn();
+	
+		if (!indexColumn.equals(""))
+		{		
+			writeText(out, indent, "<order-column name=\""+indexColumn+"\" nullable=\"false\"/>");
+		}	
+	
+	} // generateOrderColumn
+	
+	/************************************************************/
 	/** generateOrmAssocationProperties */
 
 	public void generateOrmAssocationProperties(PrintStream out, int indent, OrmAssociationProperty properties[], String mapping)
@@ -127,6 +142,7 @@ public class JPAClassMapping extends ClassMappingGenerator
 			}
 				
 			writeText(out, indent, "<"+mapping+" name=\""+ormProperty.getName()+"\" fetch=\""+fetch+"\""+mappedBy+">");
+			generateOrderColumn(out, indent+1, ormProperty);
 			generateOrmJoin(out, indent+1, ormJoin);
 			
 			if (!cascade.equals(""))
