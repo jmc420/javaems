@@ -123,8 +123,8 @@
   <commons.version>1.0.4</commons.version>
   <commons.collections.version>3.1</commons.collections.version>
   <commons.io.version>1.4</commons.io.version>
-  <flashplayer.version>10.2</flashplayer.version>
-  <flex.version>4.5.1.21328</flex.version>
+  <!--<flashplayer.version>10.2</flashplayer.version>
+  <flex.version>4.5.1.21328</flex.version>-->
   <!--<flashplayer.version>10</flashplayer.version>
   <flex.version>3.5.0.12683</flex.version>-->
   <flashplayer.version>10.0</flashplayer.version>
@@ -134,7 +134,7 @@
   <hibernate.core.version>3.6.7.Final</hibernate.core.version>
   <hibernate.persistence.version>2.0-cr-1</hibernate.persistence.version>
   <hibernate.maven.version>2.2</hibernate.maven.version>
-  <hibernate.tools.version>3.2.3.GA</hibernate.tools.version>
+  <hibernate.tools.version>3.2.4.GA</hibernate.tools.version>
   <jackson.version>1.1.0</jackson.version>
   <jibx.version>1.2.2</jibx.version>
   <jstl.version>1.1.2</jstl.version>
