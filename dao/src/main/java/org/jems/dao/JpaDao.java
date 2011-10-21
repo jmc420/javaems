@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,11 +108,14 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	{
 	JpaTemplate template = getJpaTemplate();
 	String queryString = m_queryTable.get(queryName);
+	Date start = new Date();
 	
 		if (queryString == null)
 		{
 		Map<String, Object> paramMap = getParameters(params);
 		List<T> result = template.findByNamedQueryAndNamedParams(queryName, paramMap);
+		
+			m_log.info(queryName+" executed in "+(new Date().getTime()-start.getTime())+" ms");
 		
 			return get(result, queryName);
 		}
@@ -120,6 +124,8 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 		DaoSort sorts[] = new DaoSort[0];
 		DaoQueryCallback<T> cb = new DaoQueryCallback<T>(queryString, params, filters, sorts, 0, 0);
 		List<T> result = template.executeFind(cb);
+		
+			m_log.info(queryString+" executed in "+(new Date().getTime()-start.getTime())+" ms");
 				
 			return get(result, queryName);			
 		}
@@ -136,8 +142,11 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	DaoSort sorts[] = new DaoSort[0];
 	String queryString = query.getQuery();
 	DaoQueryCallback<T> cb = new DaoQueryCallback<T>(queryString, params, filters, sorts, 0, 0);
+	Date start = new Date();
 	List<T> result = template.executeFind(cb);
 				
+		m_log.info(query.getQuery()+" executed in "+(new Date().getTime()-start.getTime())+" ms");
+		
 		return get(result, queryString);			
 
 	} // get
@@ -174,9 +183,14 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	{
 	DaoQueryCallback<T> cb = new DaoQueryCallback<T>(cl, filters, sorts, startRow, maxRows);
 	JpaTemplate template = getJpaTemplate();
+	Date start = new Date();
 	
-		return template.executeFind(cb);
+		List<T> result = template.executeFind(cb);
         
+		m_log.info(cl.getSimpleName()+" retrieved in "+(new Date().getTime()-start.getTime())+" ms");
+		
+		return result;
+		
 	} // getList
 	
 	/*******************************************************************/
@@ -204,18 +218,25 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	{
 	JpaTemplate template = getJpaTemplate();
 	String queryString = m_queryTable.get(queryName);
+	Date start = new Date();
 	
 		if (queryString == null)
 		{
 		Map<String, Object> paramMap = getParameters(filters);
-		
-			return template.findByNamedQueryAndNamedParams(queryName, paramMap);
+		List<T> result = template.findByNamedQueryAndNamedParams(queryName, paramMap);
+			
+			m_log.info(queryName+" executed in "+(new Date().getTime()-start.getTime())+" ms");
+			
+			return result;
 		}
 		else
 		{
 		DaoQueryCallback<T> cb = new DaoQueryCallback<T>(queryString, params, filters, sorts, startRow, maxRows);
-			
-			return template.executeFind(cb);
+		List<T> result = template.executeFind(cb);
+		
+			m_log.info(queryString+" executed in "+(new Date().getTime()-start.getTime())+" ms");
+		
+			return result;
 		}
 		
 	} // getList
@@ -246,8 +267,12 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	JpaTemplate template = getJpaTemplate();
 	String queryString = query.getQuery();
 	DaoQueryCallback<T> cb = new DaoQueryCallback<T>(queryString, params, filters, sorts, startRow, maxRows);
-			
-		return template.executeFind(cb);
+	Date start = new Date();
+	List<T> result = template.executeFind(cb);
+	
+		m_log.info(query.getQuery()+" executed in "+(new Date().getTime()-start.getTime())+" ms");
+		
+		return result;
 		
 	} // getList
 	
@@ -261,7 +286,10 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	DaoSort sorts[] = new DaoSort[0];
 	DaoQueryCallback<T> cb = new DaoQueryCallback(query, params, filters, sorts, 0, 0);
 	JpaTemplate template = getJpaTemplate();
+	Date start = new Date();
 	List<Long> list = template.executeFind(cb);
+	
+		m_log.info(query+" executed in "+(new Date().getTime()-start.getTime())+" ms");
 	
 		return list.get(0).intValue();
 		
@@ -367,7 +395,10 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	{
 	DaoQueryCallback<T> cb = new DaoQueryCallback<T>(cl, filters);
 	JpaTemplate template = getJpaTemplate();
+	Date start = new Date();
 	List<T> list = template.executeFind(cb);
+	
+		m_log.info(cl.getSimpleName()+" retrieved in "+(new Date().getTime()-start.getTime())+" ms");
 	
 		return get(list, cb.getQueryString());
 		
