@@ -8,7 +8,7 @@
  <groupId>org.jems</groupId>
  <artifactId>jems</artifactId>
  <packaging>pom</packaging>
- <version>${jems.version}</version>
+ <version>1.0</version>
  <name>${project.artifactId}</name>
 
  <!-- ******************************************************************** -->
@@ -123,13 +123,14 @@
   <commons.version>1.0.4</commons.version>
   <commons.collections.version>3.1</commons.collections.version>
   <commons.io.version>1.4</commons.io.version>
-  <!--<flashplayer.version>10.2</flashplayer.version>
-  <flex.version>4.5.1.21328</flex.version>-->
   <!--<flashplayer.version>10</flashplayer.version>
   <flex.version>3.5.0.12683</flex.version>-->
-  <flashplayer.version>10.0</flashplayer.version>
-  <flex.version>4.1.0.16076</flex.version>
+  <!--<flashplayer.version>10.0</flashplayer.version>
+  <flex.version>4.1.0.16076</flex.version>-->
+  <flashplayer.version>10.2</flashplayer.version>
+  <flex.version>4.5.1.21328</flex.version>
   <flexmojos.version>3.9</flexmojos.version>
+  <!--<flexmojos.version>4.0-beta-3</flexmojos.version>-->
   <hibernate.entitymanager.version>3.6.7.Final</hibernate.entitymanager.version>
   <hibernate.core.version>3.6.7.Final</hibernate.core.version>
   <hibernate.persistence.version>2.0-cr-1</hibernate.persistence.version>
@@ -138,8 +139,9 @@
   <jackson.version>1.1.0</jackson.version>
   <jibx.version>1.2.2</jibx.version>
   <jstl.version>1.1.2</jstl.version>
-  <junit.version>3.8.1</junit.version>
-  <log4j.version>1.2.14</log4j.version>
+  <!--<junit.version>3.8.1</junit.version>-->
+  <junit.version>4.6</junit.version>
+  <log4j.version>1.2.16</log4j.version>
   <maven-javadoc-plugin.version>2.8</maven-javadoc-plugin.version>
   <maven-jetty-plugin.version>6.1.10</maven-jetty-plugin.version>
   <maven-source-plugin.version>2.1.2</maven-source-plugin.version>

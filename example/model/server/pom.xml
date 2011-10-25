@@ -8,7 +8,7 @@
  <parent>
   <groupId>org.jems</groupId>
   <artifactId>jems-example-model</artifactId>
-  <version>${jems.version}</version>
+  <version>1.0</version>
  </parent>
 
  <!-- ******************************************************************** -->
@@ -18,7 +18,7 @@
  <groupId>org.jems</groupId>
  <artifactId>jems-example-model-server</artifactId>
  <packaging>jar</packaging>
- <version>${jems.version}</version>
+ <version>1.0</version>
  <name>${project.artifactId}</name>
 
  <!-- ******************************************************************** -->
