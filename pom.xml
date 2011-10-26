@@ -125,12 +125,12 @@
   <commons.io.version>1.4</commons.io.version>
   <!--<flashplayer.version>10</flashplayer.version>
   <flex.version>3.5.0.12683</flex.version>-->
-  <!--<flashplayer.version>10.0</flashplayer.version>
-  <flex.version>4.1.0.16076</flex.version>-->
-  <flashplayer.version>10.2</flashplayer.version>
-  <flex.version>4.5.1.21328</flex.version>
-  <flexmojos.version>3.9</flexmojos.version>
-  <!--<flexmojos.version>4.0-beta-3</flexmojos.version>-->
+  <flashplayer.version>10.0</flashplayer.version>
+  <flex.version>4.1.0.16076</flex.version>
+  <!--<flashplayer.version>10.2</flashplayer.version>
+  <flex.version>4.5.1.21328</flex.version>-->
+  <!--<flexmojos.version>3.9</flexmojos.version>-->
+  <flexmojos.version>4.0-RC2</flexmojos.version>
   <hibernate.entitymanager.version>3.6.7.Final</hibernate.entitymanager.version>
   <hibernate.core.version>3.6.7.Final</hibernate.core.version>
   <hibernate.persistence.version>2.0-cr-1</hibernate.persistence.version>
