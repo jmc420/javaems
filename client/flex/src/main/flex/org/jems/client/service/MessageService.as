@@ -26,9 +26,12 @@ package org.jems.client.service
 	{		
 		protected var	m_displayError:Boolean;
 		
-		public static const	LONG_POLLING_CHANNEL:String = "amflongpolling";
-		public static const	POLLING_CHANNEL:String = "amfpolling";
-		public static const	STREAMING_CHANNEL:String = "streamingamf";
+		public static const	LONG_POLLING_CHANNEL:String = "my-longpolling-amf";
+		public static const	LONG_POLLING_URL:String = "longpollingamf";
+		public static const	POLLING_CHANNEL:String = "my-polling-amf";
+		public static const	POLLING_URL:String = "pollingamf";
+		public static const	STREAMING_CHANNEL:String = "my-streaming-amf";
+		public static const	STREAMING_URL:String = "streamingamf";
 		
 		public function MessageService():void
 		{
@@ -76,38 +79,6 @@ package org.jems.client.service
 			messageAgent.addEventListener(ChannelEvent.DISCONNECT, reconnectHandler);
 			
 		} // initialiseMessageAgent
-		
-		/*******************************************************************/
-		// static public metnods
-		/*******************************************************************/
-		/** getChannelSet */
-		
-		static public function getChannelSet(urls:Vector.<String>):ChannelSet
-		{
-			var channelSet:ChannelSet = new ChannelSet();
-			var now:Date = new Date();
-			var id:String = now.getTime().toString();
-			
-			for (var count:int=0; count<urls.length; count++)
-			{
-				var url:String = urls[count];
-				var channel:AMFChannel;
-				
-				if (url.indexOf(STREAMING_CHANNEL) >= 0)
-				{
-					channel = new StreamingAMFChannel(id, url);
-				}
-				else
-				{
-					channel = new AMFChannel(id, url);
-				}
-				
-				channelSet.addChannel(channel);
-			}
-			
-			return channelSet;
-			
-		} // getChannelSet	
 		
 	} // MessageService
 	

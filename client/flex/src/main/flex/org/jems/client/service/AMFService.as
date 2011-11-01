@@ -22,18 +22,21 @@ package org.jems.client.service
 		protected var	m_loadCallBack:Function;
 		protected var	m_remoteService:String;
 		protected var	m_remoteObject:RemoteObject;
-		protected var	m_url:String;
 		protected var	m_resultHandler:Function;
 		
 		public static const	DEFAULT_CHANNEL:String = "my-amf";
 		public static const	UNSECURED_CHANNEL:String = "my-amf-unsecured";
 		
-		public function AMFService(channel:String, url:String, remoteService:String, resultHandler:Function=null, faultHandler:Function=null):void
+		public function AMFService(id:String, url:String, remoteService:String, resultHandler:Function=null, faultHandler:Function=null):void
 		{
-			m_url = url;
 			m_remoteService = remoteService;
 			m_dataReceived = false;
-			initialise(channel);
+			
+			var channelIdentities:Vector.<ChannelIdentity> = new Vector.<ChannelIdentity>();
+			
+			channelIdentities[0] = new ChannelIdentity(id, url);
+			var channelSet:ChannelSet = ChannelFactory.getChannelSet(channelIdentities);
+			initialise(channelSet);
 			
 			m_remoteObject.addEventListener(FaultEvent.FAULT, handleFault);
 			m_remoteObject.addEventListener(ResultEvent.RESULT, handleResult);
@@ -124,14 +127,8 @@ package org.jems.client.service
 		/*******************************************************************/
 		/** initialise */
 		
-		protected function initialise(channelName:String):void
-		{
-		var channel:AMFChannel = new AMFChannel(channelName, m_url);
-		var channelSet:ChannelSet = new ChannelSet();
-				
-			// remote binding
-				
-			channelSet.addChannel(channel);
+		protected function initialise(channelSet:ChannelSet):void
+		{				
 			m_remoteObject = new RemoteObject();
 			m_remoteObject.channelSet = channelSet;
 			m_remoteObject.destination = m_remoteService;
