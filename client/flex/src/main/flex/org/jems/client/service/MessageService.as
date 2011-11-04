@@ -27,9 +27,9 @@ package org.jems.client.service
 		protected var	m_displayError:Boolean;
 		
 		public static const	LONG_POLLING_CHANNEL:String = "my-longpolling-amf";
-		public static const	LONG_POLLING_URL:String = "longpollingamf";
+		public static const	LONG_POLLING_URL:String = "amflongpolling";
 		public static const	POLLING_CHANNEL:String = "my-polling-amf";
-		public static const	POLLING_URL:String = "pollingamf";
+		public static const	POLLING_URL:String = "amfpolling";
 		public static const	STREAMING_CHANNEL:String = "my-streaming-amf";
 		public static const	STREAMING_URL:String = "streamingamf";
 		
