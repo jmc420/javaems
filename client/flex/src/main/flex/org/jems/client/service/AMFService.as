@@ -101,7 +101,7 @@ package org.jems.client.service
 		{
 			if (m_faultHandler == null)
 			{
-				Alert.show(m_remoteService+" error: "+e.fault.faultString);
+				Alert.show(m_remoteService+" error: "+e.fault.faultString, "Error");
 			}
 			else
 			{

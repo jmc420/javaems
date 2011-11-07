@@ -225,7 +225,7 @@ package org.jems.client.controller
 		
 		protected function displaySelectRowError():void
 		{
-			Alert.show("Please select a row");
+			Alert.show("Please select a row", "Error");
 			
 		} // displaySelectRowError
 		
@@ -292,7 +292,7 @@ package org.jems.client.controller
 			}
 			catch (error:Error)
 			{
-				Alert.show(error.message);
+				Alert.show(error.message, "Error");
 			}
 			
 		} // handleCloseAddFormEvent

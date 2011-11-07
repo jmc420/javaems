@@ -54,7 +54,7 @@ package org.jems.client.controller
 		
 			if (data.length == 0)
 			{
-				Alert.show("There are no values for "+m_md.entityName);
+				Alert.show("There are no values for "+m_md.entityName, "Error");
 			}
 			
  			m_comboBox.dataProvider = data;

@@ -167,7 +167,7 @@ package org.jems.client.controller
 			
 			if (isNaN(pageSize) || pageSize <= 0)
 			{
-				Alert.show("Invalid page size");
+				Alert.show("Invalid page size", "Error");
 				return;
 			}
 			

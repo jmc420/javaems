@@ -421,13 +421,13 @@ package org.jems.client.controller
 		{
 			if (formField == null)
  			{
- 				Alert.show("Form is missing input field: "+ name);
+ 				Alert.show("Form is missing input field: "+ name, "Error");
  				return false;
  			}
  				
  			if (!data.hasOwnProperty(name))
  			{
- 				Alert.show(name + " field is missing");
+ 				Alert.show(name + " field is missing", "Error");
  				return false;
  			}
  			
