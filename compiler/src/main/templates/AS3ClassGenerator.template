@@ -73,7 +73,7 @@ String packageName = m_class.getPackage().getName();
 		importTable.put(propertyImport, propertyImport);
 		importList.add(propertyImport);
 	}
-	
+		
 	if (hasSuperClass())
 	{
 	Class<?> superClass = m_class.getSuperclass();
@@ -81,8 +81,8 @@ String packageName = m_class.getPackage().getName();
 	
 		extension = " extends "+superClass.getSimpleName();
 		
-		if (importTable.get(superClassImport) != null && 
-		    !packageName.equals(superClass.getPackage().getName()))
+		if (!packageName.equals(superClass.getPackage().getName())
+		    && !importList.contains(superClassImport))
 		{
 			importList.add(superClassImport);
 		}
