@@ -37,11 +37,9 @@ package org.jems.client.service
 		} // getChannelSet	
 		
 		/*******************************************************************/
-		// static public metnods
-		/*******************************************************************/
 		/** createChannelSet */
 		
-		static private function createChannelSet(channelIdentities:Vector.<ChannelIdentity>):ChannelSet
+		static public function createChannelSet(channelIdentities:Vector.<ChannelIdentity>):ChannelSet
 		{
 		var channelSet:ChannelSet = new ChannelSet();
 			
@@ -68,6 +66,8 @@ package org.jems.client.service
 			
 		} // getChannelSet
 		
+		/*******************************************************************/
+		// static private metnods
 		/*******************************************************************/
 		/** getChannelSetKey */
 		
