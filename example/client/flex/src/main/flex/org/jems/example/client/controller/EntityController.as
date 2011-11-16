@@ -6,7 +6,10 @@
 
 package org.jems.example.client.controller
 {
-	import mx.core.Application;
+	import mx.core.FlexGlobals;
+	import mx.messaging.ChannelSet;
+	
+	import org.jems.client.service.ChannelFactory;
 	
 	import org.jems.client.controller.EntityController;
 	import org.jems.client.service.AMFEntityServiceFactory;
@@ -16,7 +19,9 @@ package org.jems.example.client.controller
 	{
 		public function EntityController():void
 		{
-			super(new AMFEntityServiceFactory(AMFService.DEFAULT_CHANNEL, getUrl()), EntityFactory.getInstance(), FormFactory.getInstance());
+		var cs:ChannelSet = ChannelFactory.getSingleChannelSet(AMFService.DEFAULT_CHANNEL, getUrl(), false, false);
+		
+			super(new AMFEntityServiceFactory(cs), EntityFactory.getInstance(), FormFactory.getInstance());				
 		}
 		
 		/*******************************************************************/
@@ -26,11 +31,11 @@ package org.jems.example.client.controller
 		
 		protected function getUrl():String
 		{
- 		var url:String = Application.application.parameters.url;
+ 		var url:String = FlexGlobals.topLevelApplication.parameters.url;
 		
 			if (url == null)
 			{
-				url = "http://localhost:8080/jems-example-server-amf";
+				url = "http://localhost/jems-example-server-amf";
 			}
 			
 			return url + "/messagebroker/amf";
