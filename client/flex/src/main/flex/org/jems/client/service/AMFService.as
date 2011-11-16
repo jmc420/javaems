@@ -25,27 +25,14 @@ package org.jems.client.service
 		protected var	m_resultHandler:Function;
 		
 		public static const	DEFAULT_CHANNEL:String = "my-amf";
+		public static const	SSL_CHANNEL:String = "my-ssl-amf";
+		public static const	SSL_UNSECURED_CHANNEL:String = "my-ssl-amf-unsecured";
 		public static const	UNSECURED_CHANNEL:String = "my-amf-unsecured";
 		
-		public function AMFService(id:String, url:String, remoteService:String, resultHandler:Function=null, faultHandler:Function=null, reuseChannelSet:Boolean=true):void
+		public function AMFService(channelSet:ChannelSet, remoteService:String, resultHandler:Function=null, faultHandler:Function=null):void
 		{
 			m_remoteService = remoteService;
 			m_dataReceived = false;
-			
-			var channelIdentities:Vector.<ChannelIdentity> = new Vector.<ChannelIdentity>();
-			
-			channelIdentities[0] = new ChannelIdentity(id, url);
-			
-			var channelSet:ChannelSet;
-			
-			if (reuseChannelSet)
-			{
-			 	channelSet = ChannelFactory.getChannelSet(channelIdentities);
-			}
-			else
-			{
-				channelSet = ChannelFactory.createChannelSet(channelIdentities);
-			}
 			
 			initialise(channelSet);
 			m_remoteObject.addEventListener(FaultEvent.FAULT, handleFault);

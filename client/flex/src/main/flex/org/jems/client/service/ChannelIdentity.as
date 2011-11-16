@@ -12,13 +12,15 @@ package org.jems.client.service
 	{
 		protected var	m_id:String;
 		protected var	m_isStream:Boolean;
+		protected var	m_isSSL:Boolean;
 		protected var	m_url:String;
 				
-		public function ChannelIdentity(id:String, url:String, isStream:Boolean=false):void
+		public function ChannelIdentity(id:String, url:String, isStream:Boolean=false, isSSL:Boolean=false):void
 		{
 			m_id = id;
 			m_url = url;
 			m_isStream = isStream;
+			m_isSSL = isSSL;
 		}
 		
 		/*******************************************************************/
@@ -42,6 +44,15 @@ package org.jems.client.service
 		} // getUrl
 		
 		/*******************************************************************/
+		/** isSSL */
+		
+		public function isSSL():Boolean
+		{
+			return m_isSSL;
+			
+		} // isSSL
+		
+		/*******************************************************************/
 		/** isStream */
 		
 		public function isStream():Boolean
@@ -57,9 +68,9 @@ package org.jems.client.service
 		/*******************************************************************/
 		// static public methods
 		/*******************************************************************/
-		/** getChannelIdentitySet */
+		/** createChannelIdentitySet */
 		
-		static public function getChannelIdentitySet(id:String, url:String):Vector.<ChannelIdentity>
+		static public function createChannelIdentitySet(id:String, url:String):Vector.<ChannelIdentity>
 		{
 		var result:Vector.<ChannelIdentity> = new Vector.<ChannelIdentity>();
 		
@@ -67,7 +78,7 @@ package org.jems.client.service
 			
 			return result;
 			
-		} // getChannelIdentitySet	
+		} // createChannelIdentitySet	
 
 	} // ChannelIdentity
 	

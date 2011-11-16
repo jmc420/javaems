@@ -8,13 +8,15 @@
 
 package org.jems.client.service
 {
+	import mx.messaging.ChannelSet;
+
 	public class AMFEntityService implements IEntityService
 	{
 		protected var	m_service:AMFService;
 
-		public function AMFEntityService(channel:String, url:String, resultHandler:Function=null, faultHandler:Function=null):void
+		public function AMFEntityService(channelSet:ChannelSet, resultHandler:Function=null, faultHandler:Function=null):void
 		{
-			m_service = new AMFService(channel, url, ServiceConstant.ENTITY_SERVICE, resultHandler, faultHandler);
+			m_service = new AMFService(channelSet, ServiceConstant.ENTITY_SERVICE, resultHandler, faultHandler);
 		}
 		
 		/*******************************************************************/

@@ -8,15 +8,15 @@
 
 package org.jems.client.service
 {		
+	import mx.messaging.ChannelSet;
+
 	public class AMFEntityServiceFactory implements IEntityServiceFactory
 	{
-		protected var	m_channel:String;
-		protected var	m_url:String;
+		protected var	m_channelSet:ChannelSet;
 		
-		public function AMFEntityServiceFactory(channel:String, url:String):void
+		public function AMFEntityServiceFactory(channelSet:ChannelSet):void
 		{
-			m_channel = channel;
-			m_url = url;
+			m_channelSet = channelSet;
 		}
 
 		/*******************************************************************/
@@ -26,7 +26,7 @@ package org.jems.client.service
 		
 		public function getEntityService(resultHandler:Function=null, faultHandler:Function=null):IEntityService
 		{
-			return new AMFEntityService(m_channel, m_url, resultHandler, faultHandler);
+			return new AMFEntityService(m_channelSet, resultHandler, faultHandler);
 			
 		} // getEntityService
 		
@@ -35,7 +35,7 @@ package org.jems.client.service
 		
 		public function getEntityMetaDataService(resultHandler:Function=null, faultHandler:Function=null):IEntityMetaDataService
 		{
-			return new AMFEntityMetaDataService(m_channel, m_url, resultHandler, faultHandler);
+			return new AMFEntityMetaDataService(m_channelSet, resultHandler, faultHandler);
 			
 		} // getEntityMetaDataService
 		

@@ -10,6 +10,7 @@ package org.jems.client.service
 {			
 	import mx.messaging.ChannelSet;
 	import mx.messaging.channels.AMFChannel;
+	import mx.messaging.channels.SecureAMFChannel;
 	import mx.messaging.channels.StreamingAMFChannel;
 
 	public class ChannelFactory
@@ -18,24 +19,6 @@ package org.jems.client.service
 
 		/*******************************************************************/
 		// static public methods
-		/*******************************************************************/
-		/** getChannelSet */
-		
-		static public function getChannelSet(channelIdentities:Vector.<ChannelIdentity>):ChannelSet
-		{
-		var key:String = getChannelSetKey(channelIdentities);
-		var channelSet:ChannelSet = m_table[key];
-		
-			if (m_table[key] == null)
-			{
-				channelSet = createChannelSet(channelIdentities);
-				m_table[key] = channelSet;
-			}
-
-			return channelSet;
-			
-		} // getChannelSet	
-		
 		/*******************************************************************/
 		/** createChannelSet */
 		
@@ -56,7 +39,14 @@ package org.jems.client.service
 				}
 				else
 				{
-					channel = new AMFChannel(id, url);
+					if (channelIdentity.isSSL())
+					{
+						channel = new SecureAMFChannel(id, url);	
+					}
+					else
+					{
+						channel = new AMFChannel(id, url);
+					}
 				}
 				
 				channelSet.addChannel(channel);
@@ -64,7 +54,44 @@ package org.jems.client.service
 			
 			return channelSet;
 			
-		} // getChannelSet
+		} // createChannelSet
+		
+		/*******************************************************************/
+		/** getChannelSet */
+		
+		static public function getChannelSet(channelIdentities:Vector.<ChannelIdentity>):ChannelSet
+		{
+		var key:String = getChannelSetKey(channelIdentities);
+		var channelSet:ChannelSet = m_table[key];
+			
+			if (m_table[key] == null)
+			{
+				channelSet = createChannelSet(channelIdentities);
+				m_table[key] = channelSet;
+			}
+			
+			return channelSet;
+			
+		} // getChannelSet	
+		
+		/*******************************************************************/
+		/** getSingleChannelSet */
+		
+		static public function getSingleChannelSet(id:String, url:String, isStream:Boolean=false, isSSL:Boolean=false, reuseChannel:Boolean=true):ChannelSet
+		{
+		var channelIdentities:Vector.<ChannelIdentity> = new Vector.<ChannelIdentity>;
+		var channelIdentity:ChannelIdentity = new ChannelIdentity(id, url, isStream, isSSL);
+			
+			channelIdentities[channelIdentities.length] = channelIdentity;
+			
+			if (reuseChannel)
+			{
+				return ChannelFactory.getChannelSet(channelIdentities);
+			}
+			
+			return ChannelFactory.createChannelSet(channelIdentities);
+			
+		} // getSingleChannelSet
 		
 		/*******************************************************************/
 		// static private metnods
