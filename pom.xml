@@ -213,10 +213,17 @@
  <!-- distribution management -->
  
  <distributionManagement>
+  <!-- 
   <repository>
    <uniqueVersion>false</uniqueVersion>
    <id>googlecode</id>
    <url>svn:https://javaems.googlecode.com/svn/repo</url>
+  </repository>
+  -->
+   <repository>
+   <uniqueVersion>false</uniqueVersion>
+   <id>localhost</id>
+   <url>file:///var/www/html/maven/repo</url>
   </repository>
  </distributionManagement>
 
