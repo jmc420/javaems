@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+ <head>
+  <title>Video Meeting Room Administration</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <style type="text/css" media="screen">
+   body { margin:0; text-align:center; }
+   div#content { text-align:left; }
+   object#content { display:block; margin:0 auto; }
+  </style> 
+  <script type="text/javascript" src="swfobject.js"></script>
+  <script type="text/javascript" src="swfutils.js"></script>
+  <script type="text/javascript">
+
+ var host = document.location.host;
+var url = "http://"+host+"/jems-example-server-amf";
+ var flashvars = {"url":url};
+ var container = "container";
+
+ swfobject.embedSWF("jems-example-client-flex.swf", container, "100%", "100%", "9.0.0", "swf/expressInstall.swf", flashvars);
+
+ if (swfobject.hasFlashPlayerVersion("6.0.0")) 
+ {
+  swfobject.addDomLoadEvent(onLoad);
+ }
+
+ function onLoad()
+ {
+  createFullBrowserFlash(container);
+  
+ } // onLoad
+
+ 
+  </script>
+ </head>
+ <body>
+  <div id="container">
+   <div id="content">
+    <h1>Alternative content</h1>
+    <a href="http://www.adobe.com/go/getflashplayer">
+     <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+    </a>
+   </div>
+  </div>
+ </body>
+</html>
