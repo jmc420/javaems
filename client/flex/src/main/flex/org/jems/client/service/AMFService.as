@@ -98,7 +98,13 @@ package org.jems.client.service
 		{
 			if (m_faultHandler == null)
 			{
-				Alert.show(m_remoteService+" error: "+e.fault.faultDetail, "Error");
+			var error:String = e.fault.faultDetail;
+			
+				if (error == null)
+				{
+					error = e.fault.faultString;
+				}
+				Alert.show(m_remoteService+" error: "+error, "Error");
 			}
 			else
 			{
