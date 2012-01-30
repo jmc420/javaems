@@ -132,7 +132,7 @@
    </dependency> 
    <dependency>
     <groupId>org.springframework.flex</groupId>
-    <artifactId>spring-flex-core</artifactId>
+    <artifactId>spring-flex</artifactId>
     <version>${spring.flex.version}</version>
    </dependency>
    <dependency>
