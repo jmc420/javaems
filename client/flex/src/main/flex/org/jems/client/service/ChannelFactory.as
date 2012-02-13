@@ -75,12 +75,12 @@ package org.jems.client.service
 		} // getChannelSet	
 		
 		/*******************************************************************/
-		/** getSingleChannelSet */
+		/** createSingleChannelSet */
 		
-		static public function getSingleChannelSet(id:String, url:String, isStream:Boolean=false, isSSL:Boolean=false, reuseChannel:Boolean=true):ChannelSet
+		static public function createSingleChannelSet(url:String, requiresLogin:Boolean=false, id:String="", isStream:Boolean=false, reuseChannel:Boolean=true):ChannelSet
 		{
 		var channelIdentities:Vector.<ChannelIdentity> = new Vector.<ChannelIdentity>;
-		var channelIdentity:ChannelIdentity = new ChannelIdentity(id, url, isStream, isSSL);
+		var channelIdentity:ChannelIdentity = new ChannelIdentity(url, requiresLogin, id, isStream);
 			
 			channelIdentities[channelIdentities.length] = channelIdentity;
 			
@@ -91,10 +91,10 @@ package org.jems.client.service
 			
 			return ChannelFactory.createChannelSet(channelIdentities);
 			
-		} // getSingleChannelSet
+		} // createSingleChannelSet
 		
 		/*******************************************************************/
-		// static private metnods
+		// static private methods
 		/*******************************************************************/
 		/** getChannelSetKey */
 		
