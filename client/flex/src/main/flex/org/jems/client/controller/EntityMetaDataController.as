@@ -14,7 +14,7 @@ package org.jems.client.controller
 	import mx.controls.ComboBox;
 	import mx.controls.DateField;
 	import mx.controls.TextInput;
-	import mx.core.Container;
+	import mx.core.UIComponent;
 	import mx.rpc.events.ResultEvent;
 	
 	import org.jems.client.service.IEntityMetaDataService;
@@ -51,7 +51,7 @@ package org.jems.client.controller
 		/*******************************************************************/
 		/** bindFormToObject */
 				
-		public function bindFormToObject(entityName:String, data:Object, form:Container):Object
+		public function bindFormToObject(entityName:String, data:Object, form:UIComponent):Object
 		{
  		var entityMetaData:EntityMetaData = getEntityMetaData(entityName);
  		var properties:Array = entityMetaData.entityPropertyMetaData;
@@ -148,7 +148,7 @@ package org.jems.client.controller
 		/*******************************************************************/
 		/** bindObjectToForm */
 				
-		public function bindObjectToForm(entityName:String, data:Object, form:Container):void
+		public function bindObjectToForm(entityName:String, data:Object, form:UIComponent):void
 		{
  		var entityMetaData:EntityMetaData = getEntityMetaData(entityName);
  		var properties:Array = entityMetaData.entityPropertyMetaData;

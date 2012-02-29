@@ -8,7 +8,7 @@ Author: James Cowan
 
 package org.jems.client.controller
 {
-	import mx.core.Container;
+	import mx.core.UIComponent;
 	
 	import org.jems.dao.types.DaoFilter;
 	import org.jems.dao.types.EntityPropertyMetaData;
@@ -18,12 +18,12 @@ package org.jems.client.controller
 		/*******************************************************************/
 		/** bindFormToObject */
 		
-		function bindFormToObject(entityName:String, data:Object, form:Container):Object;
+		function bindFormToObject(entityName:String, data:Object, form:UIComponent):Object;
 
 		/*******************************************************************/
 		/** bindObjectToForm */
 		
-		function bindObjectToForm(entityName:String, data:Object, form:Container):void;
+		function bindObjectToForm(entityName:String, data:Object, form:UIComponent):void;
 
 		/*******************************************************************/
 		/** createEntity */
