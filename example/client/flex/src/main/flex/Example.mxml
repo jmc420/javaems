@@ -8,8 +8,11 @@
 	applicationComplete="m_applicationController.handleCreationComplete();">
 
  <s:layout>
+
   <s:VerticalLayout/>
+
  </s:layout>
+
 
  <fx:Declarations>
   <controller:ApplicationController id="m_applicationController" m_view ="{this}"/>

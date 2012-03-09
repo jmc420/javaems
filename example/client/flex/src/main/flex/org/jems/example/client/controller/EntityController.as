@@ -19,8 +19,8 @@ package org.jems.example.client.controller
 	{
 		public function EntityController():void
 		{
-		var cs:ChannelSet = ChannelFactory.getSingleChannelSet(AMFService.DEFAULT_CHANNEL, getUrl(), false, false);
-		
+		var cs:ChannelSet = ChannelFactory.createSingleChannelSet(getUrl(), true);
+			
 			super(new AMFEntityServiceFactory(cs), EntityFactory.getInstance(), FormFactory.getInstance());				
 		}
 		
