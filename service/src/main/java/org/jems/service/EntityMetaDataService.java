@@ -126,7 +126,7 @@ public class EntityMetaDataService implements IEntityMetaDataService
 					m_entityPrimaryKeyMap.put(entityMetaData.getName(), entityPropertyMetaData);
 				}
 				
-				propertyMap.put(entityMetaData.getName(), entityPropertyMetaData);
+				propertyMap.put(entityPropertyMetaData.getName(), entityPropertyMetaData);
 			}
 		}
 	    
