@@ -44,13 +44,12 @@
             <property name="objectMapper"> 
              <bean class="org.jems.server.rest.JSONObjectMapper"/> 
             </property>
-           </bean>
-           <!-- 
+           </bean> 
            <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
             <property name="supportedMediaTypes" value="application/xml"/>
             <property name="marshaller" ref="jemsRestMarshaller" />
 		    <property name="unmarshaller" ref="jemsRestMarshaller" />
-           </bean>-->
+           </bean>
         </list>
     </property>
  </bean>
