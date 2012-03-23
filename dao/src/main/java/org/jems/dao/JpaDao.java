@@ -170,6 +170,15 @@ public class JpaDao extends JpaDaoSupport implements FileFilter, IDao
 	/*******************************************************************/
 	/** getList */
 	
+	public <T>List<T> getList(Class<T> cl)
+	{
+		return getList(cl, new DaoFilter[0], new DaoSort[0], 0 , 0);
+        
+	} // getList
+	
+	/*******************************************************************/
+	/** getList */
+	
 	public <T>List<T> getList(Class<T> cl, DaoFilter filters[], DaoSort sorts[])
 	{
 		return getList(cl, filters, sorts, 0 , 0);

@@ -60,6 +60,11 @@ public interface IDao
 	/*******************************************************************/
 	/** getList */
 	
+	public <T>List<T> getList(Class<T> cl);
+	
+	/*******************************************************************/
+	/** getList */
+	
 	public <T>List<T> getList(Class<T> cl, DaoFilter filter[], DaoSort sort[]);
 	
 	/*******************************************************************/
