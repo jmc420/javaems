@@ -132,8 +132,9 @@
   <flex.version>4.5.1.21328</flex.version>-->
   <flex.version>4.6.b.23201</flex.version>
   <!--<flexmojos.version>3.9</flexmojos.version>
-  <flexmojos.version>4.0-RC2</flexmojos.version>-->
-  <flexmojos.version>4.3-beta-SNAPSHOT</flexmojos.version>
+  <flexmojos.version>4.0-RC2</flexmojos.version>
+  <flexmojos.version>4.3-beta-SNAPSHOT</flexmojos.version>-->
+  <flexmojos.version>3.9</flexmojos.version>
   <hibernate.entitymanager.version>3.6.7.Final</hibernate.entitymanager.version>
   <hibernate.core.version>3.6.7.Final</hibernate.core.version>
   <hibernate.persistence.version>2.0-cr-1</hibernate.persistence.version>
