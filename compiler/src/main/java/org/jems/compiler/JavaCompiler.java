@@ -85,7 +85,7 @@ abstract public class JavaCompiler extends Generator implements IGenerator
         {
         FileReader fr = new FileReader(m_schemaFile);
  
-        	return JavaClassList.unmarshalJavaClassList(fr);
+        	return JavaClassList.unmarshal(fr);
         }
         catch (Throwable e)
         {
