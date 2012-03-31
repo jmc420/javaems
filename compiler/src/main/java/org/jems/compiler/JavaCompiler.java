@@ -23,9 +23,6 @@ import org.jems.compiler.model.JavaClassList;
 import org.jems.generator.Generator;
 import org.jems.generator.GeneratorException;
 import org.jems.generator.IGenerator;
-import org.jibx.runtime.BindingDirectory;
-import org.jibx.runtime.IBindingFactory;
-import org.jibx.runtime.IUnmarshallingContext;
 
 /************************************************************/
 
@@ -87,10 +84,8 @@ abstract public class JavaCompiler extends Generator implements IGenerator
         try
         {
         FileReader fr = new FileReader(m_schemaFile);
-      	IBindingFactory bfact = BindingDirectory.getFactory(JavaClassList.class);
-        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
-
-        	return (JavaClassList) uctx.unmarshalDocument(fr, null);
+ 
+        	return JavaClassList.unmarshalJavaClassList(fr);
         }
         catch (Throwable e)
         {

@@ -53,8 +53,33 @@
     </plugin>   
   
     <!-- ******************************************************************** -->
+    <!-- castor plugin -->
+
+    <plugin>
+     <groupId>org.codehaus.mojo</groupId>
+     <artifactId>castor-maven-plugin</artifactId>
+     <version>${castor-maven-plugin.version}</version>
+     <executions> 
+      <execution>
+       <id>one</id>
+       <goals>
+        <goal>generate</goal>
+       </goals>
+       <configuration> 
+        <dest>${basedir}/target/generated-sources</dest>
+        <schema>${basedir}/src/main/xsd/compiler.xsd</schema>
+        <packaging>org.jems.compiler.model</packaging>
+        <types>arraylist</types>
+        <verbose>true</verbose>
+       </configuration>
+      </execution>
+     </executions>
+    </plugin>
+    
+    <!-- ******************************************************************** -->
     <!--  jibx maven plugin -->   
-  
+    <!--  switch to castor
+    
     <plugin>
      <groupId>org.jibx</groupId>
      <artifactId>maven-jibx-plugin</artifactId>
@@ -73,11 +98,6 @@
          <includes>
           <include>compiler.xsd</include>
          </includes>
-         <!-- 
-         <options>
-          <p>org.jems.compiler.model</p>
-         </options>
-         -->
          <verbose>true</verbose>
         </configuration>
        </execution>
@@ -97,7 +117,7 @@
        
       </executions>
      </plugin>
-
+	-->
     <!-- ******************************************************************** -->
     <!-- antrun plugin -->
  
@@ -145,6 +165,14 @@
    <artifactId>jems-template</artifactId>
    <version>${jems.version}</version>
   </dependency>
+  
+  <dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-xml</artifactId>
+   <version>${castor.version}</version>
+  </dependency>
+  
+  <!-- 
   <dependency>
    <groupId>org.jibx</groupId>
    <artifactId>jibx-run</artifactId>
@@ -155,7 +183,8 @@
    <artifactId>jibx-extras</artifactId>
    <version>${jibx.version}</version>
   </dependency>
- 
+  -->
+  
  </dependencies>
 
  <!-- ******************************************************************** -->

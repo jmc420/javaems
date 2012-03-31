@@ -66,34 +66,6 @@
      </executions>
     </plugin>
     
-    <!-- ******************************************************************** -->
-    <!--  jibx maven plugin -->   
-    <!--  does not support any types -->
-    <!-- 
-    <plugin>
-     <groupId>org.jibx</groupId>
-     <artifactId>maven-jibx-plugin</artifactId>
-     <version>${jibx.version}</version>
-     <executions>
-      <execution>
-       <id>model-codegen</id>
-       <goals>
-         <goal>schema-codegen</goal>
-        </goals>
-        <configuration>
-         <customizations>
-          <path>${basedir}/src/main/xsd/jibx-codegen.xml</path>
-         </customizations> 
-         <directory>${basedir}/src/main/xsd</directory>
-         <includes>
-          <include>dao.xsd</include>
-         </includes>
-         <verbose>true</verbose>
-        </configuration>
-       </execution>
-      </executions>
-     </plugin>-->
-
    </plugins>
 
   </build>
@@ -107,16 +79,6 @@
     <artifactId>castor-codegen</artifactId>
     <version>${castor-codegen.version}</version>
     <scope>compile</scope>
-   </dependency>
-   <dependency>
-    <groupId>org.jibx</groupId>
-    <artifactId>jibx-run</artifactId>
-    <version>${jibx.version}</version>
-   </dependency>
-   <dependency>
-    <groupId>org.jibx</groupId>
-    <artifactId>jibx-extras</artifactId>
-    <version>${jibx.version}</version>
    </dependency>
    
   </dependencies>

@@ -34,24 +34,24 @@ abstract public class ClassGenerator
 	public ClassGenerator(JavaClass javaClass, Class<?> cl, TypeDescriptorList typeDescriptorList)
 	throws GeneratorException
 	{
-	List<String> excludedPropertyList = javaClass.getExcludedProperties();
-	List<TypeDescriptor> typeDescriptors = typeDescriptorList.getTypeDescriptors();
+	String excludedProperties[] = javaClass.getExcludedProperty();
+	TypeDescriptor typeDescriptors[] = typeDescriptorList.getTypeDescriptor();
 	
 		m_javaClass = javaClass;
 		m_class = cl;
 		m_excludedPropertyMap = new HashMap<String, String>();
 		m_typeDescriptorMap = new HashMap<String, TypeDescriptor>();
 		
-		for (int count=0; count<excludedPropertyList.size(); count++)
+		for (int count=0; count<excludedProperties.length; count++)
 		{	
-		String name = excludedPropertyList.get(count);
+		String name = excludedProperties[count];
 
 			m_excludedPropertyMap.put(name, name);
 		}
 		
-		for (int count=0; count<typeDescriptors.size(); count++)
+		for (int count=0; count<typeDescriptors.length; count++)
 		{	
-		TypeDescriptor typeDescriptor = typeDescriptors.get(count);
+		TypeDescriptor typeDescriptor = typeDescriptors[count];
 			
 			m_typeDescriptorMap.put(typeDescriptor.getName(), typeDescriptor);
 		}
