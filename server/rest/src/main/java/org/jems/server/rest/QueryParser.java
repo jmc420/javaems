@@ -52,15 +52,15 @@ public class QueryParser
 	{
 	List<DaoFilter> filterList = new ArrayList<DaoFilter>();
 	List<DaoSort> sortList = new ArrayList<DaoSort>();
-	
-		query = URLDecoder.decode(query);
-		
-		m_log.debug("Query "+query);
-		
+			
 		if (query == null)
 		{
 			return new QueryParserResult(filterList, sortList);
 		}
+		
+		query = URLDecoder.decode(query);
+		
+		m_log.debug("Query "+query);
 		
 		do
 		{
