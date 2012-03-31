@@ -89,7 +89,7 @@ public class JavaToAS3Compiler extends JavaCompiler
         InputStream in = getClass().getResourceAsStream(fileName);
         InputStreamReader reader = new InputStreamReader(in);
 
-			return TypeDescriptorList.unmarshal(reader);
+			return TypeDescriptorList.unmarshalTypeDescriptorList(reader);
         }
         catch (Throwable e)
         {
