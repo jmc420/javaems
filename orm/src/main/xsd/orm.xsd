@@ -9,11 +9,23 @@
  <xsd:element name="Orm">
   <xsd:complexType>
    <xsd:sequence>
+    <xsd:element name="ormConnection" type="jems-orm:OrmConnection" minOccurs="0"/>
     <xsd:element name="ormEntity" type="jems-orm:OrmEntity" maxOccurs="unbounded"/>
    </xsd:sequence>
    <xsd:attribute name="database" type="xsd:string" default=""/>
   </xsd:complexType>
  </xsd:element>
+ 
+  <!-- *************************************** -->
+ <!-- Connection -->
+
+ <xsd:complexType name="OrmConnection">
+  <xsd:sequence/>
+  <xsd:attribute name="driver" type="xsd:string" default=""/>
+  <xsd:attribute name="url" type="xsd:string" default=""/>
+  <xsd:attribute name="user" type="xsd:string" default=""/>
+  <xsd:attribute name="password" type="xsd:string" default="cascade-all"/>
+ </xsd:complexType>
  
  <!-- *************************************** -->
  <!-- Association property -->

@@ -145,6 +145,11 @@
    <artifactId>castor-xml</artifactId>
    <version>${castor.version}</version>
   </dependency>
+  <dependency>
+   <groupId>mysql</groupId>
+   <artifactId>mysql-connector-java</artifactId>
+   <version>${mysql-connector-java.version}</version>
+  </dependency>
   
   </dependencies>
 
