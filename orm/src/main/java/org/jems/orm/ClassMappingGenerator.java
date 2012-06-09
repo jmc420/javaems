@@ -37,9 +37,12 @@ abstract public class ClassMappingGenerator implements IGenerator
 	
 	public ClassMappingGenerator(ClassMetaData metaData, Orm orm, OrmEntity ormEntity)
 	{
-	String transientProperties[] = ormEntity.getOrmTransientProperty();
-
+		this(orm, ormEntity);
 		m_metaData = metaData;
+	}
+	
+	public ClassMappingGenerator(Orm orm, OrmEntity ormEntity)
+	{
 		m_orm = orm;
 		m_ormEntity = ormEntity;
 		m_propertyMap = new HashMap<String, OrmProperty>();

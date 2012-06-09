@@ -23,9 +23,13 @@ import org.jems.orm.model.OrmEntity;
 
 public class JPAGenerator extends ORMGenerator
 {
+	protected GeneratorUtils	m_generatorUtils;
+
 	public JPAGenerator(File schemaDirectory, File schemaFile, File output) throws GeneratorException
 	{
 		super(schemaDirectory, schemaFile, output);
+		
+		m_generatorUtils = new GeneratorUtils();
 	}
 
 	/************************************************************/
@@ -47,7 +51,7 @@ public class JPAGenerator extends ORMGenerator
 			throw new GeneratorException(msg);
 		}
 			
-		m_log.info("Generate: "+m_output.getAbsolutePath());
+		m_log.info("Generate JPA classes to: "+m_output.getAbsolutePath());
 				
 		generateMapping(System.out);
 
@@ -68,14 +72,15 @@ public class JPAGenerator extends ORMGenerator
 		
 			try
 			{
-			ClassMetaData md = new ClassMetaData(ormEntity.getClassName(), "");
-			JPAClassMapping classMapping = new JPAClassMapping(md, m_orm, ormEntity);
-			String fileName = ormEntity.getTableName()+".java";
+			JPAClass jpaClass = new JPAClass(m_orm, ormEntity);
+			String className = ormEntity.getClassName();
+			String simpleClassName = m_generatorUtils.getSimpleClassName(className);		
+			String fileName = simpleClassName+".java";
 			File file = new File(m_output, fileName);
 			FileOutputStream fos = new FileOutputStream(file);
 			PrintStream ps = new PrintStream(fos);
 			
-				classMapping.generate(ps);
+				jpaClass.generate(ps);
 			}
 			catch (GeneratorException e)
 			{
@@ -83,6 +88,7 @@ public class JPAGenerator extends ORMGenerator
 			}
 			catch (Exception ex)
 			{
+				ex.printStackTrace(System.out);
 				throw new GeneratorException(ex.toString());
 			}
 		}

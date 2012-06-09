@@ -32,9 +32,9 @@ public class JPAClass extends ClassMappingGenerator
 {
 	protected GeneratorUtils	m_generatorUtils;
 	
-	public JPAClass(ClassMetaData metaData, Orm orm, OrmEntity ormEntity)
+	public JPAClass(Orm orm, OrmEntity ormEntity)
 	{
-		super(metaData, orm, ormEntity);
+		super(orm, ormEntity);
 		
 		m_generatorUtils = new GeneratorUtils();
 	}
