@@ -1,6 +1,6 @@
 /************************************************************/
 /*
-	File: JPAMappingGenerator.java
+	File: JPAGenerator.java
 
 	Template for JPA Mapping file.
 
@@ -11,6 +11,7 @@
 package org.jems.orm;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -20,13 +21,38 @@ import org.jems.orm.model.OrmEntity;
 
 /************************************************************/
 
-public class JPAMappingGenerator extends ORMGenerator
+public class JPAGenerator extends ORMGenerator
 {
-	public JPAMappingGenerator(File schemaDirectory, File schemaFile, File output) throws GeneratorException
+	public JPAGenerator(File schemaDirectory, File schemaFile, File output) throws GeneratorException
 	{
 		super(schemaDirectory, schemaFile, output);
 	}
 
+	/************************************************************/
+	/** generate */
+
+	public void generate(PrintStream out) throws IOException, GeneratorException
+	{
+		if (!m_schemaFile.exists())
+		{
+		String msg = m_schemaFile.getAbsolutePath()+" is missing";
+		
+			throw new GeneratorException(msg);		
+		}
+		
+		if (!m_output.exists())
+		{
+		String msg = m_output.getAbsolutePath()+" is missing";
+		
+			throw new GeneratorException(msg);
+		}
+			
+		m_log.info("Generate: "+m_output.getAbsolutePath());
+				
+		generateMapping(System.out);
+
+	} // generate
+	
 	/************************************************************/
 	/* protected methods */
 	/************************************************************/
@@ -34,26 +60,7 @@ public class JPAMappingGenerator extends ORMGenerator
 
 	protected void generateMapping(PrintStream out) throws IOException, GeneratorException
 	{
-<template><?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<entity-mappings xmlns=\"http://java.sun.com/xml/ns/persistence/orm\"
-                 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-                 xsi:schemaLocation=\"http://java.sun.com/xml/ns/persistence/orm 
-                 					 http://java.sun.com/xml/ns/persistence/orm_2_0.xsd\"
-                 version=\"2.0\">
-                 
- <!-- **************************************************************** -->
- <!--  persistent unit meta data -->
- 
- <persistence-unit-metadata>
-  <xml-mapping-metadata-complete/>
-  <persistence-unit-defaults>
-   <schema><%out.print(m_orm.getDatabase());%></schema>
-   <access>PROPERTY</access>
-  </persistence-unit-defaults>
- </persistence-unit-metadata>
- 
-<%
-		OrmEntity ormEntities[] = m_orm.getOrmEntity();
+	OrmEntity ormEntities[] = m_orm.getOrmEntity();
 		
 		for (int count=0; count<ormEntities.length; count++)
 		{
@@ -63,8 +70,12 @@ public class JPAMappingGenerator extends ORMGenerator
 			{
 			ClassMetaData md = new ClassMetaData(ormEntity.getClassName(), "");
 			JPAClassMapping classMapping = new JPAClassMapping(md, m_orm, ormEntity);
-		
-				classMapping.generate(out);
+			String fileName = ormEntity.getTableName()+".java";
+			File file = new File(m_output, fileName);
+			FileOutputStream fos = new FileOutputStream(file);
+			PrintStream ps = new PrintStream(fos);
+			
+				classMapping.generate(ps);
 			}
 			catch (GeneratorException e)
 			{
@@ -75,12 +86,10 @@ public class JPAMappingGenerator extends ORMGenerator
 				throw new GeneratorException(ex.toString());
 			}
 		}
-%> </entity-mappings>
-</template>
 
 	} // generateMapping
 	
-} // JPAMappingGenerator
+} // JPAGenerator
 
 /************************************************************/
 

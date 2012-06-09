@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jems.orm.model.OrmConnection;
+import org.jems.orm.model.OrmProperty;
          
 public class DBMetaData
 {
@@ -34,7 +35,7 @@ public class DBMetaData
 		   ClassNotFoundException, SQLException
 	{
     		m_connection = getConnection(ormConnection);
-    		m_metaData= m_connection.getMetaData();
+    		m_metaData = m_connection.getMetaData();
 	}
          
 
@@ -62,13 +63,16 @@ public class DBMetaData
          
 		for (String table : tables)
 		{
-		List<String> columns = getColumns(table);
+		List<OrmProperty> columns = getOrmColumns(table);
          
 			m_log.info("\nTable: "+table);
          
-			for (String column : columns)
+			for (OrmProperty column : columns)
 			{
-				m_log.info("\n\tcolumn: "+column);
+				m_log.info("\n\tcolumn name: "+column.getColumnName()+
+						   " type: "+column.getTypeName()+
+						   " size: "+column.getColumnSize()+
+						   " nullable: "+column.isNullable());
 			}
 		}
          
@@ -106,6 +110,8 @@ public class DBMetaData
 
 		if (columnRS.next())
 		{
+			displayMetaData(columnRS);
+			
 			do
 			{
 			   result.add(columnRS.getString("COLUMN_NAME"));
@@ -116,6 +122,37 @@ public class DBMetaData
 		return result;
 
 	} // getColumns
+	
+	/************************************************************/
+	/** getOrmColumns */
+
+	public List<OrmProperty> getOrmColumns(String tableName) throws SQLException
+	{
+	ResultSet columnRS = m_metaData.getColumns(null, null, tableName, null);
+	List<OrmProperty> result = new ArrayList<OrmProperty>();
+
+		if (!columnRS.next())
+		{
+			return result;
+		}
+	
+		displayMetaData(columnRS);
+		
+		do
+		{
+		OrmProperty ormProperty = new OrmProperty();
+			
+			ormProperty.setColumnName(columnRS.getString("COLUMN_NAME"));
+			ormProperty.setColumnSize(columnRS.getInt("COLUMN_SIZE"));
+			ormProperty.setNullable(columnRS.getBoolean("NULLABLE"));
+			ormProperty.setTypeName(columnRS.getString("TYPE_NAME"));
+			result.add(ormProperty);
+		}
+		while (columnRS.next());
+
+		return result;
+
+	} // getOrmColumns
 
 	/************************************************************/
 	/** getSchemas */
@@ -177,9 +214,9 @@ public class DBMetaData
 	protected void displayMetaData(ResultSet rs) throws SQLException
 	{
 	ResultSetMetaData md = rs.getMetaData();
-	int numberofcolumns = md.getColumnCount();
+	int maxColumns = md.getColumnCount();
  
-		for (int count = 1; count <= numberofcolumns; count++)
+		for (int count = 1; count <= maxColumns; count++)
 		{
 		String columnName = md.getColumnName(count);
 		String tableName = md.getTableName(count);

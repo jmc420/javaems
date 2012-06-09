@@ -1,0 +1,79 @@
+/************************************************************/
+/*
+	File: JPAClass.java
+
+	Template for JPA Class mapping.
+
+	Author: James Cowan
+*/
+/************************************************************/
+
+package org.jems.orm;
+
+import java.io.IOException;
+import java.io.PrintStream;
+
+import org.jems.generator.ClassMetaData;
+import org.jems.generator.GeneratorException;
+
+import org.jems.orm.model.Orm;
+import org.jems.orm.model.OrmBasicProperty;
+import org.jems.orm.model.OrmEntity;
+import org.jems.orm.model.OrmId;
+import org.jems.orm.model.OrmJoin;
+import org.jems.orm.model.OrmAssociationProperty;
+import org.jems.orm.model.OrmManyToManyProperty;
+import org.jems.orm.model.OrmProperty;
+import org.jems.orm.model.OrmVersionProperty;
+
+/************************************************************/
+
+public class JPAClass extends ClassMappingGenerator
+{
+	protected GeneratorUtils	m_generatorUtils;
+	
+	public JPAClass(ClassMetaData metaData, Orm orm, OrmEntity ormEntity)
+	{
+		super(metaData, orm, ormEntity);
+		
+		m_generatorUtils = new GeneratorUtils();
+	}
+
+	/************************************************************/
+	/* public methods */
+	/************************************************************/
+	/** generate */
+
+	public void generate(PrintStream out) throws IOException, GeneratorException
+	{
+	String className = m_ormEntity.getClassName();
+	String simpleClassName = m_generatorUtils.getSimpleClassName(className);
+	
+	<template>/*******************************************************************/
+/*
+	File: <%out.print(simpleClassName);%>.java
+*/
+/*******************************************************************/
+
+package <%out.print(m_generatorUtils.getPackageName(className));%>
+
+import java.io.Serializable;
+
+public class <%out.print(simpleClassName);%> implements Serializable
+{
+
+} // <%out.print(simpleClassName);%>
+
+</template>
+
+	} // generate
+	
+	/************************************************************/
+	/* protected methods */
+	/************************************************************/
+
+} // JPAClass
+
+/************************************************************/
+
+
