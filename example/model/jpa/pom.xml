@@ -47,7 +47,7 @@
           <arg value="org.jems.orm.JPAGenerator"/>
           <arg value="${basedir}/../server/src/main/generator"/>
           <arg value="ORMGenerator-jibx.xml"/>
-          <arg value="${basedir}/target/generated-sources"/>
+          <arg value="${basedir}/src/main/java/org/jems/example/model"/>
          </java>
         </tasks>
        </configuration>
@@ -72,6 +72,11 @@
    <groupId>mysql</groupId>
    <artifactId>mysql-connector-java</artifactId>
    <version>${mysql-connector-java.version}</version>
+  </dependency>
+  <dependency>
+   <groupId>org.hibernate.java-persistence</groupId>
+   <artifactId>jpa-api</artifactId>
+   <version>${hibernate.persistence.version}</version>
   </dependency>
 
    <dependency>

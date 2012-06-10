@@ -5,6 +5,10 @@
 
 <orm database="jems">
 
+ <ormConnection driver="com.mysql.jdbc.Driver" 
+   				url="jdbc:mysql://localhost:3306/jems"
+				user="root" password="password42"/>
+
  <!-- *************************************** --> 
  <!-- Identifier class -->
 
