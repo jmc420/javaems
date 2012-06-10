@@ -136,7 +136,7 @@ public class DBMetaData
 			return result;
 		}
 	
-		displayMetaData(columnRS);
+		//displayMetaData(columnRS);
 		
 		do
 		{

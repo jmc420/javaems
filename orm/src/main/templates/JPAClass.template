@@ -12,6 +12,8 @@ package org.jems.orm;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jems.generator.ClassMetaData;
 import org.jems.generator.GeneratorException;
@@ -31,11 +33,13 @@ import org.jems.orm.model.OrmVersionProperty;
 public class JPAClass extends ClassMappingGenerator
 {
 	protected GeneratorUtils	m_generatorUtils;
+	protected List<OrmProperty>	m_tablePropertyList;
 	
-	public JPAClass(Orm orm, OrmEntity ormEntity)
+	public JPAClass(Orm orm, OrmEntity ormEntity, List<OrmProperty> tablePropertyList)
 	{
 		super(orm, ormEntity);
 		
+		m_tablePropertyList = tablePropertyList;
 		m_generatorUtils = new GeneratorUtils();
 	}
 
@@ -55,15 +59,39 @@ public class JPAClass extends ClassMappingGenerator
 */
 /*******************************************************************/
 
-package <%out.print(m_generatorUtils.getPackageName(className));%>
+package <%out.print(m_generatorUtils.getPackageName(className));%>;
 
 import java.io.Serializable;
 
+<%
+	generateImports(out);
+
+	out.println("");
+	
+	if (m_ormEntity.isSuperClass())
+	{
+		out.print("@MappedSuperclass");
+	}
+	else
+	{
+		out.print("@Entity");
+	}
+%>
 public class <%out.print(simpleClassName);%> implements Serializable
 {
+<%generateProperties(out);%>
+
+	private static final long serialVersionUID = 1L;
+
+	public <%out.print(simpleClassName);%>() {}
+
+<%generateMethods(out);%>
 
 } // <%out.print(simpleClassName);%>
 
+/*******************************************************************/
+// End of file
+/*******************************************************************/
 </template>
 
 	} // generate
@@ -71,7 +99,42 @@ public class <%out.print(simpleClassName);%> implements Serializable
 	/************************************************************/
 	/* protected methods */
 	/************************************************************/
-
+	/** generateImports */
+	
+	protected void generateImports(PrintStream out)
+	{
+	List<String> imports = new ArrayList<String>();
+	
+		if (m_ormEntity.isSuperClass())
+		{
+			imports.add("javax.persistence.MappedSuperclass");
+		}
+		else
+		{
+			imports.add("javax.persistence.Entity");
+		}
+		
+		for (String importName : imports)
+		{
+			out.println("import "+importName+";");
+		}
+		
+	} // generateImports
+	
+	/************************************************************/
+	/** generateMethods */
+	
+	protected void generateMethods(PrintStream out)
+	{
+	} // generateMethods
+	
+	/************************************************************/
+	/** generateProperties */
+	
+	protected void generateProperties(PrintStream out)
+	{
+	} // generateProperties
+	
 } // JPAClass
 
 /************************************************************/
