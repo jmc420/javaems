@@ -20,14 +20,16 @@
  <!-- *************************************** -->
  <!-- Address class -->
 
- <ormEntity className="org.jems.example.model.Artist" tableName="Artist" >
+ <ormEntity className="org.jems.example.model.Artist"
+ 			tableName="Artist" parentClassName="Identifier">
   
  </ormEntity>
  
  <!-- *************************************** -->
  <!-- Album class -->
 
- <ormEntity className="org.jems.example.model.Album" tableName="Album">
+ <ormEntity className="org.jems.example.model.Album"
+ 			tableName="Album" parentClassName="Identifier">
 
   <ormManyToOneProperty name="artist" cascade="">
    <ormJoin>
@@ -40,7 +42,8 @@
  <!-- *************************************** -->
  <!-- Track class -->
 
- <ormEntity className="org.jems.example.model.Track" tableName="Track">
+ <ormEntity className="org.jems.example.model.Track"
+ 			tableName="Track" parentClassName="Identifier">
 
   <ormManyToOneProperty name="album" cascade="">
    <ormJoin>
