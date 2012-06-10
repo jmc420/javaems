@@ -69,16 +69,11 @@ abstract public class ClassMappingGenerator implements IGenerator
 	}
 
 	/************************************************************/
-	/* public methods */
-	/************************************************************/
-
-	
-	/************************************************************/
 	/* protected methods */
 	/************************************************************/
 	/** checkProperty */
 
-	public void checkProperty(String name) throws GeneratorException
+	protected void checkProperty(String name) throws GeneratorException
 	{
 		if (!m_metaData.hasProperty(name))
 		{
@@ -142,6 +137,45 @@ abstract public class ClassMappingGenerator implements IGenerator
 		return propertyMap;
 		
 	} // getOrmPropertyMap
+	
+	/************************************************************/
+	/* isMappedProperty */
+	
+	protected boolean isMappedProperty(String name)
+	{
+		if (m_embeddedPropertyMap.get(name) != null)
+		{
+			return true;
+		}
+		
+		if (isOrmIdProperty(name))
+		{
+			return true;
+		}
+		
+		if (isOrmEmbeddedProperty(name))
+		{
+			return true;
+		}
+		
+		if (isOrmTransientProperty(name))
+		{
+			return true;
+		}
+		
+		if (m_basicPropertyMap.get(name) != null)
+		{
+			return true;
+		}
+		
+		if (m_propertyMap.get(name) != null)
+		{
+			return true;
+		}
+		
+		return false;
+		
+	} // isOrmEmbeddedProperty
 	
 	/************************************************************/
 	/* isOrmEmbeddedProperty */

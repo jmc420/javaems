@@ -13,6 +13,7 @@ package org.jems.orm;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.jems.generator.ClassMetaData;
@@ -52,7 +53,12 @@ public class JPAClass extends ClassMappingGenerator
 	{
 	String className = m_ormEntity.getClassName();
 	String simpleClassName = m_generatorUtils.getSimpleClassName(className);
+	String extension = "";
 	
+		if (!m_ormEntity.getParentClassName().equals(""))
+		{
+			extension = " extends "+m_ormEntity.getParentClassName();
+		}
 	<template>/*******************************************************************/
 /*
 	File: <%out.print(simpleClassName);%>.java
@@ -77,16 +83,13 @@ import java.io.Serializable;
 		out.print("@Entity");
 	}
 %>
-public class <%out.print(simpleClassName);%> implements Serializable
+public class <%out.print(simpleClassName+extension);%> implements Serializable
 {
-<%generateProperties(out);%>
-
-	private static final long serialVersionUID = 1L;
+<%generateProperties(out);%>	private static final long serialVersionUID = 1L;
 
 	public <%out.print(simpleClassName);%>() {}
 
 <%generateMethods(out);%>
-
 } // <%out.print(simpleClassName);%>
 
 /*******************************************************************/
@@ -114,6 +117,54 @@ public class <%out.print(simpleClassName);%> implements Serializable
 			imports.add("javax.persistence.Entity");
 		}
 		
+		OrmId ormId = m_ormEntity.getOrmId();
+		
+		if (ormId != null)
+		{
+			imports.add("javax.persistence.Id");
+			imports.add("javax.persistence.GeneratedValue");
+			imports.add("javax.persistence.GenerationType");
+		}
+		
+		imports.add("javax.persistence.Column");
+		
+		if (m_ormEntity.getOrmOneToOneProperty().length > 0)
+		{
+			imports.add("javax.persistence.OneToOne");
+		}
+		
+		if (m_ormEntity.getOrmOneToManyProperty().length > 0)
+		{
+			imports.add("javax.persistence.OneToMany");
+		}
+		
+		if (m_ormEntity.getOrmManyToManyProperty().length > 0)
+		{
+			imports.add("javax.persistence.ManyToMany");
+		}
+		
+		if (m_ormEntity.getOrmManyToOneProperty().length > 0)
+		{
+			imports.add("javax.persistence.ManyToOne");
+		}
+		
+		if (m_ormEntity.getOrmTransientProperty().length > 0)
+		{
+			imports.add("javax.persistence.Transient");
+		}
+		
+		if (m_ormEntity.getOrmVersionProperty().length > 0)
+		{
+			imports.add("javax.persistence.Version");
+		}
+		
+		if (m_ormEntity.getOrmEmbeddedProperty().length > 0)
+		{
+			imports.add("javax.persistence.Embedded");
+		}
+		
+		Collections.sort(imports);
+		
 		for (String importName : imports)
 		{
 			out.println("import "+importName+";");
@@ -129,10 +180,54 @@ public class <%out.print(simpleClassName);%> implements Serializable
 	} // generateMethods
 	
 	/************************************************************/
+	/** generateOrmProperty */
+	
+	protected void generateOrmProperty(PrintStream out, OrmProperty ormProperty)
+	{
+	String columnName = ormProperty.getColumnName();
+	
+		if (columnName.equals(""))
+		{
+			columnName = ormProperty.getName();
+		}
+		out.println("\t@Column(name=\""+columnName+
+					"\", nullable="+ormProperty.getNullable()+")");
+					
+	} // generateOrmProperty
+	
+	/************************************************************/
 	/** generateProperties */
 	
 	protected void generateProperties(PrintStream out)
 	{
+	OrmId ormId = m_ormEntity.getOrmId();
+		
+		if (ormId != null)
+		{
+		String generator = ormId.getGenerator();
+		
+			out.println("\t@Id");
+			out.println("\t@Column(name=\""+ormId.getName()+
+						"\", nullable=false)");
+						
+			if (generator.equals(""))
+			{
+				generator = "IDENTITY";;
+			}
+			
+    		out.println("\t@GeneratedValue(strategy = GenerationType."+generator+")");
+    		out.println("\tprotected long\t\t"+ormId.getName()+";");
+			out.println("");
+		}
+		
+		for (OrmProperty ormProperty : m_tablePropertyList)
+		{
+			if (!isMappedProperty(ormProperty.getName()))
+			{
+				; // TODO generateOrmProperty(out, ormProperty);
+			}
+		}
+		
 	} // generateProperties
 	
 } // JPAClass
