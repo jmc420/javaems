@@ -31,7 +31,8 @@
  <ormEntity className="org.jems.example.model.Album"
  			tableName="Album" parentClassName="Identifier">
 
-  <ormManyToOneProperty name="artist" cascade="">
+  <ormManyToOneProperty name="artist" cascade="" 
+  						className="org.jems.example.model.Artist">
    <ormJoin>
      <joinColumn name="artistId"/>
    </ormJoin>
@@ -45,7 +46,8 @@
  <ormEntity className="org.jems.example.model.Track"
  			tableName="Track" parentClassName="Identifier">
 
-  <ormManyToOneProperty name="album" cascade="">
+  <ormManyToOneProperty name="album" cascade=""
+  						className="org.jems.example.model.Album">
    <ormJoin>
      <joinColumn name="albumId"/>
    </ormJoin>
