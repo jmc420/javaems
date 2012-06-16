@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.jems.generator.ClassMetaData;
 import org.jems.generator.GeneratorException;
 
 import org.jems.orm.model.Orm;
@@ -25,7 +24,6 @@ import org.jems.orm.model.OrmEntity;
 import org.jems.orm.model.OrmId;
 import org.jems.orm.model.OrmJoin;
 import org.jems.orm.model.OrmAssociationProperty;
-import org.jems.orm.model.OrmManyToManyProperty;
 import org.jems.orm.model.OrmProperty;
 import org.jems.orm.model.OrmVersionProperty;
 
@@ -102,6 +100,37 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 	/************************************************************/
 	/* protected methods */
 	/************************************************************/
+	/** addAssociationImport */
+	
+	protected void addAssociationImport(List<String> imports, OrmAssociationProperty ormAssociationProperties[])
+	{
+		for (int count=0; count<ormAssociationProperties.length; count++)
+		{
+		OrmAssociationProperty ormAssociationProperty = ormAssociationProperties[count];
+		OrmJoin ormJoin = ormAssociationProperty.getOrmJoin();
+		
+			if (ormJoin.getJoinColumn().length > 0)
+			{
+				addImport(imports, "javax.persistence.JoinColumn");
+				return;
+			}
+		}
+		
+	} // addAssociationImport
+	
+	/************************************************************/
+	/** addImport */
+	
+	protected void addImport(List<String> imports, String importName)
+	{
+		if (!imports.contains(importName))
+		{
+			imports.add(importName);
+		}
+		
+	} // addImport
+	
+	/************************************************************/
 	/** generateImports */
 	
 	protected void generateImports(PrintStream out)
@@ -131,21 +160,25 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 		if (m_ormEntity.getOrmOneToOneProperty().length > 0)
 		{
 			imports.add("javax.persistence.OneToOne");
+			addAssociationImport(imports, m_ormEntity.getOrmOneToOneProperty());
 		}
 		
 		if (m_ormEntity.getOrmOneToManyProperty().length > 0)
 		{
 			imports.add("javax.persistence.OneToMany");
+			addAssociationImport(imports, m_ormEntity.getOrmOneToManyProperty());
 		}
 		
 		if (m_ormEntity.getOrmManyToManyProperty().length > 0)
 		{
 			imports.add("javax.persistence.ManyToMany");
+			addAssociationImport(imports, m_ormEntity.getOrmManyToManyProperty());
 		}
 		
 		if (m_ormEntity.getOrmManyToOneProperty().length > 0)
 		{
 			imports.add("javax.persistence.ManyToOne");
+			addAssociationImport(imports, m_ormEntity.getOrmManyToOneProperty());
 		}
 		
 		if (m_ormEntity.getOrmTransientProperty().length > 0)
@@ -180,18 +213,57 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 	} // generateMethods
 	
 	/************************************************************/
+	/** generateOrmAssocationProperties */
+	
+	protected void generateOrmAssocationProperties(PrintStream out, String annotation, OrmAssociationProperty ormAssociationProperties[])
+	throws GeneratorException
+	{
+		for (int count=0; count<ormAssociationProperties.length; count++)
+		{
+		OrmAssociationProperty ormAssociationProperty = ormAssociationProperties[count];
+		OrmJoin ormJoin = ormAssociationProperty.getOrmJoin();
+		OrmProperty joinProperties[] = ormJoin.getJoinColumn();
+		
+			out.println("\t@"+annotation);
+	
+			for (int index=0; index<joinProperties.length; index++)
+			{
+			OrmProperty ormJoinProperty = joinProperties[index];
+
+				out.println("\t@JoinColumn(name=\""+ormJoinProperty.getName()+
+							"\", nullable="+ormJoinProperty.getNullable()+")");
+			}
+			
+			String className = m_generatorUtils.getSimpleClassName(ormAssociationProperty.getClassName());
+			
+			out.println("\tprotected "+className+"\t\t"+ormAssociationProperty.getName()+";");
+			
+		}
+		
+	} // generateOrmAssocationProperties
+	
+	/************************************************************/
 	/** generateOrmProperty */
 	
 	protected void generateOrmProperty(PrintStream out, OrmProperty ormProperty)
+	throws GeneratorException
 	{
 	String columnName = ormProperty.getColumnName();
+	String lengthS = "";
 	
 		if (columnName.equals(""))
 		{
 			columnName = ormProperty.getName();
 		}
+		
+		if (isStringProperty(ormProperty))
+		{
+			lengthS = ", length="+ormProperty.getColumnSize();
+		}
+		
 		out.println("\t@Column(name=\""+columnName+
-					"\", nullable="+ormProperty.getNullable()+")");
+					"\", nullable="+ormProperty.getNullable()+lengthS+")");
+		out.println("\tprotected "+getJavaType(ormProperty)+"\t\t"+columnName+";");
 					
 	} // generateOrmProperty
 	
@@ -199,6 +271,7 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 	/** generateProperties */
 	
 	protected void generateProperties(PrintStream out)
+	throws GeneratorException
 	{
 	OrmId ormId = m_ormEntity.getOrmId();
 		
@@ -222,13 +295,47 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 		
 		for (OrmProperty ormProperty : m_tablePropertyList)
 		{
-			if (!isMappedProperty(ormProperty.getName()))
+			if (!isMappedProperty(getOrmPropertyName(ormProperty)))
 			{
-				; // TODO generateOrmProperty(out, ormProperty);
+				generateOrmProperty(out, ormProperty);
 			}
 		}
 		
+		OrmBasicProperty ormBasicProperties[] = m_ormEntity.getOrmBasicProperty();
+		
+		for (int count=0; count<ormBasicProperties.length; count++)
+		{
+		OrmBasicProperty ormBasicProperty = ormBasicProperties[count];
+		
+			generateOrmProperty(out, ormBasicProperty);
+		}
+		
+		generateOrmAssocationProperties(out, "ManyToOne", m_ormEntity.getOrmManyToOneProperty());
+		generateOrmAssocationProperties(out, "OneToOne", m_ormEntity.getOrmOneToOneProperty());
+		generateOrmAssocationProperties(out, "OneToMany", m_ormEntity.getOrmOneToManyProperty());
+		generateOrmAssocationProperties(out, "ManyToMany", m_ormEntity.getOrmManyToManyProperty());
+		
 	} // generateProperties
+	
+	/************************************************************/
+	/** getOrmPropertyName */
+	
+	protected String getOrmPropertyName(OrmProperty ormProperty)
+	throws GeneratorException
+	{
+		if (!ormProperty.getName().equals(""))
+		{
+			return ormProperty.getName();
+		}
+		
+		if (!ormProperty.getColumnName().equals(""))
+		{
+			return ormProperty.getColumnName();
+		}
+		
+		throw new GeneratorException("Property without name");
+		
+	} // getOrmPropertyName
 	
 } // JPAClass
 

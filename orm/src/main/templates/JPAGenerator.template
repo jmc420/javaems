@@ -79,7 +79,6 @@ public class JPAGenerator extends ORMGenerator
 			
 			try
 			{
-			String tableName = ormEntity.getTableName();
 			List<OrmProperty> tablePropertyList = getTablePropertyList(ormEntity, md);
 			JPAClass jpaClass = new JPAClass(m_orm, ormEntity, tablePropertyList);
 			String className = ormEntity.getClassName();

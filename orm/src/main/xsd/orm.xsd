@@ -36,6 +36,7 @@
     <xsd:sequence>
      <xsd:element name="ormJoin" type="jems-orm:OrmJoin"/>
     </xsd:sequence>
+    <xsd:attribute name="className" type="xsd:string" default=""/>
     <xsd:attribute name="orderColumn" type="xsd:string" default=""/>
     <xsd:attribute name="mappedBy" type="xsd:string" default=""/>
     <xsd:attribute name="cascade" type="xsd:string" default="cascade-all"/>
@@ -172,7 +173,7 @@
   <xsd:attribute name="columnSize" type="xsd:int" default="0"/>
   <xsd:attribute name="name" type="xsd:string" default=""/>
   <xsd:attribute name="nullable" type="xsd:boolean" default="false"/>
-  <xsd:attribute name="typeName" type="xsd:string" default=""/>
+  <xsd:attribute name="sqlTypeName" type="xsd:string" default=""/>
  </xsd:complexType>
  
  <!-- *************************************** -->

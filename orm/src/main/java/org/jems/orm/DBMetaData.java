@@ -70,7 +70,7 @@ public class DBMetaData
 			for (OrmProperty column : columns)
 			{
 				m_log.info("\n\tcolumn name: "+column.getColumnName()+
-						   " type: "+column.getTypeName()+
+						   " type: "+column.getSqlTypeName()+
 						   " size: "+column.getColumnSize()+
 						   " nullable: "+column.isNullable());
 			}
@@ -145,7 +145,7 @@ public class DBMetaData
 			ormProperty.setColumnName(columnRS.getString("COLUMN_NAME"));
 			ormProperty.setColumnSize(columnRS.getInt("COLUMN_SIZE"));
 			ormProperty.setNullable(columnRS.getBoolean("NULLABLE"));
-			ormProperty.setTypeName(columnRS.getString("TYPE_NAME"));
+			ormProperty.setSqlTypeName(columnRS.getString("TYPE_NAME"));
 			result.add(ormProperty);
 		}
 		while (columnRS.next());

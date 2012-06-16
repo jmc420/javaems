@@ -18,22 +18,25 @@ import org.jems.generator.ClassMetaData;
 import org.jems.generator.GeneratorException;
 import org.jems.generator.IGenerator;
 import org.jems.orm.model.Orm;
+import org.jems.orm.model.OrmAssociationProperty;
 import org.jems.orm.model.OrmBasicProperty;
 import org.jems.orm.model.OrmEntity;
 import org.jems.orm.model.OrmId;
+import org.jems.orm.model.OrmJoin;
 import org.jems.orm.model.OrmProperty;
 
 /************************************************************/
 
 abstract public class ClassMappingGenerator implements IGenerator
 {
-	protected ClassMetaData						m_metaData;
-	protected Orm								m_orm;
-	protected OrmEntity							m_ormEntity;
-	protected HashMap<String, OrmProperty>		m_propertyMap;
-	protected HashMap<String, OrmBasicProperty>	m_basicPropertyMap;
-	protected HashMap<String, String>			m_transientPropertyMap;
-	protected HashMap<String, String>			m_embeddedPropertyMap;
+	protected ClassMetaData								m_metaData;
+	protected Orm										m_orm;
+	protected OrmEntity									m_ormEntity;
+	protected HashMap<String, OrmProperty>				m_propertyMap;
+	protected HashMap<String, OrmBasicProperty>			m_basicPropertyMap;
+	protected HashMap<String, String>					m_embeddedPropertyMap;
+	protected HashMap<String, OrmAssociationProperty>	m_joinPropertyMap;
+	protected HashMap<String, String>					m_transientPropertyMap;
 	
 	public ClassMappingGenerator(ClassMetaData metaData, Orm orm, OrmEntity ormEntity)
 	{
@@ -47,6 +50,7 @@ abstract public class ClassMappingGenerator implements IGenerator
 		m_ormEntity = ormEntity;
 		m_propertyMap = new HashMap<String, OrmProperty>();
 		m_basicPropertyMap = new HashMap<String, OrmBasicProperty>();
+		m_joinPropertyMap = new HashMap<String, OrmAssociationProperty>();
 		
 		OrmBasicProperty ormBasicProperties[] = ormEntity.getOrmBasicProperty();
 		
@@ -64,6 +68,10 @@ abstract public class ClassMappingGenerator implements IGenerator
 		m_propertyMap.putAll(getOrmPropertyMap(ormEntity.getOrmOneToOneProperty()));
 		m_propertyMap.putAll(getOrmPropertyMap(ormEntity.getOrmManyToManyProperty()));
 		m_embeddedPropertyMap = getOrmPropertyMap(ormEntity.getOrmEmbeddedProperty());
+		m_joinPropertyMap.putAll(getOrmJoinPropertyMap(ormEntity.getOrmManyToOneProperty()));
+		m_joinPropertyMap.putAll(getOrmJoinPropertyMap(ormEntity.getOrmOneToManyProperty()));
+		m_joinPropertyMap.putAll(getOrmJoinPropertyMap(ormEntity.getOrmManyToManyProperty()));
+		m_joinPropertyMap.putAll(getOrmJoinPropertyMap(ormEntity.getOrmManyToManyProperty()));
 		m_transientPropertyMap = getOrmPropertyMap(ormEntity.getOrmTransientProperty());
 
 	}
@@ -81,6 +89,34 @@ abstract public class ClassMappingGenerator implements IGenerator
 		}
 		
 	} // checkProperty
+	
+	/************************************************************/
+	/* getJavaType */
+	
+	protected String getJavaType(OrmProperty ormProperty)
+	throws GeneratorException
+	{
+	String typeName = ormProperty.getSqlTypeName().toUpperCase();
+	SQLType sqlType = SQLType.valueOf(typeName);
+	
+		switch (sqlType)
+		{
+		case BIGINT:
+			return "Long";
+			
+		case INT:
+			return "Integer";
+/*			
+		case LONG:
+			return "Long";
+*/			
+		case VARCHAR:
+			return "String";
+		}
+
+		throw new GeneratorException("Invalid SQL Type: "+typeName);
+		
+	} // isStringProperty
 	
 	/************************************************************/
 	/* getOrmBasicProperty */
@@ -101,6 +137,31 @@ abstract public class ClassMappingGenerator implements IGenerator
 		return ormProperty;
 
 	} // getOrmBasicProperty
+
+	/************************************************************/
+	/** getOrmJoinPropertyMap */
+	
+	protected HashMap<String, OrmAssociationProperty> getOrmJoinPropertyMap(OrmAssociationProperty ormAssociationProperties[])
+	{
+	HashMap<String, OrmAssociationProperty> propertyMap = new HashMap<String, OrmAssociationProperty>();
+
+		for (int count=0; count<ormAssociationProperties.length; count++)
+		{
+		OrmAssociationProperty ormAssociationProperty = ormAssociationProperties[count];
+		OrmJoin ormJoin = ormAssociationProperty.getOrmJoin();
+		OrmProperty joinProperties[] = ormJoin.getJoinColumn();
+		
+			for (int index=0; index<ormAssociationProperties.length; index++)
+			{
+			OrmProperty ormJoinProperty = joinProperties[index];
+
+				propertyMap.put(ormJoinProperty.getName(), ormAssociationProperty);
+			}
+		}
+		
+		return propertyMap;
+		
+	} // getOrmPropertyMap
 	
 	/************************************************************/
 	/* getOrmPropertyMap */
@@ -139,6 +200,19 @@ abstract public class ClassMappingGenerator implements IGenerator
 	} // getOrmPropertyMap
 	
 	/************************************************************/
+	/* isStringProperty */
+	
+	protected boolean isStringProperty(OrmProperty ormProperty)
+	{
+		if (ormProperty.getSqlTypeName().toUpperCase().equals("VARCHAR"))
+		{
+			return true;
+		}
+		
+		return false;
+		
+	} // isStringProperty
+	/************************************************************/
 	/* isMappedProperty */
 	
 	protected boolean isMappedProperty(String name)
@@ -169,6 +243,11 @@ abstract public class ClassMappingGenerator implements IGenerator
 		}
 		
 		if (m_propertyMap.get(name) != null)
+		{
+			return true;
+		}
+		
+		if (m_joinPropertyMap.get(name) != null)
 		{
 			return true;
 		}
