@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -20,8 +21,8 @@ public class Album extends Identifier implements Serializable
 	protected Long		id;
 	@Column(name="name", nullable=false, length=255)
 	protected String		name;
-	@ManyToOne
-	@JoinColumn(name="artistId")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="artistId", nullable=false)
 	protected Artist		artist;
 	private static final long serialVersionUID = 1L;
 
