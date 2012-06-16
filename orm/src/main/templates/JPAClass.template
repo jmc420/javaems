@@ -19,11 +19,12 @@ import java.util.List;
 import org.jems.generator.GeneratorException;
 
 import org.jems.orm.model.Orm;
+import org.jems.orm.model.OrmAssociationProperty;
 import org.jems.orm.model.OrmBasicProperty;
 import org.jems.orm.model.OrmEntity;
 import org.jems.orm.model.OrmId;
 import org.jems.orm.model.OrmJoin;
-import org.jems.orm.model.OrmAssociationProperty;
+import org.jems.orm.model.OrmManyToManyProperty;
 import org.jems.orm.model.OrmProperty;
 import org.jems.orm.model.OrmVersionProperty;
 
@@ -109,10 +110,30 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 		OrmAssociationProperty ormAssociationProperty = ormAssociationProperties[count];
 		OrmJoin ormJoin = ormAssociationProperty.getOrmJoin();
 		
+			addImport(imports, "javax.persistence.FetchType");
+			
+			if (!ormAssociationProperty.getCascade().equals(""))
+			{
+				addImport(imports, "javax.persistence.CascadeType");
+			}
+			
+			if (!ormAssociationProperty.getOrderColumn().equals(""))
+			{
+				addImport(imports, "javax.persistence.OrderColumn");
+			}
 			if (ormJoin.getJoinColumn().length > 0)
 			{
 				addImport(imports, "javax.persistence.JoinColumn");
-				return;
+			}
+			
+			if (ormAssociationProperty instanceof OrmManyToManyProperty)
+			{
+			OrmManyToManyProperty ormManyToManyProperty = (OrmManyToManyProperty)ormAssociationProperty;
+			
+				if (!ormManyToManyProperty.getJoinTableName().equals(""))
+				{
+					addImport(imports, "javax.persistence.JoinTable");
+				}
 			}
 		}
 		
@@ -223,8 +244,46 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 		OrmAssociationProperty ormAssociationProperty = ormAssociationProperties[count];
 		OrmJoin ormJoin = ormAssociationProperty.getOrmJoin();
 		OrmProperty joinProperties[] = ormJoin.getJoinColumn();
-		
-			out.println("\t@"+annotation);
+		String fetch = "LAZY";
+		String cascade = ormAssociationProperty.getCascade();
+		String mappedBy = ormAssociationProperty.getMappedBy();
+			
+			if (!ormAssociationProperty.getLazy())
+			{
+				fetch = "EAGER";
+			}
+					
+			out.print("\t@"+annotation+"(fetch=FetchType."+fetch);
+			
+			if (!cascade.equals(""))
+			{
+				out.print(", cascade=CascadeType."+cascade);
+			}
+			
+			if (!mappedBy.equals(""))
+			{
+				out.print(", mappedBy=\""+mappedBy+"\"");
+			}
+			
+			out.println(")");
+			
+			if (ormAssociationProperty instanceof OrmManyToManyProperty)
+			{
+			OrmManyToManyProperty ormManyToManyProperty = (OrmManyToManyProperty)ormAssociationProperty;
+			String joinTable = ormManyToManyProperty.getJoinTableName();
+			
+				if (!joinTable.equals(""))
+				{
+					out.println("\t@JoinTable(name=\""+joinTable+"\")");
+				}
+			}
+			
+			String indexColumn = ormAssociationProperty.getOrderColumn();
+	
+			if (!indexColumn.equals(""))
+			{		
+				out.println("@OrderColumn(name=\""+indexColumn+"\" nullable=\"false\"/>");
+			}
 	
 			for (int index=0; index<joinProperties.length; index++)
 			{
