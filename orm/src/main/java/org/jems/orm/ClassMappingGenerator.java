@@ -13,6 +13,7 @@ package org.jems.orm;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.jems.generator.ClassMetaData;
 import org.jems.generator.GeneratorException;
@@ -32,11 +33,12 @@ abstract public class ClassMappingGenerator implements IGenerator
 	protected ClassMetaData								m_metaData;
 	protected Orm										m_orm;
 	protected OrmEntity									m_ormEntity;
-	protected HashMap<String, OrmProperty>				m_propertyMap;
-	protected HashMap<String, OrmBasicProperty>			m_basicPropertyMap;
-	protected HashMap<String, String>					m_embeddedPropertyMap;
-	protected HashMap<String, OrmAssociationProperty>	m_joinPropertyMap;
-	protected HashMap<String, String>					m_transientPropertyMap;
+	protected Map<String, Map<String, OrmProperty>>		m_classPropertyMap;
+	protected Map<String, OrmProperty>					m_propertyMap;
+	protected Map<String, OrmBasicProperty>				m_basicPropertyMap;
+	protected Map<String, String>						m_embeddedPropertyMap;
+	protected Map<String, OrmAssociationProperty>		m_joinPropertyMap;
+	protected Map<String, String>						m_transientPropertyMap;
 	
 	public ClassMappingGenerator(ClassMetaData metaData, Orm orm, OrmEntity ormEntity)
 	{
@@ -60,6 +62,8 @@ abstract public class ClassMappingGenerator implements IGenerator
 		
 			m_basicPropertyMap.put(ormBasicProperty.getName(), ormBasicProperty);
 		}
+		
+		m_classPropertyMap = getClassPropertyMap(orm);
 		
 		m_propertyMap.putAll(getOrmPropertyMap(ormEntity.getOrmBasicProperty()));
 		m_propertyMap.putAll(getOrmPropertyMap(ormEntity.getOrmVersionProperty()));
@@ -89,6 +93,56 @@ abstract public class ClassMappingGenerator implements IGenerator
 		}
 		
 	} // checkProperty
+	
+	/************************************************************/
+	/* getClassPropertyMap */
+	
+	protected Map<String, Map<String, OrmProperty>>	getClassPropertyMap(Orm orm)
+	{
+	Map<String, Map<String, OrmProperty>> map = new HashMap<String, Map<String, OrmProperty>>();
+	OrmEntity ormEntities[] = orm.getOrmEntity();
+	GeneratorUtils generatorUtils = new GeneratorUtils();
+	
+		for (int count=0; count<ormEntities.length; count++)
+		{
+		OrmEntity ormEntity = ormEntities[count];
+		String className = generatorUtils.getSimpleClassName(ormEntity.getClassName());
+		
+			map.put(className, getClassPropertyMap(ormEntity));
+		}
+		
+		return map;
+		
+	} // getClassPropertyMap
+	
+	/************************************************************/
+	/* getClassPropertyMap */
+	
+	protected Map<String, OrmProperty> getClassPropertyMap(OrmEntity ormEntity)
+	{
+	Map<String, OrmProperty> map = new HashMap<String, OrmProperty>();
+	OrmProperty ormProperties[] = ormEntity.getOrmBasicProperty();
+	
+		for (int count=0; count<ormProperties.length; count++)
+		{
+		OrmProperty ormProperty = ormProperties[count];
+		
+			map.put(ormProperty.getName(), ormProperty);
+		
+		}
+		
+		OrmId ormId = ormEntity.getOrmId();
+		
+		if (ormId != null)
+		{
+		OrmProperty ormProperty = new OrmProperty();
+		
+			map.put(ormId.getName(), ormProperty);
+		}
+
+		return map;
+		
+	} // getClassPropertyMap
 	
 	/************************************************************/
 	/* getJavaType */
@@ -212,10 +266,11 @@ abstract public class ClassMappingGenerator implements IGenerator
 		return false;
 		
 	} // isStringProperty
+	
 	/************************************************************/
 	/* isMappedProperty */
 	
-	protected boolean isMappedProperty(String name)
+	protected boolean isMappedProperty(OrmEntity ormEntity, String name)
 	{
 		if (m_embeddedPropertyMap.get(name) != null)
 		{
@@ -250,6 +305,17 @@ abstract public class ClassMappingGenerator implements IGenerator
 		if (m_joinPropertyMap.get(name) != null)
 		{
 			return true;
+		}
+		
+		if (!ormEntity.getParentClassName().equals(""))
+		{
+		String className = ormEntity.getParentClassName();
+		Map<String, OrmProperty> propertyMap = m_classPropertyMap.get(className);
+		
+			if (propertyMap.containsKey(name))
+			{
+				return true;
+			}
 		}
 		
 		return false;

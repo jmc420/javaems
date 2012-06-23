@@ -17,8 +17,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Track extends Identifier implements Serializable
 {
-	@Column(name="id", nullable=false)
-	protected Long		id;
 	@Column(name="length", nullable=false)
 	protected Integer		length;
 	@Column(name="name", nullable=false, length=255)
@@ -30,6 +28,51 @@ public class Track extends Identifier implements Serializable
 
 	public Track() {}
 
+	/*******************************************************************/
+	/** getLength */
+
+	public Integer getLength()
+	{
+		return this.length;
+	}
+
+	/*******************************************************************/
+	/** setLength */
+
+	public void setLength(Integer length)
+	{
+		this.length = length;
+	}
+	/*******************************************************************/
+	/** getName */
+
+	public String getName()
+	{
+		return this.name;
+	}
+
+	/*******************************************************************/
+	/** setName */
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	/*******************************************************************/
+	/** getAlbum */
+
+	public Album getAlbum()
+	{
+		return this.album;
+	}
+
+	/*******************************************************************/
+	/** setAlbum */
+
+	public void setAlbum(Album album)
+	{
+		this.album = album;
+	}
 
 } // Track
 

@@ -17,8 +17,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Album extends Identifier implements Serializable
 {
-	@Column(name="id", nullable=false)
-	protected Long		id;
 	@Column(name="name", nullable=false, length=255)
 	protected String		name;
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -28,6 +26,36 @@ public class Album extends Identifier implements Serializable
 
 	public Album() {}
 
+	/*******************************************************************/
+	/** getName */
+
+	public String getName()
+	{
+		return this.name;
+	}
+
+	/*******************************************************************/
+	/** setName */
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	/*******************************************************************/
+	/** getArtist */
+
+	public Artist getArtist()
+	{
+		return this.artist;
+	}
+
+	/*******************************************************************/
+	/** setArtist */
+
+	public void setArtist(Artist artist)
+	{
+		this.artist = artist;
+	}
 
 } // Album
 

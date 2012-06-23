@@ -99,6 +99,7 @@
  <xsd:complexType name="OrmId">
   <xsd:sequence>
   </xsd:sequence>
+  <xsd:attribute name="className" type="xsd:string" default="long"/>
   <xsd:attribute name="name" type="xsd:string" default=""/>
   <xsd:attribute name="generator" type="xsd:string" default=""/>
  </xsd:complexType>

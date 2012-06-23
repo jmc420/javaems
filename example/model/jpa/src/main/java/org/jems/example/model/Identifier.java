@@ -26,6 +26,21 @@ public class Identifier implements Serializable
 
 	public Identifier() {}
 
+	/*******************************************************************/
+	/** getId */
+
+	public long getId()
+	{
+		return this.id;
+	}
+
+	/*******************************************************************/
+	/** setId */
+
+	public void setId(long id)
+	{
+		this.id = id;
+	}
 
 } // Identifier
 

@@ -24,9 +24,9 @@ import org.jems.orm.model.OrmBasicProperty;
 import org.jems.orm.model.OrmEntity;
 import org.jems.orm.model.OrmId;
 import org.jems.orm.model.OrmJoin;
+import org.jems.orm.model.OrmOneToManyProperty;
 import org.jems.orm.model.OrmManyToManyProperty;
 import org.jems.orm.model.OrmProperty;
-import org.jems.orm.model.OrmVersionProperty;
 
 /************************************************************/
 
@@ -126,10 +126,17 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 				addImport(imports, "javax.persistence.JoinColumn");
 			}
 			
+			if (ormAssociationProperty instanceof OrmOneToManyProperty)
+			{
+				addImport(imports, "java.util.List");
+			}
+			
 			if (ormAssociationProperty instanceof OrmManyToManyProperty)
 			{
 			OrmManyToManyProperty ormManyToManyProperty = (OrmManyToManyProperty)ormAssociationProperty;
 			
+				addImport(imports, "java.util.List");
+				
 				if (!ormManyToManyProperty.getJoinTableName().equals(""))
 				{
 					addImport(imports, "javax.persistence.JoinTable");
@@ -229,14 +236,65 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 	/************************************************************/
 	/** generateMethods */
 	
-	protected void generateMethods(PrintStream out)
+	protected void generateMethods(PrintStream out) throws GeneratorException
 	{
+	OrmId ormId = m_ormEntity.getOrmId();
+		
+		if (ormId != null)
+		{
+		String id = ormId.getName();
+		String methodId = toUpperFirstChar(id);
+		String className = ormId.getClassName();
+
+			out.print("\t");
+			writeSeparator(out);
+			out.println("\t/** get"+methodId+" */");
+			out.println("");
+			out.println("\tpublic "+className+" get"+methodId+"()");
+			out.println("\t{");
+			out.println("\t\treturn this."+id+";");
+			out.println("\t}");
+			out.println("");
+			out.print("\t");
+			writeSeparator(out);
+			out.println("\t/** set"+methodId+" */");
+			out.println("");
+			out.println("\tpublic void set"+methodId+"("+className+" "+id+")");
+			out.println("\t{");
+			out.println("\t\tthis."+id+" = "+id+";");
+			out.println("\t}");
+		}
+		
+		for (OrmProperty ormProperty : m_tablePropertyList)
+		{
+		String name = getOrmPropertyName(ormProperty, false);
+		
+			if (!isMappedProperty(m_ormEntity, name))
+			{
+				generateOrmMethod(out, ormProperty);
+			}
+		}
+		
+		OrmBasicProperty ormBasicProperties[] = m_ormEntity.getOrmBasicProperty();
+		
+		for (int count=0; count<ormBasicProperties.length; count++)
+		{
+		OrmBasicProperty ormBasicProperty = ormBasicProperties[count];
+		
+			generateOrmMethod(out, ormBasicProperty);
+		}
+		
+		generateOrmAssociationMethod(out, false, m_ormEntity.getOrmManyToOneProperty());
+		generateOrmAssociationMethod(out, false, m_ormEntity.getOrmOneToOneProperty());
+		generateOrmAssociationMethod(out, true, m_ormEntity.getOrmOneToManyProperty());
+		generateOrmAssociationMethod(out, true, m_ormEntity.getOrmManyToManyProperty());
+		
 	} // generateMethods
 	
 	/************************************************************/
 	/** generateOrmAssocationProperties */
 	
-	protected void generateOrmAssocationProperties(PrintStream out, String annotation, OrmAssociationProperty ormAssociationProperties[])
+	protected void generateOrmAssocationProperties(PrintStream out, boolean isCollection, String annotation, OrmAssociationProperty ormAssociationProperties[])
 	throws GeneratorException
 	{
 		for (int count=0; count<ormAssociationProperties.length; count++)
@@ -302,18 +360,100 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 	} // generateOrmAssocationProperties
 	
 	/************************************************************/
+	/** generateOrmAssociationMethod */
+	
+	protected void generateOrmAssociationMethod(PrintStream out, boolean isCollection, OrmAssociationProperty ormAssociationProperty)
+	{
+	String className = m_generatorUtils.getSimpleClassName(ormAssociationProperty.getClassName());
+	String id = ormAssociationProperty.getName();
+	String methodId = toUpperFirstChar(id);
+		
+		out.print("\t");
+		writeSeparator(out);
+		out.println("\t/** get"+methodId+" */");
+		out.println("");
+		if (isCollection)
+		{
+			out.println("\tpublic List<"+className+"> get"+methodId+"()");
+		}
+		else
+		{
+			out.println("\tpublic "+className+" get"+methodId+"()");
+		}
+		out.println("\t{");
+		out.println("\t\treturn this."+id+";");
+		out.println("\t}");
+		out.println("");
+		out.print("\t");
+		writeSeparator(out);
+		out.println("\t/** set"+methodId+" */");
+		out.println("");
+		if (isCollection)
+		{
+			out.println("\tpublic void set"+methodId+"(List<"+className+"> "+id+")");
+		}
+		else
+		{
+			out.println("\tpublic void set"+methodId+"("+className+" "+id+")");
+		}
+		out.println("\t{");
+		out.println("\t\tthis."+id+" = "+id+";");
+		out.println("\t}");
+		out.println("");
+		
+	} // generateOrmAssociationMethod
+	
+	/************************************************************/
+	/** generateOrmAssociationMethod */
+	
+	protected void generateOrmAssociationMethod(PrintStream out, boolean isCollection, OrmAssociationProperty ormAssociationProperties[])
+	{
+		for (int count=0; count<ormAssociationProperties.length; count++)
+		{
+			generateOrmAssociationMethod(out, isCollection, ormAssociationProperties[count]);
+		}
+		
+	} // generateOrmAssociationMethod
+	
+	/************************************************************/
+	/** generateOrmMethod */
+	
+	protected void generateOrmMethod(PrintStream out, OrmProperty ormProperty)
+	throws GeneratorException
+	{
+	String methodId = getOrmPropertyName(ormProperty, true);
+	String id = getOrmPropertyName(ormProperty, false);
+	String className = getJavaType(ormProperty);
+		
+		out.print("\t");
+		writeSeparator(out);
+		out.println("\t/** get"+methodId+" */");
+		out.println("");
+		out.println("\tpublic "+className+" get"+methodId+"()");
+		out.println("\t{");
+		out.println("\t\treturn this."+id+";");
+		out.println("\t}");
+		out.println("");
+		out.print("\t");
+		writeSeparator(out);
+		out.println("\t/** set"+methodId+" */");
+		out.println("");
+		out.println("\tpublic void set"+methodId+"("+className+" "+id+")");
+		out.println("\t{");
+		out.println("\t\tthis."+id+" = "+id+";");
+		out.println("\t}");
+		out.println("");
+		
+	} // generateOrmMethod
+	
+	/************************************************************/
 	/** generateOrmProperty */
 	
 	protected void generateOrmProperty(PrintStream out, OrmProperty ormProperty)
 	throws GeneratorException
 	{
-	String columnName = ormProperty.getColumnName();
+	String columnName = getOrmPropertyName(ormProperty, false);
 	String lengthS = "";
-	
-		if (columnName.equals(""))
-		{
-			columnName = ormProperty.getName();
-		}
 		
 		if (isStringProperty(ormProperty))
 		{
@@ -337,24 +477,26 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 		if (ormId != null)
 		{
 		String generator = ormId.getGenerator();
+		String name = ormId.getName();
 		
 			out.println("\t@Id");
-			out.println("\t@Column(name=\""+ormId.getName()+
-						"\", nullable=false)");
+			out.println("\t@Column(name=\""+name+"\", nullable=false)");
 						
 			if (generator.equals(""))
 			{
-				generator = "IDENTITY";;
+				generator = "IDENTITY";
 			}
 			
     		out.println("\t@GeneratedValue(strategy = GenerationType."+generator+")");
-    		out.println("\tprotected long\t\t"+ormId.getName()+";");
+    		out.println("\tprotected "+ormId.getClassName()+"\t\t"+name+";");
 			out.println("");
 		}
 		
 		for (OrmProperty ormProperty : m_tablePropertyList)
 		{
-			if (!isMappedProperty(getOrmPropertyName(ormProperty)))
+		String name = getOrmPropertyName(ormProperty, false);
+		
+			if (!isMappedProperty(m_ormEntity, name))
 			{
 				generateOrmProperty(out, ormProperty);
 			}
@@ -369,32 +511,57 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 			generateOrmProperty(out, ormBasicProperty);
 		}
 		
-		generateOrmAssocationProperties(out, "ManyToOne", m_ormEntity.getOrmManyToOneProperty());
-		generateOrmAssocationProperties(out, "OneToOne", m_ormEntity.getOrmOneToOneProperty());
-		generateOrmAssocationProperties(out, "OneToMany", m_ormEntity.getOrmOneToManyProperty());
-		generateOrmAssocationProperties(out, "ManyToMany", m_ormEntity.getOrmManyToManyProperty());
+		generateOrmAssocationProperties(out, false, "ManyToOne", m_ormEntity.getOrmManyToOneProperty());
+		generateOrmAssocationProperties(out, false, "OneToOne", m_ormEntity.getOrmOneToOneProperty());
+		generateOrmAssocationProperties(out, true, "OneToMany", m_ormEntity.getOrmOneToManyProperty());
+		generateOrmAssocationProperties(out, true, "ManyToMany", m_ormEntity.getOrmManyToManyProperty());
 		
 	} // generateProperties
 	
 	/************************************************************/
 	/** getOrmPropertyName */
 	
-	protected String getOrmPropertyName(OrmProperty ormProperty)
+	protected String getOrmPropertyName(OrmProperty ormProperty, boolean toUpper)
 	throws GeneratorException
 	{
-		if (!ormProperty.getName().equals(""))
+	String name = ormProperty.getName();
+	
+		if (name.equals(""))
 		{
-			return ormProperty.getName();
+			name = ormProperty.getColumnName();
+			
+			if (name.equals(""))
+			{
+				throw new GeneratorException("Property without name");
+			}
 		}
 		
-		if (!ormProperty.getColumnName().equals(""))
+		if (!toUpper)
 		{
-			return ormProperty.getColumnName();
+			return name;
 		}
 		
-		throw new GeneratorException("Property without name");
+		return toUpperFirstChar(name);
 		
 	} // getOrmPropertyName
+	
+	/************************************************************/
+	/** toUpperFirstChar */
+	
+	protected String toUpperFirstChar(String name)
+	{
+		return name.substring(0,1).toUpperCase()+name.substring(1);
+		
+	} // toUpperFirstChar
+	
+	/************************************************************/
+	/** writeSeparator */
+	
+	protected void writeSeparator(PrintStream out)
+	{
+		out.println("/*******************************************************************/");
+		
+	} // writeSeparator
 	
 } // JPAClass
 
