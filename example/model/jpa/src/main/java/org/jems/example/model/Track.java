@@ -43,6 +43,7 @@ public class Track extends Identifier implements Serializable
 	{
 		this.length = length;
 	}
+
 	/*******************************************************************/
 	/** getName */
 
@@ -58,6 +59,7 @@ public class Track extends Identifier implements Serializable
 	{
 		this.name = name;
 	}
+
 	/*******************************************************************/
 	/** getAlbum */
 
@@ -73,6 +75,7 @@ public class Track extends Identifier implements Serializable
 	{
 		this.album = album;
 	}
+
 
 } // Track
 

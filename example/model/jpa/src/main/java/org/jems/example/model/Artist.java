@@ -36,6 +36,7 @@ public class Artist extends Identifier implements Serializable
 		this.name = name;
 	}
 
+
 } // Artist
 
 /*******************************************************************/

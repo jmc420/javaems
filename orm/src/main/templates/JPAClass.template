@@ -27,6 +27,7 @@ import org.jems.orm.model.OrmJoin;
 import org.jems.orm.model.OrmOneToManyProperty;
 import org.jems.orm.model.OrmManyToManyProperty;
 import org.jems.orm.model.OrmProperty;
+import org.jems.orm.model.OrmVersionProperty;
 
 /************************************************************/
 
@@ -275,19 +276,28 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 			}
 		}
 		
-		OrmBasicProperty ormBasicProperties[] = m_ormEntity.getOrmBasicProperty();
-		
-		for (int count=0; count<ormBasicProperties.length; count++)
-		{
-		OrmBasicProperty ormBasicProperty = ormBasicProperties[count];
-		
-			generateOrmMethod(out, ormBasicProperty);
-		}
+		generateMethods(out, m_ormEntity.getOrmBasicProperty());
+		generateMethods(out, m_ormEntity.getOrmVersionProperty());
 		
 		generateOrmAssociationMethod(out, false, m_ormEntity.getOrmManyToOneProperty());
 		generateOrmAssociationMethod(out, false, m_ormEntity.getOrmOneToOneProperty());
 		generateOrmAssociationMethod(out, true, m_ormEntity.getOrmOneToManyProperty());
 		generateOrmAssociationMethod(out, true, m_ormEntity.getOrmManyToManyProperty());
+		
+	} // generateMethods
+	
+	/************************************************************/
+	/** generateMethods */
+	
+	protected void generateMethods(PrintStream out, OrmProperty ormProperties[])
+	throws GeneratorException
+	{
+		for (int count=0; count<ormProperties.length; count++)
+		{
+		OrmProperty ormProperty = ormProperties[count];
+		
+			generateOrmMethod(out, ormProperty);
+		}
 		
 	} // generateMethods
 	
@@ -449,7 +459,7 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 	/************************************************************/
 	/** generateOrmProperty */
 	
-	protected void generateOrmProperty(PrintStream out, OrmProperty ormProperty)
+	protected void generateOrmProperty(PrintStream out, OrmProperty ormProperty, boolean isVersion)
 	throws GeneratorException
 	{
 	String columnName = getOrmPropertyName(ormProperty, false);
@@ -458,6 +468,11 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 		if (isStringProperty(ormProperty))
 		{
 			lengthS = ", length="+ormProperty.getColumnSize();
+		}
+		
+		if (isVersion)
+		{
+			out.println("\t@Transient");
 		}
 		
 		out.println("\t@Column(name=\""+columnName+
@@ -498,7 +513,7 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 		
 			if (!isMappedProperty(m_ormEntity, name))
 			{
-				generateOrmProperty(out, ormProperty);
+				generateOrmProperty(out, ormProperty, false);
 			}
 		}
 		
@@ -508,7 +523,16 @@ public class <%out.print(simpleClassName+extension);%> implements Serializable
 		{
 		OrmBasicProperty ormBasicProperty = ormBasicProperties[count];
 		
-			generateOrmProperty(out, ormBasicProperty);
+			generateOrmProperty(out, ormBasicProperty, false);
+		}
+		
+		OrmVersionProperty ormVersionProperties[] = m_ormEntity.getOrmVersionProperty();
+		
+		for (int count=0; count<ormVersionProperties.length; count++)
+		{
+		OrmProperty ormVersionProperty = ormVersionProperties[count];
+		
+			generateOrmProperty(out, ormVersionProperty, true);
 		}
 		
 		generateOrmAssocationProperties(out, false, "ManyToOne", m_ormEntity.getOrmManyToOneProperty());

@@ -41,6 +41,7 @@ public class Album extends Identifier implements Serializable
 	{
 		this.name = name;
 	}
+
 	/*******************************************************************/
 	/** getArtist */
 
@@ -56,6 +57,7 @@ public class Album extends Identifier implements Serializable
 	{
 		this.artist = artist;
 	}
+
 
 } // Album
 
