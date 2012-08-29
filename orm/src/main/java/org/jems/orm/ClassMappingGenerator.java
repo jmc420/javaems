@@ -205,7 +205,7 @@ abstract public class ClassMappingGenerator implements IGenerator
 		OrmJoin ormJoin = ormAssociationProperty.getOrmJoin();
 		OrmProperty joinProperties[] = ormJoin.getJoinColumn();
 		
-			for (int index=0; index<ormAssociationProperties.length; index++)
+			for (int index=0; index<joinProperties.length; index++)
 			{
 			OrmProperty ormJoinProperty = joinProperties[index];
 
