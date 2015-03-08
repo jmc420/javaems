@@ -91,10 +91,10 @@
          <goal>schema-codegen</goal>
         </goals>
         <configuration>
-         <schemaDirectory>src/main/xsd</schemaDirectory>
-         <includeSchemas>
-          <includeSchema>model.xsd</includeSchema>
-         </includeSchemas>
+         <directory>src/main/xsd</directory>
+         <includes>
+          <include>model.xsd</include>
+         </includes>
          <customizations>
           <path>${basedir}/src/main/generator/jibx-codegen.xml</path>
          </customizations>
