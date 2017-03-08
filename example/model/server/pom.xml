@@ -1,250 +1,255 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
- <!-- ******************************************************************** -->
- <!-- parent module -->
+	<!-- ******************************************************************** -->
+	<!-- parent module -->
 
- <parent>
-  <groupId>org.jems</groupId>
-  <artifactId>jems-example-model</artifactId>
-  <version>1.0</version>
- </parent>
+	<parent>
+		<groupId>org.jems</groupId>
+		<artifactId>jems-example-model</artifactId>
+		<version>1.0</version>
+	</parent>
 
- <!-- ******************************************************************** -->
- <!-- module -->
+	<!-- ******************************************************************** -->
+	<!-- module -->
 
- <modelVersion>4.0.0</modelVersion>
- <groupId>org.jems</groupId>
- <artifactId>jems-example-model-server</artifactId>
- <packaging>jar</packaging>
- <version>1.0</version>
- <name>${project.artifactId}</name>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jems</groupId>
+	<artifactId>jems-example-model-server</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0</version>
+	<name>${project.artifactId}</name>
 
- <!-- ******************************************************************** -->
- <!-- build -->
+	<!-- ******************************************************************** -->
+	<!-- build -->
 
- <build>
-  <finalName>${project.artifactId}</finalName>
- 
-  <plugins>
+	<build>
+		<finalName>${project.artifactId}</finalName>
 
-    <!-- ******************************************************************** -->
-    <!--  hibernate maven plugin -->   
+		<plugins>
 
-    <plugin>
-     <groupId>org.codehaus.mojo</groupId>
-     <artifactId>hibernate3-maven-plugin</artifactId>
-     <version>${hibernate.maven.version}</version>
-     <executions>
-      <execution>
-       <phase>process-classes</phase>
-       <goals>
-        <goal>hbm2ddl</goal>
-       </goals>
-      </execution>
-     </executions>
-     <configuration>
-      <components>
-       <component>
-        <name>hbm2ddl</name>
-        <implementation>jpaconfiguration</implementation>
-       </component>
-      </components>
-      <componentProperties>
-       <scan-classes>true</scan-classes>
-       <configurationfile>${basedir}/src/main/resources/persistence.xml</configurationfile>
-       <propertyfile>${basedir}/../../../etc/jems.properties</propertyfile>
-       <persistenceunit>Jems</persistenceunit>
-       <outputfilename>schema.ddl</outputfilename>
-       <drop>false</drop>
-       <create>true</create>
-       <export>false</export>
-       <format>true</format>
-      </componentProperties>
-     </configuration>
-     <dependencies> 
-      <dependency> 
-       <groupId>org.hibernate</groupId> 
-       <artifactId>hibernate-core</artifactId> 
-       <version>${hibernate.core.version}</version> 
-       </dependency> 
-       <dependency> 
-        <groupId>org.hibernate</groupId> 
-        <artifactId>hibernate-entitymanager</artifactId> 
-       <version>${hibernate.entitymanager.version}</version> 
-      </dependency> 
-     </dependencies> 
-    </plugin>
+			<!-- ******************************************************************** -->
+			<!-- hibernate maven plugin -->
 
-    <!-- ******************************************************************** -->
-    <!--  jibx maven plugin -->   
-  
-    <plugin>
-     <groupId>org.jibx</groupId>
-     <artifactId>maven-jibx-plugin</artifactId>
-     <version>${jibx.version}</version>
-     <executions>
-      <execution>
-       <id>model-codegen</id>
-       <goals>
-         <goal>schema-codegen</goal>
-        </goals>
-        <configuration>
-         <directory>src/main/xsd</directory>
-         <includes>
-          <include>model.xsd</include>
-         </includes>
-         <customizations>
-          <path>${basedir}/src/main/generator/jibx-codegen.xml</path>
-         </customizations>
-         <verbose>true</verbose>
-        </configuration>
-       </execution>
-      </executions>
-     </plugin>
-     
-    <!-- ******************************************************************** -->
-    <!-- antrun plugin -->
- 
-    <plugin>
-     <groupId>org.apache.maven.plugins</groupId>
-     <artifactId>maven-antrun-plugin</artifactId>
-     <executions>
-      <execution>
-       <id>one</id>
-       <phase>compile</phase>
-       <configuration>
-        <tasks>
-         <java classname="org.jems.generator.Generator" failonerror="true" fork="true" 
-               classpathref="maven.compile.classpath">
-          <arg value="org.jems.orm.JPAMappingGenerator"/>
-          <arg value="${basedir}/src/main/generator"/>
-          <arg value="ORMGenerator-jibx.xml"/>
-          <arg value="${basedir}/src/main/resources/META-INF/orm.xml"/>
-         </java>
-        </tasks>
-       </configuration>
-       <goals>
-        <goal>run</goal>
-       </goals>
-      </execution>
-     </executions>
-    </plugin>
- 
-    <!-- ******************************************************************** -->
- 
-  </plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>${hibernate.maven.version}</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>hbm2ddl</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>jpaconfiguration</implementation>
+						</component>
+					</components>
+					<componentProperties>
+						<scan-classes>true</scan-classes>
+						<configurationfile>${basedir}/src/main/resources/persistence.xml</configurationfile>
+						<propertyfile>${basedir}/../../../etc/jems.properties</propertyfile>
+						<persistenceunit>Jems</persistenceunit>
+						<outputfilename>schema.ddl</outputfilename>
+						<drop>false</drop>
+						<create>true</create>
+						<export>false</export>
+						<format>true</format>
+					</componentProperties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-core</artifactId>
+						<version>${hibernate.core.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
+						<version>${hibernate.entitymanager.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 
- </build>
+			<!-- ******************************************************************** -->
+			<!-- jibx maven plugin -->
 
- <!-- ******************************************************************** -->
+			<plugin>
+				<groupId>org.jibx</groupId>
+				<artifactId>maven-jibx-plugin</artifactId>
+				<version>${jibx.version}</version>
+				<executions>
+					<execution>
+						<id>model-codegen</id>
+						<goals>
+							<goal>schema-codegen</goal>
+						</goals>
+						<configuration>
+							<directory>src/main/xsd</directory>
+							<includes>
+								<include>model.xsd</include>
+							</includes>
+							<customizations>
+								<path>${basedir}/src/main/generator/jibx-codegen.xml</path>
+							</customizations>
+							<verbose>true</verbose>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
- <dependencies>
+			<!-- ******************************************************************** -->
+			<!-- antrun plugin -->
 
-  <dependency>
-   <groupId>mysql</groupId>
-   <artifactId>mysql-connector-java</artifactId>
-   <version>${mysql-connector-java.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-entitymanager</artifactId>
-   <version>${hibernate.entitymanager.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-core</artifactId>
-   <version>${hibernate.core.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-c3p0</artifactId>
-   <version>${hibernate.core.version}</version>
-  </dependency>
-  <dependency>
-    <groupId>org.hibernate.java-persistence</groupId>
-    <artifactId>jpa-api</artifactId>
-    <version>${hibernate.persistence.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-tools</artifactId>
-   <version>${hibernate.tools.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.jibx</groupId>
-   <artifactId>jibx-run</artifactId>
-   <version>${jibx.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.jibx</groupId>
-   <artifactId>jibx-extras</artifactId>
-   <version>${jibx.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.jems</groupId>
-   <artifactId>jems</artifactId>
-   <type>pom</type>
-   <version>${jems.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.jems</groupId>
-   <artifactId>jems-example</artifactId>
-   <type>pom</type>
-   <version>${jems.version}</version>
-  </dependency>
-   <dependency>
-   <groupId>org.jems</groupId>
-   <artifactId>jems-example-model</artifactId>
-   <type>pom</type>
-   <version>${jems.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.jems</groupId>
-   <artifactId>jems-orm</artifactId>
-   <version>${jems.version}</version>
-   <scope>compile</scope>
-  </dependency>
-  <dependency>
-   <groupId>org.jems</groupId>
-   <artifactId>jems-dao</artifactId>
-   <version>${jems.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.slf4j</groupId>
-   <artifactId>slf4j-api</artifactId>
-   <version>${slf4j.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.slf4j</groupId>
-   <artifactId>slf4j-log4j12</artifactId>
-   <version>${slf4j.version}</version>
-  </dependency> 
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-aop</artifactId>
-   <version>${spring.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-jdbc</artifactId>
-   <version>${spring.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-orm</artifactId>
-   <version>${spring.version}</version>
-  </dependency>
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-test</artifactId>
-   <version>${spring.version}</version>
-   <scope>test</scope>
-  </dependency>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>one</id>
+						<phase>compile</phase>
+						<configuration>
+							<tasks>
+								<java classname="org.jems.generator.Generator" failonerror="true"
+									fork="true" classpathref="maven.compile.classpath">
+									<arg value="org.jems.orm.JPAMappingGenerator" />
+									<arg value="${basedir}/src/main/generator" />
+									<arg value="ORMGenerator-jibx.xml" />
+									<arg value="${basedir}/src/main/resources/META-INF/orm.xml" />
+								</java>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
- </dependencies>
+			<!-- ******************************************************************** -->
 
-  <!-- ******************************************************************** -->
+		</plugins>
+
+	</build>
+
+	<!-- ******************************************************************** -->
+
+	<dependencies>
+
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>${c3p0.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-java.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.entitymanager.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>${hibernate.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.java-persistence</groupId>
+			<artifactId>jpa-api</artifactId>
+			<version>${hibernate.persistence.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-tools</artifactId>
+			<version>${hibernate.tools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jibx</groupId>
+			<artifactId>jibx-run</artifactId>
+			<version>${jibx.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jibx</groupId>
+			<artifactId>jibx-extras</artifactId>
+			<version>${jibx.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jems</groupId>
+			<artifactId>jems</artifactId>
+			<type>pom</type>
+			<version>${jems.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jems</groupId>
+			<artifactId>jems-example</artifactId>
+			<type>pom</type>
+			<version>${jems.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jems</groupId>
+			<artifactId>jems-example-model</artifactId>
+			<type>pom</type>
+			<version>${jems.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jems</groupId>
+			<artifactId>jems-orm</artifactId>
+			<version>${jems.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jems</groupId>
+			<artifactId>jems-dao</artifactId>
+			<version>${jems.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<!-- ******************************************************************** -->
 
 </project>
